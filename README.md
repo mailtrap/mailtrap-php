@@ -47,8 +47,6 @@ The quickest way to send a single transactional email with only the required par
 ```php
 <?php
 
-declare(strict_types=1);
-
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapClient;
 use Mailtrap\Mime\MailtrapEmail;
