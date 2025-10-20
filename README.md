@@ -86,8 +86,6 @@ Bootstrap logic:
 ```php
 <?php
 
-declare(strict_types=1);
-
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapClient;
 use Mailtrap\Mime\MailtrapEmail;
