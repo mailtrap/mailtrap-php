@@ -1,3 +1,6 @@
+## [3.9.1] - 2025-10-27
+- Improve README
+
 ## [3.9.0] - 2025-10-14
 - Add Contact Export functionality
 
