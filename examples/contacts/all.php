@@ -16,86 +16,6 @@ $config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https
 $contacts = (new MailtrapGeneralClient($config))->contacts($accountId);
 
 /**
- * Get all Contact Lists.
- *
- * GET https://mailtrap.io/api/accounts/{account_id}/contacts/lists
- */
-try {
-    $response = $contacts->getAllContactLists();
-
-    // print the response body (array)
-    var_dump(ResponseHelper::toArray($response));
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
-}
-
-
-/**
- * Get a specific Contact List by ID.
- *
- * GET https://mailtrap.io/api/accounts/{account_id}/contacts/lists/{list_id}
- */
-try {
-    $contactListId = 1; // Replace 1 with the actual list ID
-    $response = $contacts->getContactList($contactListId);
-
-    // print the response body (array)
-    var_dump(ResponseHelper::toArray($response));
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
-}
-
-
-/**
- * Create a new Contact List.
- *
- * POST https://mailtrap.io/api/accounts/{account_id}/contacts/lists
- */
-try {
-    $contactListName = 'New Contact List'; // Replace with your desired list name
-    $response = $contacts->createContactList($contactListName);
-
-    // print the response body (array)
-    var_dump(ResponseHelper::toArray($response));
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
-}
-
-
-/**
- * Update a Contact List by ID.
- *
- * PATCH https://mailtrap.io/api/accounts/{account_id}/contacts/lists/{list_id}
- */
-try {
-    $contactListId = 1; // Replace 1 with the actual list ID
-    $newContactListName = 'Updated Contact List Name'; // Replace with your desired list name
-    $response = $contacts->updateContactList($contactListId, $newContactListName);
-
-    // print the response body (array)
-    var_dump(ResponseHelper::toArray($response));
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
-}
-
-
-/**
- * Delete a Contact List by ID.
- *
- * DELETE https://mailtrap.io/api/accounts/{account_id}/contacts/lists/{list_id}
- */
-try {
-    $contactListId = 1; // Replace 1 with the actual list ID
-    $response = $contacts->deleteContactList($contactListId);
-
-    // Print the response status code
-    var_dump($response->getStatusCode());
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
-}
-
-
-/**
  * Get contact
  *
  * GET https://mailtrap.io/api/accounts/{account_id}/contacts/{id_or_email}
@@ -183,91 +103,6 @@ try {
 
     // OR delete contact by email
     $response = $contacts->deleteContactByEmail('john.smith@example.com');
-
-    // Print the response status code
-    var_dump($response->getStatusCode());
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
-}
-
-
-/**
- * Get all Contact Fields existing in your account
- *
- * GET https://mailtrap.io/api/accounts/{account_id}/contacts/fields
- */
-try {
-    $response = $contacts->getAllContactFields();
-
-    // print the response body (array)
-    var_dump(ResponseHelper::toArray($response));
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
-}
-
-
-/**
- * Get a specific Contact Field by ID.
- *
- * GET https://mailtrap.io/api/accounts/{account_id}/contacts/fields/{field_id}
- */
-try {
-    $fieldId = 1; // Replace 1 with the actual field ID
-    $response = $contacts->getContactField($fieldId);
-
-    // print the response body (array)
-    var_dump(ResponseHelper::toArray($response));
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
-}
-
-
-/**
- * Create new Contact Fields. Please note, you can have up to 40 fields.
- *
- * POST https://mailtrap.io/api/accounts/{account_id}/contacts/fields
- */
-try {
-    $response = $contacts->createContactField(
-        'New Field Name', // <= 80 characters
-        'text', // Allowed values: text, integer, float, boolean, date
-        'new_field_merge_tag' // Personalize your campaigns by adding a merge tag. This field will be replaced with unique contact details for each recipient.
-    );
-
-    // print the response body (array)
-    var_dump(ResponseHelper::toArray($response));
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
-}
-
-
-/**
- * Update existing Contact Field. Please note, you cannot change data_type of the field.
- *
- * PATCH https://mailtrap.io/api/accounts/{account_id}/contacts/fields/{field_id}
- */
-try {
-    $fieldId = 1; // Replace 1 with the actual field ID
-    $response = $contacts->updateContactField(
-        $fieldId,
-        'Updated Field Name',
-        'updated_field_merge_tag'
-    );
-
-    // print the response body (array)
-    var_dump(ResponseHelper::toArray($response));
-} catch (Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
-}
-
-/**
- * Delete Contact Field by ID.
- *
- * DELETE https://mailtrap.io/api/accounts/{account_id}/contacts/fields/{field_id}
- */
-try {
-    $fieldId = 1; // Replace 1 with the actual field ID
-    $response = $contacts->deleteContactField($fieldId);
 
     // Print the response status code
     var_dump($response->getStatusCode());
@@ -370,6 +205,7 @@ try {
 } catch (Exception $e) {
     echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
 }
+
 
 /**
  * Get Contact Export status / download URL
