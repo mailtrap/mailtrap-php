@@ -21,7 +21,7 @@ require __DIR__ . '/../vendor/autoload.php';
  */
 try {
     $mailtrap = MailtrapClient::initSendingEmails(
-        apiKey: getenv('MAILTRAP_API_KEY'), // Your API token from https://mailtrap.io/api-tokens
+        apiKey: $_ENV['MAILTRAP_API_KEY'], // Your API token from https://mailtrap.io/api-tokens
     );
 
     $baseEmail = (new MailtrapEmail())

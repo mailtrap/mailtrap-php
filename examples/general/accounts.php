@@ -6,7 +6,7 @@ use Mailtrap\MailtrapGeneralClient;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$config = new Config(getenv('MAILTRAP_API_KEY')); #your API token from here https://mailtrap.io/api-tokens
+$config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens
 $generalAccounts = (new MailtrapGeneralClient($config))->accounts();
 
 /**

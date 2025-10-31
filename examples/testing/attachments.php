@@ -6,9 +6,9 @@ use Mailtrap\MailtrapSandboxClient;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$accountId = getenv('MAILTRAP_ACCOUNT_ID');
-$inboxId = getenv('MAILTRAP_INBOX_ID');
-$config = new Config(getenv('MAILTRAP_API_KEY')); #your API token from here https://mailtrap.io/api-tokens
+$accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
+$inboxId = $_ENV['MAILTRAP_INBOX_ID'];
+$config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens
 
 $sandboxAttachments = (new MailtrapSandboxClient($config))->attachments($accountId, $inboxId); #required parameters are accountId amd inboxId
 
@@ -19,7 +19,7 @@ $sandboxAttachments = (new MailtrapSandboxClient($config))->attachments($account
  * GET https://mailtrap.io/api/accounts/{account_id}/inboxes/{inbox_id}/messages/{message_id}/attachments
  */
 try {
-    $messageId = getenv('MAILTRAP_MESSAGE_ID');
+    $messageId = $_ENV['MAILTRAP_MESSAGE_ID'];
     $attachmentType = 'inline'; # optional (null|string)
 
     $response = $sandboxAttachments->getMessageAttachments($messageId, $attachmentType);
@@ -36,8 +36,8 @@ try {
  * GET https://mailtrap.io/api/accounts/{account_id}/inboxes/{inbox_id}/messages/{message_id}/attachments/{attachment_id}
  */
 try {
-    $messageId = getenv('MAILTRAP_MESSAGE_ID');
-    $attachmentId = getenv('MAILTRAP_MESSAGE_ATTACHMENT_ID');
+    $messageId = $_ENV['MAILTRAP_MESSAGE_ID'];
+    $attachmentId = $_ENV['MAILTRAP_MESSAGE_ATTACHMENT_ID'];
 
     $response = $sandboxAttachments->getMessageAttachment($messageId, $attachmentId);
 

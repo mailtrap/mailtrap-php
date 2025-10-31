@@ -8,7 +8,7 @@ use Symfony\Component\Mime\Address;
 require __DIR__ . '/../vendor/autoload.php';
 
 /**
- * Test Email Batch WITH TEMPLATE
+ * Email Bulk Sending WITH TEMPLATE
  *
  * WARNING! If a template is provided, then subject, text, html, category and other params are forbidden.
  *
@@ -16,19 +16,21 @@ require __DIR__ . '/../vendor/autoload.php';
  * Optional template variables that will be used to generate actual subject, text and html from email template
  */
 try {
-    $mailtrap = MailtrapClient::initSendingEmails(
+    $bulkMailtrap = MailtrapClient::initSendingEmails(
         apiKey: $_ENV['MAILTRAP_API_KEY'], #your API token from here https://mailtrap.io/api-tokens
-        isSandbox: true, # Sandbox sending (@see https://help.mailtrap.io/article/109-getting-started-with-mailtrap-email-testing)
-        inboxId: $_ENV['MAILTRAP_INBOX_ID'] # required param for sandbox sending
+        isBulk: true # Bulk sending (@see https://help.mailtrap.io/article/113-sending-streams)
     );
 
-    $baseEmail = (new MailtrapEmail())
-        ->from(new Address('example@YOUR-DOMAIN-HERE.com', 'Mailtrap Test')) // Use your domain installed in Mailtrap
-        ->templateUuid('bfa432fd-0000-0000-0000-8493da283a69') // Template UUID
+    $email = (new MailtrapEmail())
+        ->from(new Address('example@YOUR-DOMAIN-HERE.com', 'Mailtrap Test')) // <--- you should use your domain here that you installed in the mailtrap.io admin area (otherwise you will get 401)
+        ->replyTo(new Address('reply@YOUR-DOMAIN-HERE.com'))
+        ->to(new Address('example@gmail.com', 'Jon'))
+        ->templateUuid('bfa432fd-0000-0000-0000-8493da283a69')
         ->templateVariables([
             'user_name' => 'Jon Bush',
             'next_step_link' => 'https://mailtrap.io/',
             'get_started_link' => 'https://mailtrap.io/',
+            'onboarding_video_link' => 'some_video_link',
             'company' => [
                 'name' => 'Best Company',
                 'address' => 'Its Address',
@@ -43,22 +45,14 @@ try {
                     'price' => 200,
                 ],
             ],
-        ]);
+            'isBool' => true,
+            'int' => 123
+        ])
+    ;
 
-    $recipientEmails = [
-        (new MailtrapEmail())
-            ->to(new Address('recipient1@example.com', 'Recipient 1'))
-            // Optional: Override template variables for this recipient
-            ->templateVariables([
-                'user_name' => 'Custom User 1',
-            ]),
-        (new MailtrapEmail())
-            ->to(new Address('recipient2@example.com', 'Recipient 2')),
-    ];
+    $response = $bulkMailtrap->send($email);
 
-    $response = $mailtrap->batchSend($recipientEmails, $baseEmail);
-
-    var_dump(ResponseHelper::toArray($response)); // Output response body as array
+    var_dump(ResponseHelper::toArray($response)); // body (array)
 } catch (Exception $e) {
-    echo 'Caught exception: ', $e->getMessage(), "\n";
+    echo 'Caught exception: ',  $e->getMessage(), "\n";
 }

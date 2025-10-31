@@ -21,9 +21,9 @@ require __DIR__ . '/../vendor/autoload.php';
  */
 try {
     $mailtrap = MailtrapClient::initSendingEmails(
-        apiKey: getenv('MAILTRAP_API_KEY'), #your API token from here https://mailtrap.io/api-tokens
+        apiKey: $_ENV['MAILTRAP_API_KEY'], #your API token from here https://mailtrap.io/api-tokens
         isSandbox: true, # Sandbox sending (@see https://help.mailtrap.io/article/109-getting-started-with-mailtrap-email-testing)
-        inboxId: getenv('MAILTRAP_INBOX_ID') # required param for sandbox sending
+        inboxId: $_ENV['MAILTRAP_INBOX_ID'] # required param for sandbox sending
     );
 
     $email = (new MailtrapEmail())
@@ -81,9 +81,9 @@ try {
  */
 try {
     $mailtrap = MailtrapClient::initSendingEmails(
-        apiKey: getenv('MAILTRAP_API_KEY'), #your API token from here https://mailtrap.io/api-tokens
+        apiKey: $_ENV['MAILTRAP_API_KEY'], #your API token from here https://mailtrap.io/api-tokens
         isSandbox: true, # Sandbox sending (@see https://help.mailtrap.io/article/109-getting-started-with-mailtrap-email-testing)
-        inboxId: getenv('MAILTRAP_INBOX_ID') # required param for sandbox sending
+        inboxId: $_ENV['MAILTRAP_INBOX_ID'] # required param for sandbox sending
     );
 
     $email = (new MailtrapEmail())
