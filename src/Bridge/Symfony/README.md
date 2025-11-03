@@ -194,13 +194,11 @@ final class SomeController extends AbstractController
 ```
 
 ## Examples
-A curated list of runnable scripts is available in the root [`examples/`](../../../examples) folder (see the consolidated [Examples Index](../../../examples/README.md)).
-
-Symfony-focused examples you can run directly:
-- Transactional send: `php examples/symfony/transactional.php`
-- Sandbox send: `php examples/symfony/sandbox.php`
-- Template send: `php examples/symfony/template.php`
-- Bulk stream send: `php examples/symfony/bulk.php`
+See the consolidated [examples Index](../../../examples/README.md) for all scripts. Symfony-focused runnable scripts:
+- Transactional send: [`examples/symfony/transactional.php`](../../../examples/symfony/transactional.php)
+- Sandbox send: [`examples/symfony/sandbox.php`](../../../examples/symfony/sandbox.php)
+- Template send: [`examples/symfony/template.php`](../../../examples/symfony/template.php)
+- Bulk stream send: [`examples/symfony/bulk.php`](../../../examples/symfony/bulk.php)
 
 ## Resources
 

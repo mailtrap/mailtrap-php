@@ -330,11 +330,11 @@ php artisan batch-send-mail
 ```
 
 ## Examples
-See the consolidated [Examples Index](../../../examples/README.md) for all scripts. Laravel-focused runnable scripts:
-- Transactional send: `php examples/laravel/transactional.php`
-- Sandbox send: `php examples/laravel/sandbox.php`
-- Template send: `php examples/laravel/template.php`
-- Bulk stream send: `php examples/laravel/bulk.php`
+See the consolidated [examples Index](../../../examples/README.md) for all scripts. Laravel-focused runnable scripts:
+- Transactional send: [`examples/laravel/transactional.php`](../../../examples/laravel/transactional.php)
+- Sandbox send: [`examples/laravel/sandbox.php`](../../../examples/laravel/sandbox.php)
+- Template send: [`examples/laravel/template.php`](../../../examples/laravel/template.php)
+- Bulk stream send: [`examples/laravel/bulk.php`](../../../examples/laravel/bulk.php)
 
 
 ## Compatibility
