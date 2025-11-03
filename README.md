@@ -228,38 +228,55 @@ try {
 }
 ```
 
-### All usage examples
+## Supported functionality & Examples
 
-You can find more examples [here](examples).
-* [General examples](examples/general)
-* [Testing examples](examples/testing)
-* [Sending examples](examples/sending)
+Email API:
+- Send an email (Transactional stream) – [`sending/minimal.php`](examples/sending/minimal.php)
+- Send an email (Bulk stream) – [`bulk/bulk.php`](examples/bulk/bulk.php)
+- Send an email with a Template (Transactional) – [`sending/template.php`](examples/sending/template.php)
+- Send an email with a Template (Bulk) – [`bulk/bulk_template.php`](examples/bulk/bulk_template.php)
+- Batch send (Transactional) – [`batch/transactional.php`](examples/batch/transactional.php)
+- Batch send (Bulk) – [`batch/bulk.php`](examples/batch/bulk.php)
+- Batch send with Template (Transactional) – [`batch/transactional_template.php`](examples/batch/transactional_template.php)
+- Batch send with Template (Bulk) – [`batch/bulk_template.php`](examples/batch/bulk_template.php)
+- Sending domain management CRUD – [`sending-domains/all.php`](examples/sending-domains/all.php)
 
-## Supported functionality
+Email Sandbox (Testing):
+- Send an email (Sandbox) – [`testing/send-mail.php`](examples/testing/send-mail.php)
+- Send an email with a Template (Sandbox) – [`testing/template.php`](examples/testing/template.php)
+- Batch send (Sandbox) – [`batch/sandbox.php`](examples/batch/sandbox.php)
+- Batch send with Template (Sandbox) – [`batch/sandbox_template.php`](examples/batch/sandbox_template.php)
+- Message management CRUD – [`testing/messages.php`](examples/testing/messages.php)
+- Inbox management CRUD – [`testing/inboxes.php`](examples/testing/inboxes.php)
+- Project management CRUD – [`testing/projects.php`](examples/testing/projects.php)
+- Attachments operations – [`testing/attachments.php`](examples/testing/attachments.php)
 
-Currently, with this SDK, you can:
-- Email API/SMTP
-    - Send an email (Transactional and Bulk streams)
-    - Send an email with a Template
-    - Send a batch of emails (Transactional and Bulk streams)
-    - Sending domain management CRUD
-- Email Sandbox
-    - Send an email
-    - Send an email with a template
-    - Send a batch of emails
-    - Message management
-    - Inbox management
-    - Project management
-- Contact management
-    - Fields CRUD
-    - Contacts CRUD
-    - Lists CRUD
-    - Import/Export
-    - Events
-- General
-    - Templates CRUD
-    - Suppressions management (find and delete)
-    - Billing info
+Contact management:
+- Contacts CRUD & listing – [`contacts/all.php`](examples/contacts/all.php)
+- Contact lists CRUD – [`contact-lists/all.php`](examples/contact-lists/all.php)
+- Custom fields CRUD – [`contact-fields/all.php`](examples/contact-fields/all.php)
+- Import/Export – (no example yet) ← add in future
+- Events – (no example yet) ← add in future
+
+General API:
+- Templates CRUD – [`templates/all.php`](examples/templates/all.php)
+- Suppressions (find & delete) – [`sending/suppressions.php`](examples/sending/suppressions.php)
+- Billing info – [`general/billing.php`](examples/general/billing.php)
+- Accounts info – [`general/accounts.php`](examples/general/accounts.php)
+- Permissions listing – [`general/permissions.php`](examples/general/permissions.php)
+- Users listing – [`general/users.php`](examples/general/users.php)
+
+Framework-specific (quick starts):
+- Laravel transactional send – [`laravel/transactional.php`](examples/laravel/transactional.php)
+- Laravel sandbox send – [`laravel/sandbox.php`](examples/laravel/sandbox.php)
+- Laravel template send – [`laravel/template.php`](examples/laravel/template.php)
+- Laravel bulk send – [`laravel/bulk.php`](examples/laravel/bulk.php)
+- Symfony transactional send – [`symfony/transactional.php`](examples/symfony/transactional.php)
+- Symfony sandbox send – [`symfony/sandbox.php`](examples/symfony/sandbox.php)
+- Symfony template send – [`symfony/template.php`](examples/symfony/template.php)
+- Symfony bulk send – [`symfony/bulk.php`](examples/symfony/bulk.php)
+
+See the full indexed list at [`examples/README.md`](examples/README.md).
 
 ## Contributing
 

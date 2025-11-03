@@ -329,6 +329,13 @@ After that, just call this CLI command, and it will send your batch emails
 php artisan batch-send-mail
 ```
 
+## Examples
+See the consolidated [Examples Index](../../../examples/README.md) for all scripts. Laravel-focused runnable scripts:
+- Transactional send: `php examples/laravel/transactional.php`
+- Sandbox send: `php examples/laravel/sandbox.php`
+- Template send: `php examples/laravel/template.php`
+- Bulk stream send: `php examples/laravel/bulk.php`
+
 
 ## Compatibility
 The Mailtrap library is fully compatible with **Laravel 9.x and above**.
