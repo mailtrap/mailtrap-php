@@ -193,6 +193,13 @@ final class SomeController extends AbstractController
 }
 ```
 
+## Examples
+See the consolidated [examples Index](../../../examples/README.md) for all scripts. Symfony-focused runnable scripts:
+- Transactional send: [`examples/symfony/transactional.php`](../../../examples/symfony/transactional.php)
+- Sandbox send: [`examples/symfony/sandbox.php`](../../../examples/symfony/sandbox.php)
+- Template send: [`examples/symfony/template.php`](../../../examples/symfony/template.php)
+- Bulk stream send: [`examples/symfony/bulk.php`](../../../examples/symfony/bulk.php)
+
 ## Resources
 
 * [Symfony mailer documentation](https://symfony.com/doc/current/mailer.html)

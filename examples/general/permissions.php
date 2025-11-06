@@ -10,8 +10,8 @@ use Mailtrap\MailtrapGeneralClient;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$accountId = getenv('MAILTRAP_ACCOUNT_ID');
-$config = new Config(getenv('MAILTRAP_API_KEY')); #your API token from here https://mailtrap.io/api-tokens
+$accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
+$config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens
 $generalPermissions = (new MailtrapGeneralClient($config))->permissions($accountId);
 
 /**
@@ -38,12 +38,12 @@ try {
  * PUT https://mailtrap.io/api/accounts/{account_id}/account_accesses/{account_access_id}/permissions/bulk
  */
 try {
-    $accountAccessId = getenv('MAILTRAP_ACCOUNT_ACCESS_ID');
+    $accountAccessId = $_ENV['MAILTRAP_ACCOUNT_ACCESS_ID'];
 
     // resource IDs
-    $projectResourceId = getenv('MAILTRAP_NEW_PROJECT_RESOURCE_ID');
-    $inboxResourceId = getenv('MAILTRAP_INBOX_RESOURCE_ID');
-    $destroyProjectResourceId = getenv('MAILTRAP_OLD_PROJECT_RESOURCE_ID');
+    $projectResourceId = $_ENV['MAILTRAP_NEW_PROJECT_RESOURCE_ID'];
+    $inboxResourceId = $_ENV['MAILTRAP_INBOX_RESOURCE_ID'];
+    $destroyProjectResourceId = $_ENV['MAILTRAP_OLD_PROJECT_RESOURCE_ID'];
 
     $permissions = new Permissions(
         new CreateOrUpdatePermission($projectResourceId, PermissionInterface::TYPE_PROJECT, 10), // viewer = 10

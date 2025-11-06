@@ -6,8 +6,8 @@ use Mailtrap\MailtrapSandboxClient;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$accountId = getenv('MAILTRAP_ACCOUNT_ID');
-$config = new Config(getenv('MAILTRAP_API_KEY')); #your API token from here https://mailtrap.io/api-tokens
+$accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
+$config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens
 
 $sandboxProjects = (new MailtrapSandboxClient($config))->projects($accountId); #required parameter is accountId
 
@@ -32,7 +32,7 @@ try {
  * GET https://mailtrap.io/api/accounts/{account_id}/projects/{project_id}
  */
 try {
-    $projectId = getenv('MAILTRAP_PROJECT_ID');
+    $projectId = $_ENV['MAILTRAP_PROJECT_ID'];
 
     $response = $sandboxProjects->getById($projectId);
 
@@ -67,7 +67,7 @@ try {
  * PATCH https://mailtrap.io/api/accounts/{account_id}/projects/{project_id}
  */
 try {
-    $projectId = getenv('MAILTRAP_PROJECT_ID');
+    $projectId = $_ENV['MAILTRAP_PROJECT_ID'];
     $newProjectName = 'New project name';
 
     $response = $sandboxProjects->updateName($projectId, $newProjectName);
@@ -85,7 +85,7 @@ try {
  * DELETE https://mailtrap.io/api/accounts/{account_id}/projects/{project_id}
  */
 try {
-    $projectId = getenv('MAILTRAP_PROJECT_ID');
+    $projectId = $_ENV['MAILTRAP_PROJECT_ID'];
 
     $response = $sandboxProjects->delete($projectId);
 

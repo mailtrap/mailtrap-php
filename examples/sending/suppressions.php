@@ -8,8 +8,8 @@ use Mailtrap\MailtrapSendingClient;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$accountId = getenv('MAILTRAP_ACCOUNT_ID');
-$config = new Config(getenv('MAILTRAP_API_KEY')); // Your API token from https://mailtrap.io/api-tokens
+$accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
+$config = new Config($_ENV['MAILTRAP_API_KEY']); // Your API token from https://mailtrap.io/api-tokens
 $mailtrapSuppression = (new MailtrapSendingClient($config))->suppressions($accountId);
 
 /**

@@ -8,8 +8,8 @@ use Mailtrap\MailtrapSendingClient;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-$accountId = (int) getenv('MAILTRAP_ACCOUNT_ID');
-$config = new Config(getenv('MAILTRAP_API_KEY')); #your API token from here https://mailtrap.io/api-tokens
+$accountId = (int) $_ENV['MAILTRAP_ACCOUNT_ID'];
+$config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens
 
 $sendingDomains = (new MailtrapSendingClient($config))->domains($accountId); #required parameter is accountId
 
@@ -51,7 +51,7 @@ try {
  * GET https://mailtrap.io/api/accounts/{account_id}/domains/{domain_id}
  */
 try {
-    $domainId = (int) getenv('MAILTRAP_DOMAIN_ID'); // Set this environment variable with a valid domain ID
+    $domainId = (int) $_ENV['MAILTRAP_DOMAIN_ID']; // Set this environment variable with a valid domain ID
 
     $response = $sendingDomains->getDomainById($domainId);
 
@@ -68,7 +68,7 @@ try {
  * POST https://mailtrap.io/api/accounts/{account_id}/domains/{domain_id}/send_setup_instructions
  */
 try {
-    $domainId = (int) getenv('MAILTRAP_DOMAIN_ID'); // Set this environment variable with a valid domain ID
+    $domainId = (int) $_ENV['MAILTRAP_DOMAIN_ID']; // Set this environment variable with a valid domain ID
     $email = 'devops@example.com'; // Email address to send setup instructions to
 
     $response = $sendingDomains->sendDomainSetupInstructions($domainId, $email);
@@ -86,7 +86,7 @@ try {
  * DELETE https://mailtrap.io/api/accounts/{account_id}/domains/{domain_id}
  */
 try {
-    $domainId = (int) getenv('MAILTRAP_DOMAIN_ID'); // Set this environment variable with a valid domain ID
+    $domainId = (int) $_ENV['MAILTRAP_DOMAIN_ID']; // Set this environment variable with a valid domain ID
 
     $response = $sendingDomains->deleteSendingDomain($domainId);
 
