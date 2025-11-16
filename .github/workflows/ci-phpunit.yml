@@ -83,7 +83,7 @@ jobs:
           composer config --no-plugins allow-plugins.symfony/flex true
           composer require --no-update --no-interaction --no-progress symfony/flex
           composer config extra.symfony.require ${{ matrix.symfony}}
-          composer update --prefer-dist --no-interaction --prefer-stable --prefer-lowest --no-progress
+          composer update --prefer-dist --no-interaction --prefer-stable --no-progress
 
       - name: Execute tests
         run: composer test
@@ -117,8 +117,8 @@ jobs:
       - name: Install dependencies
         run: |
           composer config --no-plugins allow-plugins.laravel/installer true
-          composer require --no-update --no-interaction --no-progress laravel/framework:${{ matrix.laravel }}
-          composer update --prefer-dist --no-interaction --prefer-stable --prefer-lowest --no-progress
+          composer require --no-update --no-interaction --no-progress "laravel/framework:^${{ matrix.laravel }}.0"
+          composer update --prefer-dist --no-interaction --prefer-stable --no-progress
 
       - name: Execute tests
         run: composer test
