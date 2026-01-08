@@ -104,6 +104,8 @@ jobs:
             php-version: '8.4'
           - laravel: '12.0'
             php-version: '8.4'
+          - symfony: '8'
+            php-version: '8.4'
 
     steps:
       - name: Checkout
