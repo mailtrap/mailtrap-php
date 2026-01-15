@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        php-version: [ '8.0','8.1','8.2','8.3','8.4' ]
+        php-version: [ '8.0','8.1','8.2','8.3','8.4','8.5' ]
 
     steps:
       - name: Checkout
@@ -66,6 +66,10 @@ jobs:
             php-version: '8.3'
           - symfony: '7'
             php-version: '8.4'
+          - symfony: '8'
+            php-version: '8.4'
+          - symfony: '8'
+            php-version: '8.5'
 
     steps:
       - name: Checkout
