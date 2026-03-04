@@ -1,0 +1,33 @@
+tests/Api/Sending/StatsTest.php
+  679630e82efc12bc 5,8
+CHANGELOG.md
+  679630e82efc12bc 1-3
+src/Api/Sending/Stats.php
+  679630e82efc12bc 5,14
+src/MailtrapSendingClient.php
+  679630e82efc12bc 11,21
+examples/sending/stats.php
+  679630e82efc12bc 5,11
+tests/MailtrapSendingClientTest.php
+  679630e82efc12bc 33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.8",
+  "base_commit_sha": "c0632e7570d78b8421f7962921fa2b70f8afe49e",
+  "prompts": {
+    "679630e82efc12bc": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f306d859-3456-4286-928e-8dd4e0105ee7",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Piotr Bednarz <piotr.bednarz@railsware.com>",
+      "messages": [],
+      "total_additions": 572,
+      "total_deletions": 11,
+      "accepted_lines": 571,
+      "overriden_lines": 0
+    }
+  }
+}
