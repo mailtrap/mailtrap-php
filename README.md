@@ -240,6 +240,8 @@ Email API:
 - Batch send with Template (Transactional) – [`batch/transactional_template.php`](examples/batch/transactional_template.php)
 - Batch send with Template (Bulk) – [`batch/bulk_template.php`](examples/batch/bulk_template.php)
 - Sending domain management CRUD – [`sending-domains/all.php`](examples/sending-domains/all.php)
+- Suppressions (find & delete) – [`sending/suppressions.php`](examples/sending/suppressions.php)
+- Email Logs (list & get by message ID) – [`sending/email-logs.php`](examples/sending/email-logs.php)
 
 Email Sandbox (Testing):
 - Send an email (Sandbox) – [`testing/send-mail.php`](examples/testing/send-mail.php)
@@ -260,7 +262,6 @@ Contact management:
 
 General API:
 - Templates CRUD – [`templates/all.php`](examples/templates/all.php)
-- Suppressions (find & delete) – [`sending/suppressions.php`](examples/sending/suppressions.php)
 - Billing info – [`general/billing.php`](examples/general/billing.php)
 - Accounts info – [`general/accounts.php`](examples/general/accounts.php)
 - Permissions listing – [`general/permissions.php`](examples/general/permissions.php)
