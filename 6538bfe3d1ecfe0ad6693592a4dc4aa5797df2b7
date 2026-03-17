@@ -1,0 +1,23 @@
+tests/Api/AbstractApiTest.php
+  bb64a6b73f90da80 1-42
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "6538bfe3d1ecfe0ad6693592a4dc4aa5797df2b7",
+  "prompts": {
+    "bb64a6b73f90da80": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "04ff1d11-d06a-4f44-87b3-927a6fec98a7",
+        "model": "default"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>",
+      "messages": [],
+      "total_additions": 43,
+      "total_deletions": 29,
+      "accepted_lines": 42,
+      "overriden_lines": 0
+    }
+  }
+}
