@@ -1,0 +1,27 @@
+tests/Api/AbstractApiTest.php
+  bb64a6b73f90da80 1-45
+tests/Api/Sending/EmailLogsTest.php
+  bb64a6b73f90da80 9,106-125
+src/Api/Sending/EmailLogs.php
+  bb64a6b73f90da80 9,68-71
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "df34d92bd05787dc4c39749722c91e4024f10cca",
+  "prompts": {
+    "bb64a6b73f90da80": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "04ff1d11-d06a-4f44-87b3-927a6fec98a7",
+        "model": "default"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>",
+      "messages": [],
+      "total_additions": 72,
+      "total_deletions": 29,
+      "accepted_lines": 71,
+      "overriden_lines": 0
+    }
+  }
+}
