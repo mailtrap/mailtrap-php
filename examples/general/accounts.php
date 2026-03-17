@@ -4,7 +4,7 @@ use Mailtrap\Config;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapGeneralClient;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 $config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens
 $generalAccounts = (new MailtrapGeneralClient($config))->accounts();

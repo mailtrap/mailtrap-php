@@ -4,7 +4,7 @@ use Mailtrap\Config;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapSandboxClient;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 $accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
 $inboxId = $_ENV['MAILTRAP_INBOX_ID'];

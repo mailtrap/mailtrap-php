@@ -6,7 +6,7 @@ use Mailtrap\Mime\MailtrapEmail;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Header\UnstructuredHeader;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 
 /**

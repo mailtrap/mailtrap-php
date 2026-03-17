@@ -8,7 +8,7 @@ use Mailtrap\DTO\Request\Permission\Permissions;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapGeneralClient;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 $accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
 $config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens
