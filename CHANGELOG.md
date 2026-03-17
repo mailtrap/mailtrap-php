@@ -1,3 +1,6 @@
+## [Unreleased]
+- Add Stats API with get, byDomain, byCategory, byEmailServiceProvider, byDate endpoints
+
 ## [3.9.1] - 2025-10-27
 - Improve README
 
