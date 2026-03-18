@@ -8,6 +8,7 @@ namespace Mailtrap;
  * @method  Api\Sending\Emails      emails()
  * @method  Api\Sending\Suppression suppressions(int $accountId)
  * @method  Api\Sending\Domain      domains(int $accountId)
+ * @method  Api\Sending\Stats       stats(int $accountId)
  *
  * Class MailtrapSendingClient
  */
@@ -17,5 +18,6 @@ final class MailtrapSendingClient extends AbstractMailtrapClient implements Emai
         'emails' => Api\Sending\Emails::class,
         'suppressions' => Api\Sending\Suppression::class,
         'domains' => Api\Sending\Domain::class,
+        'stats' => Api\Sending\Stats::class,
     ];
 }
