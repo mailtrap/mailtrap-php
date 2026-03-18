@@ -1,0 +1,37 @@
+src/Api/Sending/EmailLogs.php
+  bb64a6b73f90da80 9-10,33-38,42,48-50,69-72
+src/DTO/Request/EmailLogs/FilterCriterion.php
+  bb64a6b73f90da80 1-56
+src/DTO/Request/EmailLogs/EmailLogsFilterValue.php
+  bb64a6b73f90da80 1-37
+tests/Api/Sending/EmailLogsTest.php
+  bb64a6b73f90da80 9-13,90-149,170-189
+src/DTO/Request/EmailLogs/EmailLogsListFilters.php
+  bb64a6b73f90da80 1-91
+examples/sending/email-logs.php
+  bb64a6b73f90da80 6-8,33,36,40-42,44
+src/DTO/Request/EmailLogs/EmailLogsFilterOperator.php
+  bb64a6b73f90da80 1-53
+tests/Api/AbstractApiTest.php
+  bb64a6b73f90da80 1-45
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "aa1cd7f48d5556d0073a5570e0e2669c7930937a",
+  "prompts": {
+    "bb64a6b73f90da80": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "04ff1d11-d06a-4f44-87b3-927a6fec98a7",
+        "model": "default"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 416,
+      "total_deletions": 66,
+      "accepted_lines": 392,
+      "overriden_lines": 0
+    }
+  }
+}
