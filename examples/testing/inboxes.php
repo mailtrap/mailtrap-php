@@ -5,7 +5,7 @@ use Mailtrap\DTO\Request\Inbox;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapSandboxClient;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 $accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
 $config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens

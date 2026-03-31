@@ -8,7 +8,7 @@ use Mailtrap\Mime\MailtrapEmail;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\Mime\Address;
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
 
 $apiToken = $_ENV['MAILTRAP_API_KEY'];
