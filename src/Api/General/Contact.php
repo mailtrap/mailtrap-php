@@ -381,7 +381,7 @@ class Contact extends AbstractApi implements GeneralInterface
     private function updateContact(string $contactIdOrEmail, UpdateContact $contact): ResponseInterface
     {
         return $this->handleResponse(
-            $this->httpPut(
+            $this->httpPatch(
                 path: $this->getBasePath() . '/' . urlencode($contactIdOrEmail),
                 body: ['contact' => $contact->toArray()]
             )

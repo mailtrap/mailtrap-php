@@ -32,7 +32,7 @@ class ContactTest extends MailtrapTestCase
         parent::setUp();
 
         $this->contact = $this->getMockBuilder(Contact::class)
-            ->onlyMethods(['httpGet', 'httpPost', 'httpPut', 'httpPatch', 'httpDelete'])
+            ->onlyMethods(['httpGet', 'httpPost', 'httpPatch', 'httpDelete'])
             ->setConstructorArgs([$this->getConfigMock(), self::FAKE_ACCOUNT_ID])
             ->getMock();
     }
@@ -236,7 +236,7 @@ class ContactTest extends MailtrapTestCase
         $contactDTO = new UpdateContact('test@example.com', ['last_name' => 'Smith'], [3], [1, 2], true);
 
         $this->contact->expects($this->once())
-            ->method('httpPut')
+            ->method('httpPatch')
             ->with(
                 AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/contacts/' . $contactId,
                 [],
@@ -266,7 +266,7 @@ class ContactTest extends MailtrapTestCase
         $contactDTO = new UpdateContact('test@example.com', ['last_name' => 'Smith'], [3], [1, 2], true);
 
         $this->contact->expects($this->once())
-            ->method('httpPut')
+            ->method('httpPatch')
             ->with(
                 AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/contacts/' . urlencode($contactEmail),
                 [],
@@ -289,7 +289,7 @@ class ContactTest extends MailtrapTestCase
         $contactDTO = new UpdateContact($contactEmail, ['last_name' => 'Smith'], [3], [1, 2]);
 
         $this->contact->expects($this->once())
-            ->method('httpPut')
+            ->method('httpPatch')
             ->with(
                 AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/contacts/' . urlencode($contactEmail),
                 [],
