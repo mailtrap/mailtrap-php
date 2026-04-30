@@ -1,0 +1,52 @@
+src/MailtrapSendingClient.php
+  d25da6ac7d4daa6e 12-13,25
+src/DTO/Request/Webhook/CreateWebhook.php
+  d25da6ac7d4daa6e 1-61
+src/DTO/Request/Webhook/UpdateWebhook.php
+  d25da6ac7d4daa6e 1-51
+tests/MailtrapSendingClientTest.php
+  d25da6ac7d4daa6e 33
+CHANGELOG.md
+  d25da6ac7d4daa6e 6
+examples/webhooks/all.php
+  d25da6ac7d4daa6e 1-103
+src/DTO/Request/Webhook/WebhookInterface.php
+  d25da6ac7d4daa6e 1-37
+tests/Api/Sending/WebhookTest.php
+  d25da6ac7d4daa6e 1-215
+src/Api/Sending/Webhook.php
+  d25da6ac7d4daa6e 1-100
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "dc5fef1d99b8c868b826f5d0543b848dc2c40c11",
+  "prompts": {
+    "022c2284993618bc": {
+      "agent_id": {
+        "tool": "github-copilot-jetbrains",
+        "id": "1777365689617",
+        "model": "unknown"
+      },
+      "human_author": "Igor Dobryn",
+      "messages": [],
+      "total_additions": 1,
+      "total_deletions": 1,
+      "accepted_lines": 1,
+      "overriden_lines": 0
+    },
+    "d25da6ac7d4daa6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "514b62a6-c61a-49a2-8901-68b67ea26e5b",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn",
+      "messages": [],
+      "total_additions": 574,
+      "total_deletions": 4,
+      "accepted_lines": 572,
+      "overriden_lines": 0
+    }
+  }
+}
