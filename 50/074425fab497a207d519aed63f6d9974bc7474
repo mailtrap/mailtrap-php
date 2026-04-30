@@ -1,0 +1,31 @@
+src/Api/General/ApiToken.php
+  d25da6ac7d4daa6e 1-37
+CHANGELOG.md
+  d25da6ac7d4daa6e 3
+tests/MailtrapGeneralClientTest.php
+  d25da6ac7d4daa6e 31
+tests/Api/General/ApiTokenTest.php
+  d25da6ac7d4daa6e 1-93
+src/MailtrapGeneralClient.php
+  d25da6ac7d4daa6e 14,27
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "50074425fab497a207d519aed63f6d9974bc7474",
+  "prompts": {
+    "d25da6ac7d4daa6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "514b62a6-c61a-49a2-8901-68b67ea26e5b",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn",
+      "messages": [],
+      "total_additions": 159,
+      "total_deletions": 1,
+      "accepted_lines": 134,
+      "overriden_lines": 0
+    }
+  }
+}
