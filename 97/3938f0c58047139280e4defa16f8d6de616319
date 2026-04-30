@@ -1,0 +1,33 @@
+CHANGELOG.md
+  d25da6ac7d4daa6e 3
+examples/api-tokens/all.php
+  d25da6ac7d4daa6e 4-90
+src/Api/General/ApiToken.php
+  d25da6ac7d4daa6e 1-111
+tests/MailtrapGeneralClientTest.php
+  d25da6ac7d4daa6e 31
+src/MailtrapGeneralClient.php
+  d25da6ac7d4daa6e 14,27
+tests/Api/General/ApiTokenTest.php
+  d25da6ac7d4daa6e 1-246
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "973938f0c58047139280e4defa16f8d6de616319",
+  "prompts": {
+    "d25da6ac7d4daa6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "514b62a6-c61a-49a2-8901-68b67ea26e5b",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": null,
+      "messages": [],
+      "total_additions": 551,
+      "total_deletions": 5,
+      "accepted_lines": 430,
+      "overriden_lines": 0
+    }
+  }
+}
