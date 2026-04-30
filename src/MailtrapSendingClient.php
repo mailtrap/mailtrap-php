@@ -9,7 +9,8 @@ namespace Mailtrap;
  * @method  Api\Sending\Suppression suppressions(int $accountId)
  * @method  Api\Sending\Domain      domains(int $accountId)
  * @method  Api\Sending\Stats       stats(int $accountId)
- * @method  Api\Sending\EmailLogs  emailLogs(int $accountId)
+ * @method  Api\Sending\EmailLogs   emailLogs(int $accountId)
+ * @method  Api\Sending\Webhook     webhooks(int $accountId)
  *
  * Class MailtrapSendingClient
  */
@@ -21,5 +22,6 @@ final class MailtrapSendingClient extends AbstractMailtrapClient implements Emai
         'domains' => Api\Sending\Domain::class,
         'stats' => Api\Sending\Stats::class,
         'emailLogs' => Api\Sending\EmailLogs::class,
+        'webhooks' => Api\Sending\Webhook::class,
     ];
 }
