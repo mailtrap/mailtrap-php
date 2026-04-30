@@ -28,7 +28,7 @@ class MailtrapGeneralClientTest extends MailtrapClientTestCase
     {
         foreach (MailtrapGeneralClient::API_MAPPING as $key => $item) {
             yield match ($key) {
-                'permissions', 'users', 'contacts', 'emailTemplates', 'billing' => [new $item($this->getConfigMock(), self::FAKE_ACCOUNT_ID)],
+                'permissions', 'users', 'contacts', 'emailTemplates', 'billing', 'apiTokens' => [new $item($this->getConfigMock(), self::FAKE_ACCOUNT_ID)],
                 default => [new $item($this->getConfigMock())],
             };
         }

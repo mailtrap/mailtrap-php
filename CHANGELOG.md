@@ -1,5 +1,6 @@
 ## [Unreleased]
 - Add Stats API with get, byDomain, byCategory, byEmailServiceProvider, byDate endpoints
+- Add API Tokens API: list, get, create, delete and reset account API tokens
 
 ## [3.9.1] - 2025-10-27
 - Improve README
