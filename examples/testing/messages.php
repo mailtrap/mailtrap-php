@@ -188,6 +188,38 @@ try {
 
 
 /**
+ * Get message headers
+ *
+ * GET https://mailtrap.io/api/accounts/{account_id}/inboxes/{inbox_id}/messages/{message_id}/mail_headers
+ */
+try {
+    $messageId = $_ENV['MAILTRAP_INBOX_MESSAGE_ID'];
+
+    $response = $sandboxMessages->getMailHeaders($messageId);
+
+    var_dump(ResponseHelper::toArray($response));
+} catch (Exception $e) {
+    echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+
+
+/**
+ * Forward message to a recipient email
+ *
+ * POST https://mailtrap.io/api/accounts/{account_id}/inboxes/{inbox_id}/messages/{message_id}/forward
+ */
+try {
+    $messageId = $_ENV['MAILTRAP_INBOX_MESSAGE_ID'];
+
+    $response = $sandboxMessages->forward($messageId, 'recipient@example.com');
+
+    var_dump(ResponseHelper::toArray($response));
+} catch (Exception $e) {
+    echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+
+
+/**
  * Delete message
  *
  * DELETE https://mailtrap.io/api/accounts/{account_id}/inboxes/{inbox_id}/messages/{message_id}

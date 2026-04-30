@@ -111,6 +111,24 @@ class Message extends AbstractApi implements SandboxInterface
     }
 
     /**
+     * Get the email headers parsed from the raw message.
+     *
+     * @param int $messageId
+     *
+     * @return ResponseInterface
+     */
+    public function getMailHeaders(int $messageId): ResponseInterface
+    {
+        return $this->handleResponse($this->httpGet(sprintf(
+            '%s/api/accounts/%s/inboxes/%s/messages/%s/mail_headers',
+            $this->getHost(),
+            $this->getAccountId(),
+            $this->getInboxId(),
+            $messageId
+        )));
+    }
+
+    /**
      * Get text email body, if it exists.
      *
      * @param int $messageId
@@ -232,6 +250,23 @@ class Message extends AbstractApi implements SandboxInterface
     {
         return $this->handleResponse($this->httpDelete(
             sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s', $this->getHost(), $this->getAccountId(), $this->getInboxId(), $messageId)
+        ));
+    }
+
+    /**
+     * Forward a message to a recipient email.
+     *
+     * @param int    $messageId
+     * @param string $email     recipient email address
+     *
+     * @return ResponseInterface
+     */
+    public function forward(int $messageId, string $email): ResponseInterface
+    {
+        return $this->handleResponse($this->httpPost(
+            sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s/forward', $this->getHost(), $this->getAccountId(), $this->getInboxId(), $messageId),
+            [],
+            ['email' => $email]
         ));
     }
 
