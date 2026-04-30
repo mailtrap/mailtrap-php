@@ -1,0 +1,36 @@
+.envrc
+  h_c133502bfb58a4 3
+src/Api/Sandbox/Message.php
+  d25da6ac7d4daa6e 114-130,256-272
+CHANGELOG.md
+  d25da6ac7d4daa6e 5
+tests/Api/Sandbox/MessageTest.php
+  d25da6ac7d4daa6e 29,147-208
+examples/testing/messages.php
+  d25da6ac7d4daa6e 191-221
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "04ea04a846c4f6e4194e07e92e9f606a630a2ee1",
+  "prompts": {
+    "d25da6ac7d4daa6e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "514b62a6-c61a-49a2-8901-68b67ea26e5b",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn",
+      "messages": [],
+      "total_additions": 131,
+      "total_deletions": 1,
+      "accepted_lines": 131,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_c133502bfb58a4": {
+      "author": "Igor Dobryn"
+    }
+  }
+}
