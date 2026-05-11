@@ -152,7 +152,7 @@ class ApiTokenTest extends MailtrapTestCase
     public function testCreateApiTokenFailsWithoutPermissions(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('At least one "permission" object should be added to create an API token');
+        $this->expectExceptionMessage('At least one "permission" object must be provided');
 
         $this->apiToken->createApiToken('My token', new Permissions());
     }

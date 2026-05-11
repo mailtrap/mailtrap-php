@@ -7,7 +7,6 @@ namespace Mailtrap\Api\General;
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\ConfigInterface;
 use Mailtrap\DTO\Request\Permission\Permissions;
-use Mailtrap\Exception\RuntimeException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -59,7 +58,7 @@ class ApiToken extends AbstractApi implements GeneralInterface
             path: $this->getBasePath(),
             body: [
                 'name' => $name,
-                'resources' => $this->getPermissionsPayload($permissions),
+                'resources' => $permissions->toPayload(),
             ]
         ));
     }
@@ -93,19 +92,5 @@ class ApiToken extends AbstractApi implements GeneralInterface
     private function getBasePath(): string
     {
         return sprintf('%s/api/accounts/%s/api_tokens', $this->getHost(), $this->accountId);
-    }
-
-    private function getPermissionsPayload(Permissions $permissions): array
-    {
-        $payload = [];
-        foreach ($permissions->getAll() as $permission) {
-            $payload[] = $permission->toArray();
-        }
-
-        if (count($payload) === 0) {
-            throw new RuntimeException('At least one "permission" object should be added to create an API token');
-        }
-
-        return $payload;
     }
 }

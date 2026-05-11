@@ -110,9 +110,7 @@ class PermissionTest extends MailtrapTestCase
     public function testInvalidUpdate(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage(
-            'At least one "permission" object should be added to manage user or token'
-        );
+        $this->expectExceptionMessage('At least one "permission" object must be provided');
 
         $emptyPermissions = new Permissions();
         $this->permission->update(self::FAKE_ACCOUNT_ACCESS_ID, $emptyPermissions);
@@ -123,11 +121,7 @@ class PermissionTest extends MailtrapTestCase
      */
     public function testValidGetPayload($permissions, $expectedResult): void
     {
-        $method = new \ReflectionMethod(Permission::class, 'getPayload');
-        $method->setAccessible(true);
-        $payload = $method->invoke(new Permission($this->getConfigMock(), self::FAKE_ACCOUNT_ID), $permissions);
-
-        $this->assertEquals($expectedResult, $payload);
+        $this->assertEquals($expectedResult, $permissions->toPayload());
     }
 
     public function validUpdateDataProvider(): iterable
