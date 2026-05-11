@@ -3,7 +3,7 @@
 use Mailtrap\Config;
 use Mailtrap\DTO\Request\Webhook\CreateWebhook;
 use Mailtrap\DTO\Request\Webhook\UpdateWebhook;
-use Mailtrap\DTO\Request\Webhook\WebhookInterface;
+use Mailtrap\DTO\Request\Webhook\Webhook;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapSendingClient;
 
@@ -49,14 +49,14 @@ try {
 try {
     $response = $webhooks->createWebhook(new CreateWebhook(
         url: 'https://example.com/mailtrap/webhooks',
-        webhookType: WebhookInterface::TYPE_EMAIL_SENDING,
+        webhookType: Webhook::TYPE_EMAIL_SENDING,
         eventTypes: [
-            WebhookInterface::EVENT_DELIVERY,
-            WebhookInterface::EVENT_BOUNCE,
-            WebhookInterface::EVENT_OPEN,
+            Webhook::EVENT_DELIVERY,
+            Webhook::EVENT_BOUNCE,
+            Webhook::EVENT_OPEN,
         ],
-        payloadFormat: WebhookInterface::PAYLOAD_FORMAT_JSON,
-        sendingStream: WebhookInterface::SENDING_STREAM_TRANSACTIONAL,
+        payloadFormat: Webhook::PAYLOAD_FORMAT_JSON,
+        sendingStream: Webhook::SENDING_STREAM_TRANSACTIONAL,
         domainId: $_ENV['MAILTRAP_DOMAIN_ID'] ?? null,
     ));
 

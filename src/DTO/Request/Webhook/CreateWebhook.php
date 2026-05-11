@@ -13,10 +13,10 @@ final class CreateWebhook implements WebhookInterface
 {
     /**
      * @param string      $url            Webhook destination URL
-     * @param string      $webhookType    One of WebhookInterface::TYPE_*
-     * @param string[]    $eventTypes     Subset of WebhookInterface::EVENT_* (required for email_sending)
-     * @param string|null $payloadFormat  One of WebhookInterface::PAYLOAD_FORMAT_*
-     * @param string|null $sendingStream  One of WebhookInterface::SENDING_STREAM_* (required for email_sending)
+     * @param string      $webhookType    One of Webhook::TYPE_*
+     * @param string[]    $eventTypes     Subset of Webhook::EVENT_* (required for email_sending)
+     * @param string|null $payloadFormat  One of Webhook::PAYLOAD_FORMAT_*
+     * @param string|null $sendingStream  One of Webhook::SENDING_STREAM_* (required for email_sending)
      * @param int|null    $domainId       Scope to a specific domain id (null = all account domains)
      * @param bool|null   $active         Defaults to true on the server side
      */
@@ -29,16 +29,16 @@ final class CreateWebhook implements WebhookInterface
         private ?int $domainId = null,
         private ?bool $active = null,
     ) {
-        if (!in_array($webhookType, [self::TYPE_EMAIL_SENDING, self::TYPE_AUDIT_LOG], true)) {
+        if (!in_array($webhookType, [Webhook::TYPE_EMAIL_SENDING, Webhook::TYPE_AUDIT_LOG], true)) {
             throw new InvalidArgumentException(sprintf(
                 '"webhookType" must be one of "%s" or "%s", "%s" given',
-                self::TYPE_EMAIL_SENDING,
-                self::TYPE_AUDIT_LOG,
+                Webhook::TYPE_EMAIL_SENDING,
+                Webhook::TYPE_AUDIT_LOG,
                 $webhookType
             ));
         }
 
-        if ($webhookType === self::TYPE_EMAIL_SENDING) {
+        if ($webhookType === Webhook::TYPE_EMAIL_SENDING) {
             if ($eventTypes === []) {
                 throw new InvalidArgumentException('"eventTypes" is required for email_sending webhooks');
             }

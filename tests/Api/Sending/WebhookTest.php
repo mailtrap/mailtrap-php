@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Mailtrap\Tests\Api\Sending;
 
 use Mailtrap\Api\AbstractApi;
-use Mailtrap\Api\Sending\Webhook;
+use Mailtrap\Api\Sending\Webhook as WebhookApi;
 use Mailtrap\DTO\Request\Webhook\CreateWebhook;
 use Mailtrap\DTO\Request\Webhook\UpdateWebhook;
-use Mailtrap\DTO\Request\Webhook\WebhookInterface;
+use Mailtrap\DTO\Request\Webhook\Webhook;
 use Mailtrap\Exception\HttpClientException;
 use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\Exception\RuntimeException;
@@ -17,18 +17,18 @@ use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
 
 /**
- * @covers Webhook
+ * @covers WebhookApi
  *
  * Class WebhookTest
  */
 class WebhookTest extends MailtrapTestCase
 {
-    private ?Webhook $webhook;
+    private ?WebhookApi $webhook;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->webhook = $this->getMockBuilder(Webhook::class)
+        $this->webhook = $this->getMockBuilder(WebhookApi::class)
             ->onlyMethods(['httpGet', 'httpPost', 'httpPatch', 'httpDelete'])
             ->setConstructorArgs([$this->getConfigMock(), self::FAKE_ACCOUNT_ID])
             ->getMock();
@@ -97,10 +97,10 @@ class WebhookTest extends MailtrapTestCase
     {
         $createDto = new CreateWebhook(
             url: 'https://example.com/mailtrap/webhooks',
-            webhookType: WebhookInterface::TYPE_EMAIL_SENDING,
-            eventTypes: [WebhookInterface::EVENT_DELIVERY, WebhookInterface::EVENT_BOUNCE],
-            payloadFormat: WebhookInterface::PAYLOAD_FORMAT_JSON,
-            sendingStream: WebhookInterface::SENDING_STREAM_TRANSACTIONAL,
+            webhookType: Webhook::TYPE_EMAIL_SENDING,
+            eventTypes: [Webhook::EVENT_DELIVERY, Webhook::EVENT_BOUNCE],
+            payloadFormat: Webhook::PAYLOAD_FORMAT_JSON,
+            sendingStream: Webhook::SENDING_STREAM_TRANSACTIONAL,
             domainId: 435,
         );
 
@@ -131,9 +131,9 @@ class WebhookTest extends MailtrapTestCase
     {
         $invalidDto = new CreateWebhook(
             url: 'not-a-url',
-            webhookType: WebhookInterface::TYPE_EMAIL_SENDING,
-            eventTypes: [WebhookInterface::EVENT_DELIVERY],
-            sendingStream: WebhookInterface::SENDING_STREAM_TRANSACTIONAL,
+            webhookType: Webhook::TYPE_EMAIL_SENDING,
+            eventTypes: [Webhook::EVENT_DELIVERY],
+            sendingStream: Webhook::SENDING_STREAM_TRANSACTIONAL,
         );
 
         $this->webhook->expects($this->once())
@@ -171,8 +171,8 @@ class WebhookTest extends MailtrapTestCase
 
         new CreateWebhook(
             url: 'https://example.com/mailtrap/webhooks',
-            webhookType: WebhookInterface::TYPE_EMAIL_SENDING,
-            sendingStream: WebhookInterface::SENDING_STREAM_TRANSACTIONAL,
+            webhookType: Webhook::TYPE_EMAIL_SENDING,
+            sendingStream: Webhook::SENDING_STREAM_TRANSACTIONAL,
         );
     }
 
@@ -183,8 +183,8 @@ class WebhookTest extends MailtrapTestCase
 
         new CreateWebhook(
             url: 'https://example.com/mailtrap/webhooks',
-            webhookType: WebhookInterface::TYPE_EMAIL_SENDING,
-            eventTypes: [WebhookInterface::EVENT_DELIVERY],
+            webhookType: Webhook::TYPE_EMAIL_SENDING,
+            eventTypes: [Webhook::EVENT_DELIVERY],
         );
     }
 
@@ -245,11 +245,11 @@ class WebhookTest extends MailtrapTestCase
             'id' => 1,
             'url' => 'https://example.com/mailtrap/webhooks',
             'active' => true,
-            'webhook_type' => WebhookInterface::TYPE_EMAIL_SENDING,
-            'payload_format' => WebhookInterface::PAYLOAD_FORMAT_JSON,
-            'sending_stream' => WebhookInterface::SENDING_STREAM_TRANSACTIONAL,
+            'webhook_type' => Webhook::TYPE_EMAIL_SENDING,
+            'payload_format' => Webhook::PAYLOAD_FORMAT_JSON,
+            'sending_stream' => Webhook::SENDING_STREAM_TRANSACTIONAL,
             'domain_id' => 435,
-            'event_types' => [WebhookInterface::EVENT_DELIVERY, WebhookInterface::EVENT_BOUNCE],
+            'event_types' => [Webhook::EVENT_DELIVERY, Webhook::EVENT_BOUNCE],
         ];
     }
 }
