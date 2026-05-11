@@ -1,0 +1,44 @@
+tests/MailtrapTestCase.php
+  s_c5c6f0a7b640e5::t_77b7a7225d674d 19
+examples/sub-accounts/all.php
+  s_a3a0ed3a885071::t_5c553091b09c09 11
+  s_c5c6f0a7b640e5::t_bba276972bcec4 5
+src/MailtrapGeneralClient.php
+  s_a3a0ed3a885071::t_447a92e1658fe8 29
+  s_a3a0ed3a885071::t_b5523863be53d7 15
+tests/MailtrapGeneralClientTest.php
+  s_a3a0ed3a885071::t_1b1158e3713960 32
+CHANGELOG.md
+  s_a3a0ed3a885071::t_2947804d7a3353 4
+src/Api/General/Organization.php
+  s_c5c6f0a7b640e5::t_7088de759fef52 1-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "7cf5f49df2346ad0f8a46dba84ac752a1bfce2f8",
+  "prompts": {},
+  "humans": {
+    "h_c133502bfb58a4": {
+      "author": "Igor Dobryn"
+    }
+  },
+  "sessions": {
+    "s_a3a0ed3a885071": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "59d57c10-4460-4356-8a97-35506a9ca0e4",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    },
+    "s_c5c6f0a7b640e5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "db978632-36d6-495a-b174-633ce3bc1624",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}
