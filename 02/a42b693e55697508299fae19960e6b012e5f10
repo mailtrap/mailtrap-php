@@ -1,0 +1,35 @@
+tests/Api/Sending/WebhookTest.php
+  s_84612d21e32ad9::t_3df3bb4ebb7993 100-103,134-136,174-175,186-187,248-250,252
+  s_84612d21e32ad9::t_083a1ad488de0c 20,26,31
+  s_84612d21e32ad9::t_8939c83ed1c763 8,11
+src/DTO/Request/Webhook/UpdateWebhook.php
+  s_84612d21e32ad9::t_a38e25fed9d05e 18-19
+src/DTO/Request/Webhook/CreateWebhook.php
+  s_84612d21e32ad9::t_1238bd4021f238 16-19,32,35-36,41
+src/DTO/Request/Webhook/Webhook.php
+  s_84612d21e32ad9::t_cd8ed36dc2c109 1-34
+examples/webhooks/all.php
+  s_84612d21e32ad9::t_c9d56bce12c10a 52,54-56,58-59
+  s_84612d21e32ad9::t_2c34a94e08562f 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "02a42b693e55697508299fae19960e6b012e5f10",
+  "prompts": {},
+  "humans": {
+    "h_c133502bfb58a4": {
+      "author": "Igor Dobryn"
+    }
+  },
+  "sessions": {
+    "s_84612d21e32ad9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7077cedb-c21c-4a92-a25b-7965fa98b4ad",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}
