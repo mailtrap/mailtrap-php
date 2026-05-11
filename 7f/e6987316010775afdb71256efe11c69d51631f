@@ -1,0 +1,32 @@
+src/Api/General/Permission.php
+  s_84612d21e32ad9::t_544cd05d1590e0 49
+src/Api/General/ApiToken.php
+  s_84612d21e32ad9::t_7fbb33cad02435 61
+tests/Api/General/PermissionTest.php
+  s_84612d21e32ad9::t_a860377d20285e 113,124
+src/DTO/Request/Permission/Permissions.php
+  s_84612d21e32ad9::t_100e10ef44697f 7-8,40-52
+tests/Api/General/ApiTokenTest.php
+  s_84612d21e32ad9::t_a28fc87adf85b0 155
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "7fe6987316010775afdb71256efe11c69d51631f",
+  "prompts": {},
+  "humans": {
+    "h_c133502bfb58a4": {
+      "author": "Igor Dobryn"
+    }
+  },
+  "sessions": {
+    "s_84612d21e32ad9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7077cedb-c21c-4a92-a25b-7965fa98b4ad",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}
