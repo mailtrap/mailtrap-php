@@ -1,0 +1,17 @@
+src/DTO/Request/Webhook/UpdateWebhook.php
+  h_32e79f74e8df76 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "88a7a019fd7a4558b111b9b9b3949d39a9d97ed8",
+  "prompts": {},
+  "humans": {
+    "h_32e79f74e8df76": {
+      "author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    },
+    "h_c133502bfb58a4": {
+      "author": "Igor Dobryn"
+    }
+  }
+}
