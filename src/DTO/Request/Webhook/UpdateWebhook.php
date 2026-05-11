@@ -8,7 +8,7 @@ namespace Mailtrap\DTO\Request\Webhook;
  * Class UpdateWebhook
  *
  * Only `url`, `active`, `payload_format`, and `event_types` can be updated after creation.
- * `webhook_type`, `sending_mode`, and `mailsend_domain_id` are immutable.
+ * `webhook_type`, `sending_stream`, and `domain_id` are immutable.
  */
 final class UpdateWebhook implements WebhookInterface
 {
