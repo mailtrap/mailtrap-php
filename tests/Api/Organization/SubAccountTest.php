@@ -18,8 +18,6 @@ use Nyholm\Psr7\Response;
  */
 class SubAccountTest extends MailtrapTestCase
 {
-    private const FAKE_ORGANIZATION_ID = 7777;
-
     private ?SubAccount $subAccount;
 
     protected function setUp(): void

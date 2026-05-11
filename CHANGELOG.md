@@ -1,7 +1,7 @@
 ## [Unreleased]
 - Add Stats API with get, byDomain, byCategory, byEmailServiceProvider, byDate endpoints
 - Add API Tokens API: list, get, create, delete and reset account API tokens
-- Add Sub-Accounts API (organization-scoped): list and create organization sub-accounts via new `MailtrapOrganizationClient`
+- Add Sub-Accounts API (organization-scoped): list and create organization sub-accounts via `MailtrapGeneralClient->organization($organizationId)->subAccounts()`
 - Add Sandbox Message endpoints: `forward` and `getMailHeaders`
 - Add Webhooks API: list, get, create, update and delete account webhooks
 

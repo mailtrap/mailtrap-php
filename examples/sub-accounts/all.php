@@ -2,13 +2,13 @@
 
 use Mailtrap\Config;
 use Mailtrap\Helper\ResponseHelper;
-use Mailtrap\MailtrapOrganizationClient;
+use Mailtrap\MailtrapGeneralClient;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
 $organizationId = $_ENV['MAILTRAP_ORGANIZATION_ID'];
 $config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens
-$subAccounts = (new MailtrapOrganizationClient($config))->subAccounts($organizationId);
+$subAccounts = (new MailtrapGeneralClient($config))->organization($organizationId)->subAccounts();
 
 /**
  * List all sub-accounts in the organization.
