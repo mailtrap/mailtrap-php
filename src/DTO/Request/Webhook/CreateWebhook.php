@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Mailtrap\DTO\Request\Webhook;
 
+use Mailtrap\Exception\InvalidArgumentException;
+
 /**
  * Class CreateWebhook
  */
@@ -27,6 +29,23 @@ final class CreateWebhook implements WebhookInterface
         private ?int $domainId = null,
         private ?bool $active = null,
     ) {
+        if (!in_array($webhookType, [self::TYPE_EMAIL_SENDING, self::TYPE_AUDIT_LOG], true)) {
+            throw new InvalidArgumentException(sprintf(
+                '"webhookType" must be one of "%s" or "%s", "%s" given',
+                self::TYPE_EMAIL_SENDING,
+                self::TYPE_AUDIT_LOG,
+                $webhookType
+            ));
+        }
+
+        if ($webhookType === self::TYPE_EMAIL_SENDING) {
+            if ($eventTypes === []) {
+                throw new InvalidArgumentException('"eventTypes" is required for email_sending webhooks');
+            }
+            if ($sendingStream === null) {
+                throw new InvalidArgumentException('"sendingStream" is required for email_sending webhooks');
+            }
+        }
     }
 
     public function toArray(): array

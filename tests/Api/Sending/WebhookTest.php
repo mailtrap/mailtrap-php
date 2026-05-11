@@ -10,6 +10,7 @@ use Mailtrap\DTO\Request\Webhook\CreateWebhook;
 use Mailtrap\DTO\Request\Webhook\UpdateWebhook;
 use Mailtrap\DTO\Request\Webhook\WebhookInterface;
 use Mailtrap\Exception\HttpClientException;
+use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\Exception\RuntimeException;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\Tests\MailtrapTestCase;
@@ -132,6 +133,7 @@ class WebhookTest extends MailtrapTestCase
             url: 'not-a-url',
             webhookType: WebhookInterface::TYPE_EMAIL_SENDING,
             eventTypes: [WebhookInterface::EVENT_DELIVERY],
+            sendingStream: WebhookInterface::SENDING_STREAM_TRANSACTIONAL,
         );
 
         $this->webhook->expects($this->once())
@@ -149,6 +151,41 @@ class WebhookTest extends MailtrapTestCase
         $this->expectExceptionMessage('url -> is invalid');
 
         $this->webhook->createWebhook($invalidDto);
+    }
+
+    public function testCreateWebhookRejectsUnknownWebhookType(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('"webhookType" must be one of "email_sending" or "audit_log", "spam" given');
+
+        new CreateWebhook(
+            url: 'https://example.com/mailtrap/webhooks',
+            webhookType: 'spam',
+        );
+    }
+
+    public function testCreateWebhookRejectsEmailSendingWithoutEventTypes(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('"eventTypes" is required for email_sending webhooks');
+
+        new CreateWebhook(
+            url: 'https://example.com/mailtrap/webhooks',
+            webhookType: WebhookInterface::TYPE_EMAIL_SENDING,
+            sendingStream: WebhookInterface::SENDING_STREAM_TRANSACTIONAL,
+        );
+    }
+
+    public function testCreateWebhookRejectsEmailSendingWithoutSendingStream(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('"sendingStream" is required for email_sending webhooks');
+
+        new CreateWebhook(
+            url: 'https://example.com/mailtrap/webhooks',
+            webhookType: WebhookInterface::TYPE_EMAIL_SENDING,
+            eventTypes: [WebhookInterface::EVENT_DELIVERY],
+        );
     }
 
     public function testUpdateWebhook(): void
