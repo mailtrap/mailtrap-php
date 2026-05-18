@@ -1,0 +1,28 @@
+src/Api/Sandbox/Message.php
+  s_59304434a2defe::t_d9c87c4e4be90f 9
+  s_59304434a2defe::t_eb7a40162f1589 267-270
+tests/Api/Sandbox/MessageTest.php
+  s_59304434a2defe::t_f7ea495dbac272 210-221
+  s_59304434a2defe::t_5e1ed4aa5e7b04 8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.9",
+  "base_commit_sha": "f5e17193c0faa09ece48897e4760f991ce0143ff",
+  "prompts": {},
+  "humans": {
+    "h_c133502bfb58a4": {
+      "author": "Igor Dobryn"
+    }
+  },
+  "sessions": {
+    "s_59304434a2defe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3fa293df-c68e-4042-b8e3-fcd0319bcbb5",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}
