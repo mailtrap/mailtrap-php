@@ -1,0 +1,26 @@
+tests/Api/General/SubAccountTest.php
+  s_59304434a2defe::t_6c66cc54ce1f54 5-8
+src/Api/General/SubAccount.php
+  s_59304434a2defe::t_07f46bb04a388b 5-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.9",
+  "base_commit_sha": "7b2d17f31cdeacadd80a461660c37ab83579f913",
+  "prompts": {},
+  "humans": {
+    "h_c133502bfb58a4": {
+      "author": "Igor Dobryn"
+    }
+  },
+  "sessions": {
+    "s_59304434a2defe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3fa293df-c68e-4042-b8e3-fcd0319bcbb5",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}
