@@ -87,6 +87,11 @@ class Webhook extends AbstractApi implements SendingInterface
         );
     }
 
+    public function getAccountId(): int
+    {
+        return $this->accountId;
+    }
+
     private function getBasePath(): string
     {
         return sprintf('%s/api/accounts/%s/webhooks', $this->getHost(), $this->accountId);

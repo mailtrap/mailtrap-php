@@ -46,6 +46,11 @@ class SubAccount extends AbstractApi implements GeneralInterface
         );
     }
 
+    public function getOrganizationId(): int
+    {
+        return $this->organizationId;
+    }
+
     private function getBasePath(): string
     {
         return sprintf('%s/api/organizations/%s/sub_accounts', $this->getHost(), $this->organizationId);

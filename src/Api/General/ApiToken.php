@@ -89,6 +89,11 @@ class ApiToken extends AbstractApi implements GeneralInterface
         );
     }
 
+    public function getAccountId(): int
+    {
+        return $this->accountId;
+    }
+
     private function getBasePath(): string
     {
         return sprintf('%s/api/accounts/%s/api_tokens', $this->getHost(), $this->accountId);
