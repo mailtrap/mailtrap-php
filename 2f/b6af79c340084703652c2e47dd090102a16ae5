@@ -1,0 +1,29 @@
+tests/Api/Sending/WebhookTest.php
+  s_59304434a2defe::t_f2184b3e6c698a 218,221
+src/Api/Sending/Webhook.php
+  s_59304434a2defe::t_665bf7aa3a6049 73
+src/DTO/Request/Webhook/UpdateWebhook.php
+  s_59304434a2defe::t_64499b075361be 51-54
+  s_59304434a2defe::t_9f1776325bf4f3 7-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.9",
+  "base_commit_sha": "2fb6af79c340084703652c2e47dd090102a16ae5",
+  "prompts": {},
+  "humans": {
+    "h_c133502bfb58a4": {
+      "author": "Igor Dobryn"
+    }
+  },
+  "sessions": {
+    "s_59304434a2defe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3fa293df-c68e-4042-b8e3-fcd0319bcbb5",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}
