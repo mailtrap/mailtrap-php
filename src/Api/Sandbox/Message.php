@@ -6,6 +6,7 @@ namespace Mailtrap\Api\Sandbox;
 
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\ConfigInterface;
+use Mailtrap\Exception\InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -263,6 +264,10 @@ class Message extends AbstractApi implements SandboxInterface
      */
     public function forward(int $messageId, string $email): ResponseInterface
     {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            throw new InvalidArgumentException(sprintf('Invalid recipient email: "%s"', $email));
+        }
+
         return $this->handleResponse($this->httpPost(
             sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s/forward', $this->getHost(), $this->getAccountId(), $this->getInboxId(), $messageId),
             [],

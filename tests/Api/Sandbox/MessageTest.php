@@ -5,6 +5,7 @@ namespace Mailtrap\Tests\Api\Sandbox;
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\Api\Sandbox\Message;
 use Mailtrap\Exception\HttpClientException;
+use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
@@ -202,6 +203,18 @@ class MessageTest extends MailtrapTestCase
 
         $this->expectException(HttpClientException::class);
         $this->expectExceptionMessage('Recipient email must be verified');
+
+        $this->message->forward(self::FAKE_MESSAGE_ID, $email);
+    }
+
+    public function testForwardFailsWithInvalidEmail(): void
+    {
+        $email = 'not-an-email';
+
+        $this->message->expects($this->never())->method('httpPost');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf('Invalid recipient email: "%s"', $email));
 
         $this->message->forward(self::FAKE_MESSAGE_ID, $email);
     }
