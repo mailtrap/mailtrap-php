@@ -1,0 +1,28 @@
+src/Api/Sending/Webhook.php
+  s_59304434a2defe::t_dd97052944e867 90-94
+src/Api/General/SubAccount.php
+  s_59304434a2defe::t_80e597cbf78cb8 49-53
+src/Api/General/ApiToken.php
+  s_59304434a2defe::t_dfa41308ed5ab9 92-96
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.9",
+  "base_commit_sha": "d8b3601422b7715542c046b262b5c4e362bd28e8",
+  "prompts": {},
+  "humans": {
+    "h_c133502bfb58a4": {
+      "author": "Igor Dobryn"
+    }
+  },
+  "sessions": {
+    "s_59304434a2defe": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3fa293df-c68e-4042-b8e3-fcd0319bcbb5",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Igor Dobryn <igor.dobryn@railsware.com>"
+    }
+  }
+}
