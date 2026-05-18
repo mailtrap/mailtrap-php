@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Mailtrap\DTO\Request\Webhook;
 
+use Mailtrap\Exception\InvalidArgumentException;
+
 /**
  * Class UpdateWebhook
  *
@@ -44,6 +46,10 @@ final class UpdateWebhook implements WebhookInterface
 
         if ($this->eventTypes !== null) {
             $payload['event_types'] = $this->eventTypes;
+        }
+
+        if ($payload === []) {
+            throw new InvalidArgumentException('At least one updatable field must be provided to update a webhook');
         }
 
         return $payload;

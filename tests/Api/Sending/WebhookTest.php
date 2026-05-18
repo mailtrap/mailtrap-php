@@ -11,7 +11,6 @@ use Mailtrap\DTO\Request\Webhook\UpdateWebhook;
 use Mailtrap\DTO\Request\Webhook\Webhook;
 use Mailtrap\Exception\HttpClientException;
 use Mailtrap\Exception\InvalidArgumentException;
-use Mailtrap\Exception\RuntimeException;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
@@ -216,10 +215,10 @@ class WebhookTest extends MailtrapTestCase
 
     public function testUpdateWebhookFailsWithEmptyPayload(): void
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('At least one updatable field must be provided to update a webhook');
 
-        $this->webhook->updateWebhook(1, new UpdateWebhook());
+        (new UpdateWebhook())->toArray();
     }
 
     public function testDeleteWebhook(): void

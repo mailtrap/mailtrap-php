@@ -8,7 +8,6 @@ use Mailtrap\Api\AbstractApi;
 use Mailtrap\ConfigInterface;
 use Mailtrap\DTO\Request\Webhook\CreateWebhook;
 use Mailtrap\DTO\Request\Webhook\UpdateWebhook;
-use Mailtrap\Exception\RuntimeException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -69,14 +68,9 @@ class Webhook extends AbstractApi implements SendingInterface
      */
     public function updateWebhook(int $webhookId, UpdateWebhook $webhook): ResponseInterface
     {
-        $payload = $webhook->toArray();
-        if (count($payload) === 0) {
-            throw new RuntimeException('At least one updatable field must be provided to update a webhook');
-        }
-
         return $this->handleResponse($this->httpPatch(
             path: $this->getBasePath() . '/' . $webhookId,
-            body: ['webhook' => $payload]
+            body: ['webhook' => $webhook->toArray()]
         ));
     }
 
