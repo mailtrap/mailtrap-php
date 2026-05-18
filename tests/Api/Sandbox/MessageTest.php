@@ -5,6 +5,7 @@ namespace Mailtrap\Tests\Api\Sandbox;
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\Api\Sandbox\Message;
 use Mailtrap\Exception\HttpClientException;
+use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
@@ -26,7 +27,7 @@ class MessageTest extends MailtrapTestCase
         parent::setUp();
 
         $this->message = $this->getMockBuilder(Message::class)
-            ->onlyMethods(['httpGet',  'httpPatch', 'httpDelete'])
+            ->onlyMethods(['httpGet', 'httpPost', 'httpPatch', 'httpDelete'])
             ->setConstructorArgs([$this->getConfigMock(), self::FAKE_ACCOUNT_ID, self::FAKE_INBOX_ID])
             ->getMock()
         ;
@@ -142,6 +143,80 @@ class MessageTest extends MailtrapTestCase
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertArrayHasKey('errors', $responseData);
+    }
+
+    public function testGetMailHeaders(): void
+    {
+        $expectedHeaders = [
+            'headers' => [
+                'from' => 'sender@example.com',
+                'to' => 'recipient@example.com',
+                'subject' => 'Test message',
+            ],
+        ];
+
+        $this->message->expects($this->once())
+            ->method('httpGet')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/mail_headers',
+            )
+            ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($expectedHeaders)));
+
+        $response = $this->message->getMailHeaders(self::FAKE_MESSAGE_ID);
+        $responseData = ResponseHelper::toArray($response);
+
+        $this->assertArrayHasKey('headers', $responseData);
+        $this->assertEquals('sender@example.com', $responseData['headers']['from']);
+    }
+
+    public function testForward(): void
+    {
+        $email = 'recipient@example.com';
+
+        $this->message->expects($this->once())
+            ->method('httpPost')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/forward',
+                [],
+                ['email' => $email]
+            )
+            ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['message' => 'Your email message has been successfully forwarded'])));
+
+        $response = $this->message->forward(self::FAKE_MESSAGE_ID, $email);
+        $responseData = ResponseHelper::toArray($response);
+
+        $this->assertArrayHasKey('message', $responseData);
+    }
+
+    public function testForwardFailsWithUnverifiedRecipient(): void
+    {
+        $email = 'unverified@example.com';
+
+        $this->message->expects($this->once())
+            ->method('httpPost')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/forward',
+                [],
+                ['email' => $email]
+            )
+            ->willReturn(new Response(422, ['Content-Type' => 'application/json'], json_encode(['errors' => ['base' => ['Recipient email must be verified']]])));
+
+        $this->expectException(HttpClientException::class);
+        $this->expectExceptionMessage('Recipient email must be verified');
+
+        $this->message->forward(self::FAKE_MESSAGE_ID, $email);
+    }
+
+    public function testForwardFailsWithInvalidEmail(): void
+    {
+        $email = 'not-an-email';
+
+        $this->message->expects($this->never())->method('httpPost');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf('Invalid recipient email: "%s"', $email));
+
+        $this->message->forward(self::FAKE_MESSAGE_ID, $email);
     }
 
     public function testGetText(): void

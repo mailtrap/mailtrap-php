@@ -7,7 +7,6 @@ namespace Mailtrap\Api\General;
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\ConfigInterface;
 use Mailtrap\DTO\Request\Permission\Permissions;
-use Mailtrap\Exception\RuntimeException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -47,26 +46,12 @@ class Permission extends AbstractApi implements GeneralInterface
         return $this->handleResponse($this->httpPut(
             sprintf('%s/api/accounts/%s/account_accesses/%s/permissions/bulk', $this->getHost(), $this->getAccountId(), $accountAccessId),
             [],
-            ['permissions' => $this->getPayload($permissions)]
+            ['permissions' => $permissions->toPayload()]
         ));
     }
 
     public function getAccountId(): int
     {
         return $this->accountId;
-    }
-
-    private function getPayload(Permissions $permissions): array
-    {
-        $payload = [];
-        foreach ($permissions->getAll() as $permission) {
-            $payload[] = $permission->toArray();
-        }
-
-        if (count($payload) === 0) {
-            throw new RuntimeException('At least one "permission" object should be added to manage user or token');
-        }
-
-        return $payload;
     }
 }

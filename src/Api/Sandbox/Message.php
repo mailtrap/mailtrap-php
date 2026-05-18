@@ -6,6 +6,7 @@ namespace Mailtrap\Api\Sandbox;
 
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\ConfigInterface;
+use Mailtrap\Exception\InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -103,6 +104,24 @@ class Message extends AbstractApi implements SandboxInterface
     {
         return $this->handleResponse($this->httpGet(sprintf(
             '%s/api/accounts/%s/inboxes/%s/messages/%s/analyze',
+            $this->getHost(),
+            $this->getAccountId(),
+            $this->getInboxId(),
+            $messageId
+        )));
+    }
+
+    /**
+     * Get the email headers parsed from the raw message.
+     *
+     * @param int $messageId
+     *
+     * @return ResponseInterface
+     */
+    public function getMailHeaders(int $messageId): ResponseInterface
+    {
+        return $this->handleResponse($this->httpGet(sprintf(
+            '%s/api/accounts/%s/inboxes/%s/messages/%s/mail_headers',
             $this->getHost(),
             $this->getAccountId(),
             $this->getInboxId(),
@@ -232,6 +251,27 @@ class Message extends AbstractApi implements SandboxInterface
     {
         return $this->handleResponse($this->httpDelete(
             sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s', $this->getHost(), $this->getAccountId(), $this->getInboxId(), $messageId)
+        ));
+    }
+
+    /**
+     * Forward a message to a recipient email.
+     *
+     * @param int    $messageId
+     * @param string $email     recipient email address
+     *
+     * @return ResponseInterface
+     */
+    public function forward(int $messageId, string $email): ResponseInterface
+    {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
+            throw new InvalidArgumentException(sprintf('Invalid recipient email: "%s"', $email));
+        }
+
+        return $this->handleResponse($this->httpPost(
+            sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s/forward', $this->getHost(), $this->getAccountId(), $this->getInboxId(), $messageId),
+            [],
+            ['email' => $email]
         ));
     }
 
