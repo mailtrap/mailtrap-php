@@ -221,6 +221,19 @@ class WebhookTest extends MailtrapTestCase
         (new UpdateWebhook())->toArray();
     }
 
+    public function testUpdateWebhookEventTypesIsSentVerbatim(): void
+    {
+        $eventTypes = [
+            Webhook::EVENT_DELIVERY,
+            Webhook::EVENT_OPEN,
+            Webhook::EVENT_CLICK,
+        ];
+
+        $payload = (new UpdateWebhook(eventTypes: $eventTypes))->toArray();
+
+        $this->assertSame(['event_types' => $eventTypes], $payload);
+    }
+
     public function testDeleteWebhook(): void
     {
         $webhookId = 1;

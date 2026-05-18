@@ -18,7 +18,9 @@ final class UpdateWebhook implements WebhookInterface
      * @param string|null   $url
      * @param bool|null     $active
      * @param string|null   $payloadFormat One of Webhook::PAYLOAD_FORMAT_*
-     * @param string[]|null $eventTypes    Subset of Webhook::EVENT_*
+     * @param string[]|null $eventTypes    Subset of Webhook::EVENT_*. Replaces the current
+     *                                     event_types list entirely (server-side replacement,
+     *                                     not merge). Pass the full desired set.
      */
     public function __construct(
         private ?string $url = null,
