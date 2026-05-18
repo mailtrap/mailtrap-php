@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Mailtrap\Tests\Api\Organization;
+namespace Mailtrap\Tests\Api\General;
 
 use Mailtrap\Api\AbstractApi;
-use Mailtrap\Api\Organization\SubAccount;
+use Mailtrap\Api\General\SubAccount;
 use Mailtrap\Exception\HttpClientException;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\Tests\MailtrapTestCase;

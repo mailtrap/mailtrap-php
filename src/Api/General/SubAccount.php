@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Mailtrap\Api\Organization;
+namespace Mailtrap\Api\General;
 
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\ConfigInterface;
@@ -11,7 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Class SubAccount
  */
-class SubAccount extends AbstractApi implements OrganizationInterface
+class SubAccount extends AbstractApi implements GeneralInterface
 {
     public function __construct(ConfigInterface $config, private int $organizationId)
     {

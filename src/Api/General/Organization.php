@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Mailtrap\Api\General;
 
 use Mailtrap\Api\AbstractApi;
-use Mailtrap\Api\Organization\SubAccount;
 use Mailtrap\ConfigInterface;
 
 /**
