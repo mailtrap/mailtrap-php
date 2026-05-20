@@ -279,6 +279,30 @@ Framework-specific (quick starts):
 
 See the full indexed list at [`examples/README.md`](examples/README.md).
 
+### Verifying webhook signatures
+
+Mailtrap signs every outbound webhook with HMAC-SHA256 and sends the lowercase hex digest in the `Mailtrap-Signature` header. Verify the signature against the raw request body using the `signing_secret` returned when you created the webhook:
+
+```php
+use Mailtrap\Helper\WebhookSignature;
+
+// $payload must be the unparsed request body bytes — do NOT re-serialize
+// the parsed JSON, as that may reorder keys and invalidate the signature.
+$rawBody = file_get_contents('php://input');
+$valid = WebhookSignature::verify(
+    $rawBody !== false ? $rawBody : '',
+    $_SERVER['HTTP_MAILTRAP_SIGNATURE'] ?? '',
+    $_ENV['MAILTRAP_WEBHOOK_SIGNING_SECRET'] ?? ''
+);
+
+if (!$valid) {
+    http_response_code(401);
+    exit;
+}
+```
+
+The helper performs a constant-time comparison and returns `false` (rather than raising) for empty, missing, or malformed signatures.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on [GitHub](https://github.com/railsware/mailtrap-php). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](CODE_OF_CONDUCT.md).
