@@ -1,0 +1,35 @@
+tests/Helper/WebhookSignatureTest.php
+  s_0449bc88abf963::t_e2470c67e0d4a0 1-150
+README.md
+  s_90bdbe53f77753::t_79128cd22f9cb5 284,289-297,299,303
+  s_0449bc88abf963::t_d4f9397ed75dab 282-283,285-288,298,300-302,304
+examples/webhooks/verify_signature.php
+  s_0449bc88abf963::t_5ee4d4e7ac4423 1-8
+  s_90bdbe53f77753::t_5d1fc60c40b0cd 9-18
+src/Helper/WebhookSignature.php
+  s_0449bc88abf963::t_2d314a35b200bd 1-61
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.11",
+  "base_commit_sha": "d5be9214ab3aab6a6475c66a3ae145a755384b5f",
+  "prompts": {},
+  "sessions": {
+    "s_0449bc88abf963": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "209ab809-bbe5-4b88-a3d1-6277ee8cddf5",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    },
+    "s_90bdbe53f77753": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "67c23e88-9814-49c9-a2b6-b42e90252a0e",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": null
+    }
+  }
+}
