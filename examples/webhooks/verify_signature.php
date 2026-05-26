@@ -6,12 +6,17 @@ use Mailtrap\Helper\WebhookSignature;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-// --- Direct verification (e.g. for unit tests or custom routers) ----------
-$payload = '{"event":"delivery","message_id":"abc-123"}';
-$signingSecret = '8d9a3c0e7f5b2d4a6c1e9f8b3a7d5c2e';
-$signature = hash_hmac('sha256', $payload, $signingSecret);
+$signingSecret = getenv('MAILTRAP_WEBHOOK_SIGNING_SECRET');
 
-if (!WebhookSignature::verify($payload, $signature, $signingSecret)) {
-    fwrite(STDERR, "Signature verification failed!\n");
-    exit(1);
+// Use the raw request body — parsing and re-serializing the JSON may
+// reorder keys or alter whitespace and invalidate the signature.
+$payload = file_get_contents('php://input');
+$signature = $_SERVER['HTTP_MAILTRAP_SIGNATURE'] ?? '';
+
+if (!WebhookSignature::verify($payload !== false ? $payload : '', $signature, $signingSecret)) {
+    http_response_code(401);
+    echo 'Invalid signature';
+    return;
 }
+
+http_response_code(200);
