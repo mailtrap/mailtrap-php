@@ -1,0 +1,26 @@
+README.md
+  s_a907e0cf970afa::t_f0e6c0b9a98a0b 282-283
+examples/webhooks/verify_signature.php
+  s_a907e0cf970afa::t_a978b589c7de1f 9,11-19,21-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.1",
+  "base_commit_sha": "3d0abfb25c3c469f08983cfc2475f69c6a5b092b",
+  "prompts": {},
+  "humans": {
+    "h_c750c91773bbc1": {
+      "author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  },
+  "sessions": {
+    "s_a907e0cf970afa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a609038c-f688-402a-a84e-55b5ac1bed6d",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
