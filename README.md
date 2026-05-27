@@ -279,6 +279,9 @@ Framework-specific (quick starts):
 
 See the full indexed list at [`examples/README.md`](examples/README.md).
 
+Webhooks:
+- Verifying webhook signatures – [`webhooks/verify_signature.php`](examples/webhooks/verify_signature.php)
+
 ## Contributing
 
 Bug reports and pull requests are welcome on [GitHub](https://github.com/railsware/mailtrap-php). This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](CODE_OF_CONDUCT.md).
