@@ -1,0 +1,39 @@
+CHANGELOG.md
+  s_58fe9233586fc8::t_01a4bf884aaaf3 2
+src/MailtrapGeneralClient.php
+  s_58fe9233586fc8::t_cf0b11fd4c7e66 16,31
+src/DTO/Request/EmailCampaign/EmailCampaignInterface.php
+  s_58fe9233586fc8::t_927e9cf96033e2 1-21
+tests/Api/General/EmailCampaignTest.php
+  s_58fe9233586fc8::t_c4d88ffc037644 1-392
+examples/README.md
+  s_58fe9233586fc8::t_1371c8d1cb429f 47
+src/DTO/Request/EmailCampaign/UpdateEmailCampaign.php
+  s_58fe9233586fc8::t_174e2ad9e9c637 1-64
+README.md
+  s_58fe9233586fc8::t_c886a7db380905 263-265
+src/DTO/Request/EmailCampaign/CreateEmailCampaign.php
+  s_58fe9233586fc8::t_8762b58d3ae982 1-46
+tests/MailtrapGeneralClientTest.php
+  s_58fe9233586fc8::t_1dd74852980684 31
+examples/email-campaigns/all.php
+  s_58fe9233586fc8::t_7af743fe0233f2 1-130
+src/Api/General/EmailCampaign.php
+  s_58fe9233586fc8::t_76ccf23857c51e 1-148
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.2",
+  "base_commit_sha": "3cf6b03d4b537dfb1e3445abe78f2b86e6ee62ff",
+  "prompts": {},
+  "sessions": {
+    "s_58fe9233586fc8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3847246e-f700-4f6a-8a56-da302e2f8404",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
