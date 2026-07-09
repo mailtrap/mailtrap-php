@@ -1,3 +1,14 @@
+## [3.12.1] - 2026-07-09
+
+## What's Changed
+* MT-22022: Add webhook signature verification helper by @Rabsztok in https://github.com/mailtrap/mailtrap-php/pull/66
+* Add draft-release workflow placeholder by @IgorDobryn in https://github.com/mailtrap/mailtrap-php/pull/67
+
+## New Contributors
+* @Rabsztok made their first contribution in https://github.com/mailtrap/mailtrap-php/pull/66
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-php/compare/3.12.0...3.12.1
+
 ## [Unreleased]
 - Add Stats API with get, byDomain, byCategory, byEmailServiceProvider, byDate endpoints
 - Add API Tokens API: list, get, create, delete and reset account API tokens
