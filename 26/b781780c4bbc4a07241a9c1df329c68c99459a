@@ -1,0 +1,26 @@
+tests/Api/General/ContactTest.php
+  s_d562da60dc1773::t_feb526e195632f 62-81
+examples/contact-lists/all.php
+  s_d562da60dc1773::t_849fc261fd8136 34-47
+  s_d562da60dc1773::t_8f524de479bf1d 33
+src/Api/General/Contact.php
+  s_d562da60dc1773::t_3eb6e30526e489 30,33,35-39,41
+README.md
+  s_d562da60dc1773::t_27d388cf1a13a0 258
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "26b781780c4bbc4a07241a9c1df329c68c99459a",
+  "prompts": {},
+  "sessions": {
+    "s_d562da60dc1773": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0c94c3a5-75e7-49f4-ae2a-aeeef6ebf18c",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
