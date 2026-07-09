@@ -1,6 +1,9 @@
-# Placeholder draft-release workflow
+# Drafts new mailtrap-php release: computes the next version from the latest GitHub release,
+# regenerates the changelog from merged PRs, and opens a release PR against main.
 #
-name: Draft php Release
+# Packagist derives the version from the git tag
+# Tags are bare semver (X.Y.Z)
+name: Draft PHP Release
 on:
   workflow_dispatch:
     inputs:
@@ -14,14 +17,64 @@ on:
           - major
         default: patch
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   draft-release:
-    name: Draft php Release (placeholder)
+    name: Draft mailtrap-php Release
     runs-on: ubuntu-latest
     steps:
-      - name: Echo inputs
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Read current version from latest release
+        id: read
         env:
-          BUMP_TYPE: ${{ inputs.bump_type }}
+          GH_TOKEN: ${{ github.token }}
         run: |
-          echo "Placeholder draft-release workflow"
-          echo "bump_type=$BUMP_TYPE"
+          latest=$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq '.tag_name')
+          echo "version=${latest#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Compute next version
+        id: bump
+        uses: railsware/github-actions/compute-next-semver@master
+        with:
+          current: ${{ steps.read.outputs.version }}
+          bump-type: ${{ inputs.bump_type }}
+
+      - name: Generate release notes
+        id: notes
+        uses: railsware/github-actions/generate-release-notes@master
+        with:
+          tag: ${{ steps.bump.outputs.next }}
+
+      - name: Prepend new section to CHANGELOG.md
+        if: steps.notes.outputs.release_notes != ''
+        uses: railsware/github-actions/prepend-changelog@master
+        with:
+          version: ${{ steps.bump.outputs.next }}
+          release-notes: ${{ steps.notes.outputs.release_notes }}
+
+      - name: Commit, push, open PR
+        if: steps.notes.outputs.release_notes != ''
+        uses: railsware/github-actions/open-sdk-release-pr@master
+        with:
+          tag: ${{ steps.bump.outputs.next }}
+          current: ${{ steps.read.outputs.version }}
+          next: ${{ steps.bump.outputs.next }}
+          bump-type: ${{ inputs.bump_type }}
+          release-notes: ${{ steps.notes.outputs.release_notes }}
+
+      - name: Create draft GitHub release
+        if: steps.notes.outputs.release_notes != ''
+        uses: railsware/github-actions/create-draft-github-release@master
+        with:
+          tag: ${{ steps.bump.outputs.next }}
+          release-notes: ${{ steps.notes.outputs.release_notes }}
