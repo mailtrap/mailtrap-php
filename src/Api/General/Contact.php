@@ -27,12 +27,18 @@ class Contact extends AbstractApi implements GeneralInterface
     /**
      * Get all Contact Lists.
      *
+     * @param string|null $search Filter contact lists by name (case-insensitive prefix match), or null to get all.
      * @return ResponseInterface
      */
-    public function getAllContactLists(): ResponseInterface
+    public function getAllContactLists(?string $search = null): ResponseInterface
     {
+        $parameters = [];
+        if ($search !== null) {
+            $parameters['search'] = $search;
+        }
+
         return $this->handleResponse(
-            $this->httpGet($this->getBasePath() . '/lists')
+            $this->httpGet($this->getBasePath() . '/lists', $parameters)
         );
     }
 

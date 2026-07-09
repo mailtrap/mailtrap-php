@@ -59,6 +59,26 @@ class ContactTest extends MailtrapTestCase
         $this->assertArrayHasKey('id', $responseData[0]);
     }
 
+    public function testGetAllContactListsWithSearch(): void
+    {
+        $search = 'news';
+
+        $this->contact->expects($this->once())
+            ->method('httpGet')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/contacts/lists',
+                ['search' => $search]
+            )
+            ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($this->getExpectedContactLists())));
+
+        $response = $this->contact->getAllContactLists($search);
+        $responseData = ResponseHelper::toArray($response);
+
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertCount(2, $responseData);
+        $this->assertArrayHasKey('id', $responseData[0]);
+    }
+
     public function testGetContactList(): void
     {
         $contactListId = 1;

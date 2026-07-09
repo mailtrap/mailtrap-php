@@ -31,6 +31,21 @@ try {
 
 
 /**
+ * Get all Contact Lists filtered by name (case-insensitive prefix match).
+ *
+ * GET https://mailtrap.io/api/accounts/{account_id}/contacts/lists?search=news
+ */
+try {
+    $response = $contacts->getAllContactLists('news'); // Replace 'news' with your desired name prefix
+
+    // print the response body (array)
+    var_dump(ResponseHelper::toArray($response));
+} catch (Exception $e) {
+    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
+}
+
+
+/**
  * Get a specific Contact List by ID.
  *
  * GET https://mailtrap.io/api/accounts/{account_id}/contacts/lists/{list_id}
