@@ -255,7 +255,7 @@ Email Sandbox (Testing):
 
 Contact management:
 - Contacts CRUD & listing – [`contacts/all.php`](examples/contacts/all.php)
-- Contact lists CRUD & name search – [`contact-lists/all.php`](examples/contact-lists/all.php)
+- Contact lists CRUD – [`contact-lists/all.php`](examples/contact-lists/all.php)
 - Custom fields CRUD – [`contact-fields/all.php`](examples/contact-fields/all.php)
 - Import/Export – (no example yet) ← add in future
 - Events – (no example yet) ← add in future
