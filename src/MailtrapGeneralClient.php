@@ -13,6 +13,7 @@ namespace Mailtrap;
  * @method Api\General\Billing       billing(int $accountId)
  * @method Api\General\ApiToken      apiTokens(int $accountId)
  * @method Api\General\Organization  organization(int $organizationId)
+ * @method Api\General\EmailCampaign emailCampaigns(int $accountId)
  *
  * Class MailtrapGeneralClient
  */
@@ -27,5 +28,6 @@ final class MailtrapGeneralClient extends AbstractMailtrapClient
         'billing' => Api\General\Billing::class,
         'apiTokens' => Api\General\ApiToken::class,
         'organization' => Api\General\Organization::class,
+        'emailCampaigns' => Api\General\EmailCampaign::class,
     ];
 }

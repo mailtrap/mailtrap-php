@@ -266,6 +266,9 @@ Contact management:
 - Import/Export – (no example yet) ← add in future
 - Events – (no example yet) ← add in future
 
+Email marketing:
+- Email campaigns CRUD, listing, lifecycle & stats – [`email-campaigns/all.php`](examples/email-campaigns/all.php)
+
 General API:
 - Templates CRUD – [`templates/all.php`](examples/templates/all.php)
 - Billing info – [`general/billing.php`](examples/general/billing.php)
