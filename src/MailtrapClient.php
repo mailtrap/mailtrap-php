@@ -14,6 +14,7 @@ use Mailtrap\Exception\InvalidArgumentException;
  * @method  MailtrapSandboxClient       sandbox
  * @method  MailtrapSendingClient       sending
  * @method  MailtrapBulkSendingClient   bulkSending
+ * @method  MailtrapInboundClient       inbound
  *
  * Class MailtrapClient
  */
@@ -23,12 +24,14 @@ class MailtrapClient extends AbstractMailtrapClient
     public const LAYER_SANDBOX = 'sandbox';
     public const LAYER_TRANSACTIONAL_SENDING = 'sending';
     public const LAYER_BULK_SENDING = 'bulkSending';
+    public const LAYER_INBOUND = 'inbound';
 
     public const API_MAPPING = [
         self::LAYER_GENERAL => MailtrapGeneralClient::class,
         self::LAYER_SANDBOX => MailtrapSandboxClient::class,
         self::LAYER_TRANSACTIONAL_SENDING => MailtrapSendingClient::class,
         self::LAYER_BULK_SENDING => MailtrapBulkSendingClient::class,
+        self::LAYER_INBOUND => MailtrapInboundClient::class,
     ];
 
     public static function initSendingEmails(
