@@ -9,24 +9,28 @@ use Mailtrap\Exception\InvalidArgumentException;
 /**
  * Class UpdateWebhook
  *
- * Only `url`, `active`, `payload_format`, and `event_types` can be updated after creation.
- * `webhook_type`, `sending_stream`, and `domain_id` are immutable.
+ * Only `url`, `active`, `payload_format`, `event_types`, and `inbound_inbox_id`
+ * can be updated after creation. `webhook_type`, `sending_stream`, and
+ * `domain_id` are immutable.
  */
 final class UpdateWebhook implements WebhookInterface
 {
     /**
      * @param string|null   $url
      * @param bool|null     $active
-     * @param string|null   $payloadFormat One of Webhook::PAYLOAD_FORMAT_*
-     * @param string[]|null $eventTypes    Subset of Webhook::EVENT_*. Replaces the current
-     *                                     event_types list entirely (server-side replacement,
-     *                                     not merge). Pass the full desired set.
+     * @param string|null   $payloadFormat  One of Webhook::PAYLOAD_FORMAT_*
+     * @param string[]|null $eventTypes     Subset of Webhook::EVENT_*. Replaces the current
+     *                                      event_types list entirely (server-side replacement,
+     *                                      not merge). Pass the full desired set.
+     * @param int|null      $inboundInboxId Inbound inbox to link the webhook to
+     *                                      (inbound_receiving webhooks)
      */
     public function __construct(
         private ?string $url = null,
         private ?bool $active = null,
         private ?string $payloadFormat = null,
         private ?array $eventTypes = null,
+        private ?int $inboundInboxId = null,
     ) {
     }
 
@@ -48,6 +52,10 @@ final class UpdateWebhook implements WebhookInterface
 
         if ($this->eventTypes !== null) {
             $payload['event_types'] = $this->eventTypes;
+        }
+
+        if ($this->inboundInboxId !== null) {
+            $payload['inbound_inbox_id'] = $this->inboundInboxId;
         }
 
         if ($payload === []) {
