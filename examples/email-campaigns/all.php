@@ -13,7 +13,7 @@ use Mailtrap\MailtrapGeneralClient;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-$accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
+$accountId = (int) $_ENV['MAILTRAP_ACCOUNT_ID'];
 $config = new Config($_ENV['MAILTRAP_API_KEY']); // your API token from https://mailtrap.io/api-tokens
 $emailCampaigns = (new MailtrapGeneralClient($config))->emailCampaigns($accountId);
 
@@ -34,30 +34,15 @@ try {
 }
 
 /**
- * Get a single email campaign by ID (wrapped in `data`).
- *
- * GET https://mailtrap.io/api/email_campaigns/{email_campaign_id}
- */
-try {
-    $emailCampaignId = 4567; // replace with a valid campaign ID
-
-    $response = $emailCampaigns->getEmailCampaign($emailCampaignId);
-
-    var_dump(ResponseHelper::toArray($response));
-} catch (Exception $e) {
-    echo 'Caught exception: ', $e->getMessage(), PHP_EOL;
-}
-
-/**
  * Create a new email campaign in the `draft` state (wrapped in `data`).
- * `name`, `mailsend_domain_id` (a UUID), `from_local_part` and a template `subject` are required.
+ * `name`, `domain_id`, `from_local_part` and a template `subject` are required.
  *
  * POST https://mailtrap.io/api/email_campaigns
  */
 try {
     $response = $emailCampaigns->createEmailCampaign(new CreateEmailCampaign(
         name: 'Spring Sale',
-        mailsendDomainId: $_ENV['MAILTRAP_DOMAIN_ID'] ?? 'd2313359-acb4-4b87-bce6-f5774f6a1e37',
+        domainId: (int) $_ENV['MAILTRAP_DOMAIN_ID'], // set this environment variable with your sending domain ID
         fromLocalPart: 'news',
         templateAttributes: new TemplateAttributes(subject: 'Spring is here — 30% off'),
         fromDisplayName: 'Acme Marketing',
@@ -67,6 +52,24 @@ try {
             domain: 'acme.com',
         ),
     ));
+
+    $emailCampaign = ResponseHelper::toArray($response);
+    $emailCampaignId = $emailCampaign['data']['id']; // reused by all the examples below
+
+    var_dump($emailCampaign);
+} catch (Exception $e) {
+    echo 'Caught exception: ', $e->getMessage(), PHP_EOL;
+
+    exit(1); // the examples below operate on the campaign created here
+}
+
+/**
+ * Get a single email campaign by ID (wrapped in `data`).
+ *
+ * GET https://mailtrap.io/api/email_campaigns/{email_campaign_id}
+ */
+try {
+    $response = $emailCampaigns->getEmailCampaign($emailCampaignId);
 
     var_dump(ResponseHelper::toArray($response));
 } catch (Exception $e) {
@@ -81,8 +84,6 @@ try {
  * PATCH https://mailtrap.io/api/email_campaigns/{email_campaign_id}
  */
 try {
-    $emailCampaignId = 4567; // replace with a valid campaign ID
-
     $response = $emailCampaigns->updateEmailCampaign(
         $emailCampaignId,
         new UpdateEmailCampaign(
@@ -95,8 +96,8 @@ try {
                     . '<p><a href="__unsubscribe_url__">Unsubscribe</a></p></body></html>',
                 mergeTags: ['first_name'],
             ),
-            contactListIds: [55, 56],
-            contactSegmentIds: [12],
+            contactListIds: [55, 56], // replace with your contact list IDs
+            contactSegmentIds: [12], // replace with your contact segment IDs
         )
     );
 
@@ -113,11 +114,38 @@ try {
  * POST https://mailtrap.io/api/email_campaigns/{email_campaign_id}/schedule
  */
 try {
-    $emailCampaignId = 4567; // replace with a valid campaign ID
-
     $response = $emailCampaigns->scheduleEmailCampaign(
         $emailCampaignId,
         new DateTimeImmutable('+1 week', new DateTimeZone('UTC'))
+    );
+
+    var_dump(ResponseHelper::toArray($response));
+} catch (Exception $e) {
+    echo 'Caught exception: ', $e->getMessage(), PHP_EOL;
+}
+
+/**
+ * Reset a `scheduled` campaign back to the `draft` state.
+ *
+ * POST https://mailtrap.io/api/email_campaigns/{email_campaign_id}/reset
+ */
+try {
+    $response = $emailCampaigns->resetEmailCampaign($emailCampaignId);
+
+    var_dump(ResponseHelper::toArray($response));
+} catch (Exception $e) {
+    echo 'Caught exception: ', $e->getMessage(), PHP_EOL;
+}
+
+/**
+ * Schedule the campaign again so the cancellation below acts on a `scheduled` campaign.
+ *
+ * POST https://mailtrap.io/api/email_campaigns/{email_campaign_id}/schedule
+ */
+try {
+    $response = $emailCampaigns->scheduleEmailCampaign(
+        $emailCampaignId,
+        new DateTimeImmutable('+1 day', new DateTimeZone('UTC'))
     );
 
     var_dump(ResponseHelper::toArray($response));
@@ -131,8 +159,6 @@ try {
  * POST https://mailtrap.io/api/email_campaigns/{email_campaign_id}/cancel
  */
 try {
-    $emailCampaignId = 4567; // replace with a valid campaign ID
-
     $response = $emailCampaigns->cancelEmailCampaign($emailCampaignId);
 
     var_dump(ResponseHelper::toArray($response));
@@ -146,8 +172,6 @@ try {
  * POST https://mailtrap.io/api/email_campaigns/{email_campaign_id}/start
  */
 try {
-    $emailCampaignId = 4567; // replace with a valid campaign ID
-
     $response = $emailCampaigns->startEmailCampaign($emailCampaignId);
 
     var_dump(ResponseHelper::toArray($response));
@@ -161,24 +185,7 @@ try {
  * POST https://mailtrap.io/api/email_campaigns/{email_campaign_id}/terminate
  */
 try {
-    $emailCampaignId = 4567; // replace with a valid campaign ID
-
     $response = $emailCampaigns->terminateEmailCampaign($emailCampaignId);
-
-    var_dump(ResponseHelper::toArray($response));
-} catch (Exception $e) {
-    echo 'Caught exception: ', $e->getMessage(), PHP_EOL;
-}
-
-/**
- * Reset a `scheduled` campaign back to the `draft` state.
- *
- * POST https://mailtrap.io/api/email_campaigns/{email_campaign_id}/reset
- */
-try {
-    $emailCampaignId = 4567; // replace with a valid campaign ID
-
-    $response = $emailCampaigns->resetEmailCampaign($emailCampaignId);
 
     var_dump(ResponseHelper::toArray($response));
 } catch (Exception $e) {
@@ -193,12 +200,10 @@ try {
  * GET https://mailtrap.io/api/email_campaigns/{email_campaign_id}/stats
  */
 try {
-    $emailCampaignId = 4567; // replace with a valid campaign ID
-
     $response = $emailCampaigns->getEmailCampaignStats(
         $emailCampaignId,
-        startDate: '2026-05-01',
-        endDate: '2026-05-31'
+        startDate: (new DateTimeImmutable('-30 days'))->format('Y-m-d'),
+        endDate: (new DateTimeImmutable('today'))->format('Y-m-d')
     );
 
     var_dump(ResponseHelper::toArray($response));
@@ -213,8 +218,6 @@ try {
  * DELETE https://mailtrap.io/api/email_campaigns/{email_campaign_id}
  */
 try {
-    $emailCampaignId = 4567; // replace with a valid campaign ID
-
     $response = $emailCampaigns->deleteEmailCampaign($emailCampaignId);
 
     var_dump($response->getStatusCode()); // 204
