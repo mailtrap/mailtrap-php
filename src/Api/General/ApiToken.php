@@ -6,6 +6,7 @@ namespace Mailtrap\Api\General;
 
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\ConfigInterface;
+use Mailtrap\DTO\Request\ApiToken\TokenExpiration;
 use Mailtrap\DTO\Request\Permission\Permissions;
 use Psr\Http\Message\ResponseInterface;
 
@@ -47,19 +48,29 @@ class ApiToken extends AbstractApi implements GeneralInterface
     /**
      * Create a new API token. The full token value is returned only in this response.
      *
-     * @param string      $name
-     * @param Permissions $permissions
+     * @param string               $name
+     * @param Permissions          $permissions
+     * @param TokenExpiration|null $expiration Optional token expiration as an ISO 8601 date-time.
+     *                                         Omit for the server default (a 1-year default is being rolled out).
+     *                                         Use TokenExpiration::never() for a token that never expires.
+     *                                         Past or more-than-5-years-ahead values are rejected with 422.
      *
      * @return ResponseInterface
      */
-    public function createApiToken(string $name, Permissions $permissions): ResponseInterface
+    public function createApiToken(string $name, Permissions $permissions, ?TokenExpiration $expiration = null): ResponseInterface
     {
+        $body = [
+            'name' => $name,
+            'resources' => $permissions->toPayload(),
+        ];
+
+        if ($expiration !== null) {
+            $body['expires_at'] = $expiration->getValue();
+        }
+
         return $this->handleResponse($this->httpPost(
             path: $this->getBasePath(),
-            body: [
-                'name' => $name,
-                'resources' => $permissions->toPayload(),
-            ]
+            body: $body
         ));
     }
 
