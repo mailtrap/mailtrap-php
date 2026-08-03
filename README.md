@@ -262,6 +262,7 @@ Contact management:
 
 General API:
 - Templates CRUD – [`templates/all.php`](examples/templates/all.php)
+- API tokens CRUD – [`api-tokens/all.php`](examples/api-tokens/all.php)
 - Billing info – [`general/billing.php`](examples/general/billing.php)
 - Accounts info – [`general/accounts.php`](examples/general/accounts.php)
 - Permissions listing – [`general/permissions.php`](examples/general/permissions.php)
