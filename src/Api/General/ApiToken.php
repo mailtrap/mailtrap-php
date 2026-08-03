@@ -90,14 +90,28 @@ class ApiToken extends AbstractApi implements GeneralInterface
     /**
      * Reset an API token by ID. Returns a new token value; the previous value stops working.
      *
-     * @param int $apiTokenId
+     * @param int                  $apiTokenId
+     * @param TokenExpiration|null $expiration Optional expiration of the new token as an ISO 8601 date-time.
+     *                                         Omit for the server default (a 1-year default is being rolled out).
+     *                                         Use TokenExpiration::never() for a token that never expires.
+     *                                         Past or more-than-5-years-ahead values are rejected with 422.
+     *
      * @return ResponseInterface
      */
-    public function resetApiToken(int $apiTokenId): ResponseInterface
+    public function resetApiToken(int $apiTokenId, ?TokenExpiration $expiration = null): ResponseInterface
     {
-        return $this->handleResponse(
-            $this->httpPost($this->getBasePath() . '/' . $apiTokenId . '/reset')
-        );
+        $path = $this->getBasePath() . '/' . $apiTokenId . '/reset';
+
+        if ($expiration === null) {
+            return $this->handleResponse(
+                $this->httpPost($path)
+            );
+        }
+
+        return $this->handleResponse($this->httpPost(
+            path: $path,
+            body: ['expires_at' => $expiration->getValue()]
+        ));
     }
 
     public function getAccountId(): int
