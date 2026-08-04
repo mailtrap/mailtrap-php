@@ -1,3 +1,12 @@
+## [3.13.0] - 2026-08-04
+
+## What's Changed
+* MT-22678: Add name search filter to getAllContactLists by @Rabsztok in https://github.com/mailtrap/mailtrap-php/pull/71
+* Add Inbound Email API support by @mklocek in https://github.com/mailtrap/mailtrap-php/pull/73
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-php/compare/3.12.1...3.13.0
+
 ## [3.12.1] - 2026-07-09
 
 ## What's Changed
