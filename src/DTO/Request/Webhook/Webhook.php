@@ -11,6 +11,7 @@ final class Webhook
 {
     public const TYPE_EMAIL_SENDING = 'email_sending';
     public const TYPE_AUDIT_LOG = 'audit_log';
+    public const TYPE_INBOUND_RECEIVING = 'inbound_receiving';
 
     public const PAYLOAD_FORMAT_JSON = 'json';
     public const PAYLOAD_FORMAT_JSONLINES = 'jsonlines';

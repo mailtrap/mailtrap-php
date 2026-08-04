@@ -8,7 +8,8 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 
 ## Contents
 
-### 1. Sending (Transactional / Bulk Streams)
+### Sending (Transactional / Bulk Streams)
+
 | Purpose | File |
 |---------|------|
 | Minimal transactional send | [`sending/minimal.php`](sending/minimal.php) |
@@ -18,7 +19,8 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 | Bulk API single send (stream selection) | [`bulk/bulk.php`](bulk/bulk.php) |
 | Bulk API template send | [`bulk/bulk_template.php`](bulk/bulk_template.php) |
 
-### 2. Batch Sending (multiple messages in one call)
+### Batch Sending (multiple messages in one call)
+
 | Purpose | File |
 |---------|------|
 | Transactional batch send | [`batch/transactional.php`](batch/transactional.php) |
@@ -28,7 +30,8 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 | Sandbox batch send | [`batch/sandbox.php`](batch/sandbox.php) |
 | Sandbox batch send (template) | [`batch/sandbox_template.php`](batch/sandbox_template.php) |
 
-### 3. Sandbox (Email Testing)
+### Sandbox (Email Testing)
+
 | Purpose | File |
 |---------|------|
 | Sandbox transactional send | [`testing/send-mail.php`](testing/send-mail.php) |
@@ -38,20 +41,32 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 | Message CRUD / listing | [`testing/messages.php`](testing/messages.php) |
 | Project CRUD / listing | [`testing/projects.php`](testing/projects.php) |
 
-### 4. Contact Management
+### Inbound Email
+
+| Purpose | File |
+|---------|------|
+| Folder CRUD / listing | [`inbound/folders.php`](inbound/folders.php) |
+| Inbox CRUD / listing | [`inbound/inboxes.php`](inbound/inboxes.php) |
+| Message list / get / reply / reply-all / forward / delete | [`inbound/messages.php`](inbound/messages.php) |
+| Thread list / get / delete | [`inbound/threads.php`](inbound/threads.php) |
+
+### Contact Management
+
 | Purpose | File |
 |---------|------|
 | Contacts CRUD + list | [`contacts/all.php`](contacts/all.php) |
 | Contact lists CRUD | [`contact-lists/all.php`](contact-lists/all.php) |
 | Custom fields CRUD | [`contact-fields/all.php`](contact-fields/all.php) |
 
-### 5. Templates & Domains
+### Templates & Domains
+
 | Purpose | File |
 |---------|------|
 | Templates CRUD | [`templates/all.php`](templates/all.php) |
 | Sending domains CRUD | [`sending-domains/all.php`](sending-domains/all.php) |
 
-### 6. General API
+### General API
+
 | Purpose | File |
 |---------|------|
 | Accounts info | [`general/accounts.php`](general/accounts.php) |
@@ -59,13 +74,15 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 | Permissions listing | [`general/permissions.php`](general/permissions.php) |
 | Users listing | [`general/users.php`](general/users.php) |
 
-### 7. Framework Bridges
+### Framework Bridges
+
 | Framework | Files |
 |-----------|-------|
 | Laravel (transactional, sandbox, template, bulk) | [`laravel/transactional.php`](laravel/transactional.php), [`laravel/sandbox.php`](laravel/sandbox.php), [`laravel/template.php`](laravel/template.php), [`laravel/bulk.php`](laravel/bulk.php) |
 | Symfony (transactional, sandbox, template, bulk) | [`symfony/transactional.php`](symfony/transactional.php), [`symfony/sandbox.php`](symfony/sandbox.php), [`symfony/template.php`](symfony/template.php), [`symfony/bulk.php`](symfony/bulk.php) |
 
-### 8. Configuration Utilities
+### Configuration Utilities
+
 | Purpose | File |
 |---------|------|
 | Showcase of combined config usage / initialization patterns | [`config/all.php`](config/all.php) |

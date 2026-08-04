@@ -19,6 +19,8 @@ final class CreateWebhook implements WebhookInterface
      * @param string|null $sendingStream  One of Webhook::SENDING_STREAM_* (required for email_sending)
      * @param int|null    $domainId       Scope to a specific domain id (null = all account domains)
      * @param bool|null   $active         Defaults to true on the server side
+     * @param int|null    $inboundInboxId Scope an inbound_receiving webhook to a specific
+     *                                    inbound inbox (null = all inboxes in the account)
      */
     public function __construct(
         private string $url,
@@ -28,12 +30,19 @@ final class CreateWebhook implements WebhookInterface
         private ?string $sendingStream = null,
         private ?int $domainId = null,
         private ?bool $active = null,
+        private ?int $inboundInboxId = null,
     ) {
-        if (!in_array($webhookType, [Webhook::TYPE_EMAIL_SENDING, Webhook::TYPE_AUDIT_LOG], true)) {
+        $allowedTypes = [
+            Webhook::TYPE_EMAIL_SENDING,
+            Webhook::TYPE_AUDIT_LOG,
+            Webhook::TYPE_INBOUND_RECEIVING,
+        ];
+        if (!in_array($webhookType, $allowedTypes, true)) {
             throw new InvalidArgumentException(sprintf(
-                '"webhookType" must be one of "%s" or "%s", "%s" given',
+                '"webhookType" must be one of "%s", "%s", or "%s", "%s" given',
                 Webhook::TYPE_EMAIL_SENDING,
                 Webhook::TYPE_AUDIT_LOG,
+                Webhook::TYPE_INBOUND_RECEIVING,
                 $webhookType
             ));
         }
@@ -70,6 +79,10 @@ final class CreateWebhook implements WebhookInterface
 
         if ($this->active !== null) {
             $payload['active'] = $this->active;
+        }
+
+        if ($this->inboundInboxId !== null) {
+            $payload['inbound_inbox_id'] = $this->inboundInboxId;
         }
 
         return $payload;

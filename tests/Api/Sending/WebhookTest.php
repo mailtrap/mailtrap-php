@@ -126,6 +126,47 @@ class WebhookTest extends MailtrapTestCase
         $this->assertArrayHasKey('signing_secret', $responseData['data']);
     }
 
+    public function testCreateInboundReceivingWebhook(): void
+    {
+        $createDto = new CreateWebhook(
+            url: 'https://example.com/mailtrap/webhooks',
+            webhookType: Webhook::TYPE_INBOUND_RECEIVING,
+            payloadFormat: Webhook::PAYLOAD_FORMAT_JSON,
+            inboundInboxId: 665,
+        );
+
+        $this->assertSame(
+            [
+                'url' => 'https://example.com/mailtrap/webhooks',
+                'webhook_type' => 'inbound_receiving',
+                'event_types' => [],
+                'payload_format' => 'json',
+                'inbound_inbox_id' => 665,
+            ],
+            $createDto->toArray()
+        );
+    }
+
+    public function testCreateInboundReceivingWebhookWithoutInboxAppliesToAllInboxes(): void
+    {
+        $createDto = new CreateWebhook(
+            url: 'https://example.com/mailtrap/webhooks',
+            webhookType: Webhook::TYPE_INBOUND_RECEIVING,
+        );
+
+        $payload = $createDto->toArray();
+
+        $this->assertSame('inbound_receiving', $payload['webhook_type']);
+        $this->assertArrayNotHasKey('inbound_inbox_id', $payload);
+    }
+
+    public function testUpdateWebhookWithInboundInboxId(): void
+    {
+        $updateDto = new UpdateWebhook(inboundInboxId: 665);
+
+        $this->assertSame(['inbound_inbox_id' => 665], $updateDto->toArray());
+    }
+
     public function testCreateWebhookFailsWithValidationError(): void
     {
         $invalidDto = new CreateWebhook(
@@ -155,7 +196,7 @@ class WebhookTest extends MailtrapTestCase
     public function testCreateWebhookRejectsUnknownWebhookType(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('"webhookType" must be one of "email_sending" or "audit_log", "spam" given');
+        $this->expectExceptionMessage('"webhookType" must be one of "email_sending", "audit_log", or "inbound_receiving", "spam" given');
 
         new CreateWebhook(
             url: 'https://example.com/mailtrap/webhooks',
