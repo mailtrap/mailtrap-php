@@ -1,0 +1,30 @@
+tests/MailtrapInboundClientTest.php
+  s_576b7c7847dbe9::t_eb57028e18c498 1-36
+tests/Api/Inbound/FolderTest.php
+  s_576b7c7847dbe9::t_eb5e553b4eb649 1-118
+tests/Api/Inbound/InboxTest.php
+  s_576b7c7847dbe9::t_699e0312a4fd28 23,46,66,73,80,100,121,125,129,139,142
+  s_576b7c7847dbe9::t_aead6fc68d7744 1-22,24-45,47-65,67-72,74-79,81-99,101-120,122-124,126-128,130-138,140-141,143-144
+tests/Api/Inbound/MessageTest.php
+  s_576b7c7847dbe9::t_de2ac406809906 23,51,57,78,82,85,94,97,109,119,130,137,147,157,164
+  s_576b7c7847dbe9::t_2e1ccfaa6066c7 166-175
+  s_576b7c7847dbe9::t_6d261ce7ffd1e2 1-22,24-50,52-56,58-77,79-81,83-84,86-93,95-96,98-108,110-118,120-129,131-136,138-146,148-156,158-163,165,176
+tests/Api/Inbound/ThreadTest.php
+  s_576b7c7847dbe9::t_8e68d247b85311 1-95
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "7b2f5f86e330b36f7ac0624513ed48464b4de83e",
+  "prompts": {},
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": null
+    }
+  }
+}

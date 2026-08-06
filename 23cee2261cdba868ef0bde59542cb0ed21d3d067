@@ -1,0 +1,30 @@
+src/DTO/Request/Webhook/Webhook.php
+  s_576b7c7847dbe9::t_bc99a99d9653ea 14
+src/DTO/Request/Webhook/UpdateWebhook.php
+  s_576b7c7847dbe9::t_48555e0f58bf60 12-14,21-26,33
+  s_576b7c7847dbe9::t_fadbe87e4b29bd 57-60
+src/DTO/Request/Webhook/CreateWebhook.php
+  s_576b7c7847dbe9::t_36a37c69a5c9b5 33,35-40,42,45
+  s_576b7c7847dbe9::t_33e1c447ac7b93 22-23
+  s_576b7c7847dbe9::t_7a6b2046df8a65 84-87
+tests/Api/Sending/WebhookTest.php
+  s_576b7c7847dbe9::t_a5153a9e002fe7 150,152,156-160
+  s_576b7c7847dbe9::t_e9591632c2b8f7 129-149,151,153-155,161-169
+  s_576b7c7847dbe9::t_87f2e9977641ca 199
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "23cee2261cdba868ef0bde59542cb0ed21d3d067",
+  "prompts": {},
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

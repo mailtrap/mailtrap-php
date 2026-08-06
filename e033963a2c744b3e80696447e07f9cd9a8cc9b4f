@@ -1,0 +1,50 @@
+src/DTO/Request/Inbound/CreateInboundInbox.php
+  s_576b7c7847dbe9::t_336d2ac2bb7e77 1-35
+src/DTO/Request/Inbound/UpdateInboundInbox.php
+  s_576b7c7847dbe9::t_7d1168663eb906 1-25
+src/DTO/Request/Inbound/UpdateInboundFolder.php
+  s_576b7c7847dbe9::t_9b685fa04a1455 1-25
+src/DTO/Request/Inbound/CreateInboundFolder.php
+  s_576b7c7847dbe9::t_f9a5dd4fda263b 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.19",
+  "base_commit_sha": "e033963a2c744b3e80696447e07f9cd9a8cc9b4f",
+  "prompts": {
+    "6cc78310396410f2": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "6124e5c9-910a-4e8f-9638-0898a19f1316",
+        "model": "default"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>",
+      "total_additions": 78,
+      "total_deletions": 0,
+      "accepted_lines": 78,
+      "overriden_lines": 0
+    },
+    "bb64a6b73f90da80": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "04ff1d11-d06a-4f44-87b3-927a6fec98a7",
+        "model": "default"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>",
+      "total_additions": 399,
+      "total_deletions": 34,
+      "accepted_lines": 373,
+      "overriden_lines": 2
+    }
+  },
+  "sessions": {
+    "s_576b7c7847dbe9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48d8b14b-0d1c-434e-b1b9-68d02404448f",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}
