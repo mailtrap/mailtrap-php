@@ -1,0 +1,14 @@
+tests/Api/General/ApiTokenTest.php
+  h_68ae9308e52348 7,10,154-296,325-329,346-417
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "457d02f380cd505f20f7b88fe83b9408034448d2",
+  "prompts": {},
+  "humans": {
+    "h_68ae9308e52348": {
+      "author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

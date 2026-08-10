@@ -1,0 +1,14 @@
+src/Api/General/ApiToken.php
+  h_68ae9308e52348 9,51-56,60,62-70,73
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "d30a42c4751eb7c6f00569c3ee2b109b419cc9ad",
+  "prompts": {},
+  "humans": {
+    "h_68ae9308e52348": {
+      "author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}
