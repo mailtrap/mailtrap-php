@@ -1,0 +1,81 @@
+src/DTO/Request/EmailCampaign/CreateEmailCampaign.php
+  s_1d139e47a09853::t_9881d944526099 10-17,19-29,31-46,48-55
+  s_1d139e47a09853::t_e8df3bb005981d 1-9,56-60
+  s_8b9eb1b74fa672::t_fc86dbbdb177b6 18
+  s_8b9eb1b74fa672::t_70dbbe5a1ef2ce 47
+  s_8b9eb1b74fa672::t_8f89885e11215e 30
+tests/Api/General/EmailCampaignTest.php
+  s_8b9eb1b74fa672::t_422c66da80ded7 210
+  s_8b9eb1b74fa672::t_4261ac1ff9990f 185
+  s_8b9eb1b74fa672::t_83f0524b51d527 226,231
+  s_1d139e47a09853::t_0c2e5d584956f4 11-27,29-128,130-184,186-209,211-225,227-230,232-531,533-564,567-590,592,595,611,614,624
+  s_8b9eb1b74fa672::t_72f912e72aa8ab 28
+  s_8b9eb1b74fa672::t_b12dc4cd6fa58f 129
+  s_8b9eb1b74fa672::t_1a3b6f7d00d824 532
+  s_8b9eb1b74fa672::t_dfac3a7db2aaae 565-566
+  s_1d139e47a09853::t_6c9a7197d25144 1-10,591,593-594,596-610,612-613,615-623,625
+src/Api/General/EmailCampaign.php
+  s_1d139e47a09853::t_37a7f8672b83d7 23,25,27,29-228,231,233,235,237,239,241
+  s_1d139e47a09853::t_01f677c87f52d0 1-22,24,26,28,229-230,232,234,236,238,240,242
+src/DTO/Request/EmailCampaign/TemplateAttributes.php
+  s_1d139e47a09853::t_c75a04201f8f12 1-45
+examples/email-campaigns/all.php
+  s_947d1ae30487e8::t_1f7f9bef45f236 1-4
+  s_1d139e47a09853::t_dbb3f1c5d0eba4 8-37,39-44,46-212,214,217,219-220
+  s_8b9eb1b74fa672::t_a162f2f0156416 45
+  s_8b9eb1b74fa672::t_62dc992c0ccff5 213,215-216,218,221-223
+  s_1d139e47a09853::t_5e11e7f9df3ce4 5-7
+  s_8b9eb1b74fa672::t_457b00a56da4c3 38
+examples/README.md
+  s_1d139e47a09853::t_905d84ee672a41 60
+README.md
+  s_1d139e47a09853::t_4df70b1b7a2f88 269-271
+src/DTO/Request/EmailCampaign/UpdateEmailCampaign.php
+  s_1d139e47a09853::t_01acac3b45679e 1-11,57-67
+  s_8b9eb1b74fa672::t_eaddabef1af905 19
+  s_1d139e47a09853::t_6838361eb18fa3 12-18,20-30,32-47,49-56
+  s_8b9eb1b74fa672::t_b38dff346df243 48
+  s_8b9eb1b74fa672::t_7d45d759b41421 31
+src/DTO/Request/EmailCampaign/EmailCampaignInterface.php
+  s_1d139e47a09853::t_0653bfc0966485 1-10,26
+  s_1d139e47a09853::t_908d36240abb5e 11-25
+tests/MailtrapGeneralClientTest.php
+  s_1d139e47a09853::t_7211f62f5f66c2 31
+src/MailtrapGeneralClient.php
+  s_1d139e47a09853::t_7d17515cf87de2 31
+  s_1d139e47a09853::t_d5c8aa7a773f6e 16
+src/DTO/Request/EmailCampaign/ReplyTo.php
+  s_1d139e47a09853::t_1fbb265b62dcc3 1-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "a3284b1555e06d1e67e0606928f2e30427f5413e",
+  "prompts": {},
+  "sessions": {
+    "s_1d139e47a09853": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3943c4ee-a6f3-493c-aa4d-bc291df8727e",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    },
+    "s_8b9eb1b74fa672": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95754cb3-701a-4fef-bc0a-347aa8fd1362",
+        "model": "claude-fable-5"
+      },
+      "human_author": null
+    },
+    "s_947d1ae30487e8": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "agent-a1227ab97fb9fcf4f",
+        "model": "unknown"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
