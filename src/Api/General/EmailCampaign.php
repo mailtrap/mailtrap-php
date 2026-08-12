@@ -14,8 +14,8 @@ use Psr\Http\Message\ResponseInterface;
  * Class EmailCampaign
  *
  * Email Campaigns API. Note: this resource is token-scoped — the account is resolved from
- * the API token, so the path is the bare `/api/email_campaigns` (NOT account-scoped). The
- * account id is accepted for consistency with the other General API resources only.
+ * the API token, so the path takes no account id. The account id is accepted for
+ * consistency with the other General API resources only.
  */
 class EmailCampaign extends AbstractApi implements GeneralInterface
 {
