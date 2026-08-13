@@ -212,13 +212,21 @@ try {
 }
 
 /**
- * Delete an email campaign. The campaign must not be in a sending state.
- * Returns `204 No Content` with an empty body.
+ * Delete an email campaign. Only a campaign in the `draft` state can be deleted, and a
+ * started campaign never returns to `draft` - so delete a fresh draft rather than the one
+ * started above. Returns `204 No Content` with an empty body.
  *
  * DELETE https://mailtrap.io/api/email_campaigns/{email_campaign_id}
  */
 try {
-    $response = $emailCampaigns->deleteEmailCampaign($emailCampaignId);
+    $throwaway = ResponseHelper::toArray($emailCampaigns->createEmailCampaign(new CreateEmailCampaign(
+        name: 'Draft to delete',
+        domainId: (int) $_ENV['MAILTRAP_DOMAIN_ID'],
+        fromLocalPart: 'news',
+        templateAttributes: new TemplateAttributes(subject: 'Draft to delete')
+    )));
+
+    $response = $emailCampaigns->deleteEmailCampaign($throwaway['data']['id']);
 
     var_dump($response->getStatusCode()); // 204
 } catch (Exception $e) {

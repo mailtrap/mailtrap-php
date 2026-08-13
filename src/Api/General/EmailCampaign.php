@@ -106,7 +106,7 @@ class EmailCampaign extends AbstractApi implements GeneralInterface
     }
 
     /**
-     * Delete an email campaign. The campaign must not be in a sending state.
+     * Delete an email campaign. Only a campaign in the `draft` state can be deleted.
      * Returns `204 No Content` with an empty body.
      *
      * @param int $emailCampaignId
