@@ -233,7 +233,7 @@ class EmailCampaign extends AbstractApi implements GeneralInterface
     }
 
     /**
-     * Email campaigns are token-scoped: the path is bare (no `/api/accounts/{account_id}`).
+     * Email campaigns are token-scoped: the path takes no account id.
      */
     private function getBasePath(): string
     {
