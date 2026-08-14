@@ -1,3 +1,11 @@
+## [3.14.0] - 2026-08-14
+
+## What's Changed
+* MT-22401: Add Email Campaigns API by @Rabsztok in https://github.com/mailtrap/mailtrap-php/pull/72
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-php/compare/3.13.0...3.14.0
+
 ## [3.13.0] - 2026-08-04
 
 ## What's Changed
