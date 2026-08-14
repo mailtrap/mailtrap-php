@@ -57,6 +57,7 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 | Contacts CRUD + list | [`contacts/all.php`](contacts/all.php) |
 | Contact lists CRUD | [`contact-lists/all.php`](contact-lists/all.php) |
 | Custom fields CRUD | [`contact-fields/all.php`](contact-fields/all.php) |
+| Email campaigns CRUD + list + lifecycle + stats | [`email-campaigns/all.php`](email-campaigns/all.php) |
 
 ### Templates & Domains
 
