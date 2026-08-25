@@ -63,7 +63,7 @@ try {
     $response = $apiTokens->createApiToken(
         'My new API token',
         $permissions,
-        TokenExpiration::at('2027-06-01T00:00:00Z') // or TokenExpiration::never(), or omit
+        TokenExpiration::at(new DateTimeImmutable('+1 year')) // or TokenExpiration::never(), or omit
     );
 
     var_dump(ResponseHelper::toArray($response));
