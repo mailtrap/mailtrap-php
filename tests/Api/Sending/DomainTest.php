@@ -6,7 +6,9 @@ namespace Mailtrap\Tests\Api\Sending;
 
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\Api\Sending\Domain;
+use Mailtrap\DTO\Request\Domain\UpdateDomain;
 use Mailtrap\Exception\HttpClientException;
+use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
@@ -24,7 +26,7 @@ class DomainTest extends MailtrapTestCase
     {
         parent::setUp();
         $this->domain = $this->getMockBuilder(Domain::class)
-            ->onlyMethods(['httpGet', 'httpPost', 'httpDelete'])
+            ->onlyMethods(['httpGet', 'httpPost', 'httpPatch', 'httpDelete'])
             ->setConstructorArgs([$this->getConfigMock(), self::FAKE_ACCOUNT_ID])
             ->getMock();
     }
@@ -273,6 +275,82 @@ class DomainTest extends MailtrapTestCase
                 ]
             ]
         ]);
+    }
+
+    public function testUpdateSendingDomain(): void
+    {
+        $domainId = 12345;
+        $expectedResponseBody = $this->getExpectedDomainResponse('example.com', $domainId);
+
+        $this->domain->expects($this->once())
+            ->method('httpPatch')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/sending_domains/' . $domainId,
+                [],
+                [
+                    'sending_domain' => [
+                        'open_tracking_enabled' => true,
+                        'click_tracking_enabled' => true,
+                        'tracking_opt_out_enabled' => true,
+                        'auto_unsubscribe_link_enabled' => false,
+                        'inbound_enabled' => false,
+                    ]
+                ]
+            )
+            ->willReturn(new Response(200, ['Content-Type' => 'application/json'], $expectedResponseBody));
+
+        $response = $this->domain->updateSendingDomain(
+            $domainId,
+            new UpdateDomain(
+                openTrackingEnabled: true,
+                clickTrackingEnabled: true,
+                trackingOptOutEnabled: true,
+                autoUnsubscribeLinkEnabled: false,
+                inboundEnabled: false
+            )
+        );
+        $responseData = ResponseHelper::toArray($response);
+
+        $this->assertSame(200, $response->getStatusCode());
+        $this->assertSame($domainId, $responseData['id']);
+    }
+
+    public function testUpdateSendingDomainSendsOnlyProvidedFields(): void
+    {
+        $domainId = 12345;
+        $expectedResponseBody = $this->getExpectedDomainResponse('example.com', $domainId);
+
+        $this->domain->expects($this->once())
+            ->method('httpPatch')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/sending_domains/' . $domainId,
+                [],
+                [
+                    'sending_domain' => [
+                        'tracking_opt_out_enabled' => false,
+                    ]
+                ]
+            )
+            ->willReturn(new Response(200, ['Content-Type' => 'application/json'], $expectedResponseBody));
+
+        $response = $this->domain->updateSendingDomain(
+            $domainId,
+            new UpdateDomain(trackingOptOutEnabled: false)
+        );
+
+        $this->assertSame(200, $response->getStatusCode());
+    }
+
+    public function testUpdateSendingDomainWithEmptyPayload(): void
+    {
+        $this->domain->expects($this->never())->method('httpPatch');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            'At least one updatable field must be provided to update a sending domain'
+        );
+
+        $this->domain->updateSendingDomain(12345, new UpdateDomain());
     }
 
     private function getExpectedDomainResponse(string $domainName, ?int $domainId = null): string

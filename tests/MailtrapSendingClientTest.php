@@ -16,6 +16,8 @@ use Mailtrap\MailtrapSendingClient;
  */
 class MailtrapSendingClientTest extends MailtrapClientTestCase
 {
+    private const DOMAIN_ID = 12345;
+
     public function getMailtrapClientClassName(): string
     {
         return MailtrapSendingClient::class;
@@ -31,6 +33,7 @@ class MailtrapSendingClientTest extends MailtrapClientTestCase
         foreach (MailtrapSendingClient::API_MAPPING as $key => $item) {
             yield match ($key) {
                 'suppressions', 'domains', 'stats', 'emailLogs', 'webhooks' => [new $item($this->getConfigMock(), self::FAKE_ACCOUNT_ID)],
+                'companyInfo' => [new $item($this->getConfigMock(), self::DOMAIN_ID)],
                 default => [new $item($this->getConfigMock())],
             };
         }
