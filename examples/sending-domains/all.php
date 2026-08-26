@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Mailtrap\Config;
+use Mailtrap\DTO\Request\Domain\UpdateDomain;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapSendingClient;
 
@@ -72,6 +73,32 @@ try {
     $email = 'devops@example.com'; // Email address to send setup instructions to
 
     $response = $sendingDomains->sendDomainSetupInstructions($domainId, $email);
+
+    // print the response body (array)
+    var_dump(ResponseHelper::toArray($response));
+} catch (Exception $e) {
+    echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+
+
+/**
+ * Update sending domain configuration settings
+ *
+ * PATCH https://mailtrap.io/api/accounts/{account_id}/domains/{domain_id}
+ */
+try {
+    $domainId = (int) $_ENV['MAILTRAP_DOMAIN_ID']; // Set this environment variable with a valid domain ID
+
+    $response = $sendingDomains->updateSendingDomain(
+        $domainId,
+        new UpdateDomain(
+            openTrackingEnabled: true,
+            clickTrackingEnabled: true,
+            trackingOptOutEnabled: true,
+            autoUnsubscribeLinkEnabled: false,
+            inboundEnabled: false
+        )
+    );
 
     // print the response body (array)
     var_dump(ResponseHelper::toArray($response));

@@ -6,6 +6,7 @@ namespace Mailtrap\Api\Sending;
 
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\ConfigInterface;
+use Mailtrap\DTO\Request\Domain\UpdateDomain;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -61,6 +62,25 @@ class Domain extends AbstractApi implements SendingInterface
         return $this->handleResponse(
             $this->httpGet(
                 sprintf('%s/%s', $this->getBasePath(), $domainId)
+            )
+        );
+    }
+
+    /**
+     * Update configuration settings for a sending domain.
+     *
+     * @param int          $domainId
+     * @param UpdateDomain $domain
+     * @return ResponseInterface
+     */
+    public function updateSendingDomain(int $domainId, UpdateDomain $domain): ResponseInterface
+    {
+        return $this->handleResponse(
+            $this->httpPatch(
+                path: sprintf('%s/%s', $this->getBasePath(), $domainId),
+                body: [
+                    'sending_domain' => $domain->toArray()
+                ]
             )
         );
     }
