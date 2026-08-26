@@ -280,12 +280,12 @@ class ApiTokenTest extends MailtrapTestCase
                 new Response(
                     422,
                     ['Content-Type' => 'application/json'],
-                    json_encode(['errors' => ['expires_at' => ['must be in the future']]])
+                    json_encode(['errors' => ['base' => ['Expiration date must be in the future']]])
                 )
             );
 
         $this->expectException(HttpClientException::class);
-        $this->expectExceptionMessage('must be in the future');
+        $this->expectExceptionMessage('Expiration date must be in the future');
 
         $this->apiToken->createApiToken(
             'My API token',
@@ -405,12 +405,12 @@ class ApiTokenTest extends MailtrapTestCase
                 new Response(
                     422,
                     ['Content-Type' => 'application/json'],
-                    json_encode(['errors' => ['expires_at' => ['must be in the future']]])
+                    json_encode(['errors' => ['base' => ['Expiration date must be in the future']]])
                 )
             );
 
         $this->expectException(HttpClientException::class);
-        $this->expectExceptionMessage('must be in the future');
+        $this->expectExceptionMessage('Expiration date must be in the future');
 
         $this->apiToken->resetApiToken($apiTokenId, TokenExpiration::at('2020-01-01T00:00:00Z'));
     }
