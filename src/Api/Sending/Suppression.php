@@ -6,6 +6,7 @@ namespace Mailtrap\Api\Sending;
 
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\ConfigInterface;
+use Mailtrap\DTO\Request\Suppression\CreateSuppression;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -30,6 +31,22 @@ class Suppression extends AbstractApi implements SendingInterface
             $this->httpGet(
                 $this->getBasePath(),
                 $email ? ['email' => $email] : []
+            )
+        );
+    }
+
+    /**
+     * Add an email address to the account's suppression list.
+     *
+     * @param CreateSuppression $suppression
+     * @return ResponseInterface
+     */
+    public function createSuppression(CreateSuppression $suppression): ResponseInterface
+    {
+        return $this->handleResponse(
+            $this->httpPost(
+                path: $this->getBasePath(),
+                body: $suppression->toArray()
             )
         );
     }

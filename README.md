@@ -241,7 +241,8 @@ Email API:
 - Batch send with Template (Bulk) – [`batch/bulk_template.php`](examples/batch/bulk_template.php)
 - Sending domain management CRUD – [`sending-domains/all.php`](examples/sending-domains/all.php)
 - Sending domain company info – [`company-info/all.php`](examples/company-info/all.php)
-- Suppressions (find & delete) – [`sending/suppressions.php`](examples/sending/suppressions.php)
+- Suppressions (create, find & delete) – [`sending/suppressions.php`](examples/sending/suppressions.php)
+- Tracking Opt-outs (list, create & delete) – [`sending/tracking-opt-outs.php`](examples/sending/tracking-opt-outs.php)
 - Email Logs (list & get by message ID) – [`sending/email-logs.php`](examples/sending/email-logs.php)
 
 Email Sandbox (Testing):

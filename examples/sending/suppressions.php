@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Mailtrap\Config;
+use Mailtrap\DTO\Request\Suppression\CreateSuppression;
+use Mailtrap\DTO\Request\Suppression\Suppression;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapSendingClient;
 
@@ -23,6 +25,29 @@ try {
 
     // OR get suppressions by email
     $response = $mailtrapSuppression->getSuppressions('some_email@mail.com');
+
+    // Print the response body (array)
+    var_dump(ResponseHelper::toArray($response));
+} catch (Exception $e) {
+    echo 'Caught exception: ', $e->getMessage(), PHP_EOL;
+}
+
+
+/**
+ * Create Suppression.
+ *
+ * POST https://mailtrap.io/api/accounts/{account_id}/suppressions
+ */
+try {
+    // `type` is optional and defaults to "manual import" when omitted.
+    $response = $mailtrapSuppression->createSuppression(
+        new CreateSuppression(
+            email: 'some_email@mail.com',
+            domainId: (int) $_ENV['MAILTRAP_DOMAIN_ID'],
+            sendingStream: Suppression::SENDING_STREAM_TRANSACTIONAL,
+            type: Suppression::TYPE_MANUAL_IMPORT
+        )
+    );
 
     // Print the response body (array)
     var_dump(ResponseHelper::toArray($response));
