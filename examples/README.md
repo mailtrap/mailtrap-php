@@ -16,6 +16,7 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 | Full featured send (headers, vars, attachments) | [`sending/all.php`](sending/all.php) |
 | Send using a template (transactional stream) | [`sending/template.php`](sending/template.php) |
 | Suppressions API usage | [`sending/suppressions.php`](sending/suppressions.php) |
+| Tracking Opt-outs API usage | [`sending/tracking-opt-outs.php`](sending/tracking-opt-outs.php) |
 | Bulk API single send (stream selection) | [`bulk/bulk.php`](bulk/bulk.php) |
 | Bulk API template send | [`bulk/bulk_template.php`](bulk/bulk_template.php) |
 
@@ -65,7 +66,7 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 |---------|------|
 | Templates CRUD | [`templates/all.php`](templates/all.php) |
 | Sending domains CRUD | [`sending-domains/all.php`](sending-domains/all.php) |
-| Sending domain company info | [`company-info/all.php`](company-info/all.php) |
+| Sending domain company info | [`sending-domains/company-info.php`](sending-domains/company-info.php) |
 
 ### General API
 
