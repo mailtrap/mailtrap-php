@@ -8,6 +8,7 @@ use Mailtrap\Api\AbstractApi;
 use Mailtrap\Api\Sending\Suppression;
 use Mailtrap\DTO\Request\Suppression\CreateSuppression;
 use Mailtrap\DTO\Request\Suppression\Suppression as SuppressionDto;
+use Mailtrap\DTO\Request\Suppression\SuppressionsFilter;
 use Mailtrap\Exception\HttpClientException;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\Tests\MailtrapTestCase;
@@ -105,6 +106,52 @@ class SuppressionTest extends MailtrapTestCase
         $this->expectExceptionMessage('The requested entity has not been found. Errors: Suppression not found.');
 
         $this->suppression->deleteSuppression($suppressionId);
+    }
+
+    public function testGetSuppressionsWithFilter(): void
+    {
+        $this->suppression->expects($this->once())
+            ->method('httpGet')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/suppressions',
+                [
+                    'email' => 'john@example.com',
+                    'start_time' => '2025-01-01T00:00:00Z',
+                    'end_time' => '2025-12-31T23:59:59Z',
+                    'last_id' => '25594eef-87e0-49c7-a647-cc316f9fdb42',
+                ]
+            )
+            ->willReturn(
+                new Response(200, ['Content-Type' => 'application/json'], $this->getExpectedResponse('john@example.com'))
+            );
+
+        $response = $this->suppression->getSuppressions(
+            new SuppressionsFilter(
+                email: 'john@example.com',
+                startTime: '2025-01-01T00:00:00Z',
+                endTime: '2025-12-31T23:59:59Z',
+                lastId: '25594eef-87e0-49c7-a647-cc316f9fdb42'
+            )
+        );
+
+        $this->assertSame(200, $response->getStatusCode());
+    }
+
+    public function testGetSuppressionsWithFilterOmitsUnsetFields(): void
+    {
+        $this->suppression->expects($this->once())
+            ->method('httpGet')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/suppressions',
+                ['email' => 'john@example.com']
+            )
+            ->willReturn(
+                new Response(200, ['Content-Type' => 'application/json'], $this->getExpectedResponse('john@example.com'))
+            );
+
+        $response = $this->suppression->getSuppressions(new SuppressionsFilter(email: 'john@example.com'));
+
+        $this->assertSame(200, $response->getStatusCode());
     }
 
     public function testCreateSuppression(): void

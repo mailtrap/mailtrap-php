@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Mailtrap\Config;
 use Mailtrap\DTO\Request\Suppression\CreateSuppression;
 use Mailtrap\DTO\Request\Suppression\Suppression;
+use Mailtrap\DTO\Request\Suppression\SuppressionsFilter;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapSendingClient;
 
@@ -25,6 +26,15 @@ try {
 
     // OR get suppressions by email
     $response = $mailtrapSuppression->getSuppressions('some_email@mail.com');
+
+    // OR filter by email and creation time
+    $response = $mailtrapSuppression->getSuppressions(
+        new SuppressionsFilter(
+            email: 'some_email@mail.com',
+            startTime: '2025-01-01T00:00:00Z',
+            endTime: '2025-12-31T23:59:59Z'
+        )
+    );
 
     // Print the response body (array)
     var_dump(ResponseHelper::toArray($response));
