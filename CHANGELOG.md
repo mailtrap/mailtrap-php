@@ -1,3 +1,11 @@
+## [3.15.0] - 2026-08-28
+
+## What's Changed
+* Add tracking opt-outs and create-suppression endpoints by @mklocek in https://github.com/mailtrap/mailtrap-php/pull/78
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-php/compare/3.14.0...3.15.0
+
 ## [3.14.0] - 2026-08-14
 
 ## What's Changed
