@@ -1,6 +1,7 @@
 <?php
 
 use Mailtrap\Config;
+use Mailtrap\DTO\Request\ApiToken\TokenExpiration;
 use Mailtrap\DTO\Request\Permission\CreateOrUpdatePermission;
 use Mailtrap\DTO\Request\Permission\PermissionInterface;
 use Mailtrap\DTO\Request\Permission\Permissions;
@@ -44,6 +45,10 @@ try {
 /**
  * Create a new API token. The full token value is returned only in this response.
  *
+ * Expiration is optional: omit the argument for the server default (a 1-year default is being
+ * rolled out), pass TokenExpiration::at(...) for a specific ISO 8601 date-time, or
+ * TokenExpiration::never() for a token that never expires.
+ *
  * POST https://mailtrap.io/api/accounts/{account_id}/api_tokens
  */
 try {
@@ -55,7 +60,11 @@ try {
         )
     );
 
-    $response = $apiTokens->createApiToken('My new API token', $permissions);
+    $response = $apiTokens->createApiToken(
+        'My new API token',
+        $permissions,
+        TokenExpiration::at(new DateTimeImmutable('+1 year')) // or TokenExpiration::never(), or omit
+    );
 
     var_dump(ResponseHelper::toArray($response));
 } catch (Exception $e) {
@@ -65,12 +74,16 @@ try {
 /**
  * Reset an API token by ID. Returns a new token value; the previous value stops working.
  *
+ * Expiration of the new token is optional: omit the argument for the server default (a 1-year
+ * default is being rolled out), pass TokenExpiration::at(...) for a specific ISO 8601 date-time,
+ * or TokenExpiration::never() for a token that never expires.
+ *
  * POST https://mailtrap.io/api/accounts/{account_id}/api_tokens/{id}/reset
  */
 try {
     $apiTokenId = 1;
 
-    $response = $apiTokens->resetApiToken($apiTokenId);
+    $response = $apiTokens->resetApiToken($apiTokenId, TokenExpiration::never());
 
     var_dump(ResponseHelper::toArray($response));
 } catch (Exception $e) {

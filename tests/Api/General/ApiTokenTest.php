@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Mailtrap\Tests\Api\General;
 
+use DateTimeImmutable;
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\Api\General\ApiToken;
+use Mailtrap\DTO\Request\ApiToken\TokenExpiration;
 use Mailtrap\DTO\Request\Permission\CreateOrUpdatePermission;
 use Mailtrap\DTO\Request\Permission\PermissionInterface;
 use Mailtrap\DTO\Request\Permission\Permissions;
@@ -149,6 +151,149 @@ class ApiTokenTest extends MailtrapTestCase
         $this->assertEquals('fresh-secret-token-value', $responseData['token']);
     }
 
+    public function testCreateApiTokenWithNeverExpiration(): void
+    {
+        $name = 'My API token';
+
+        $this->apiToken->expects($this->once())
+            ->method('httpPost')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/api_tokens',
+                [],
+                [
+                    'name' => $name,
+                    'resources' => [
+                        [
+                            'resource_id' => (string) self::FAKE_ACCOUNT_ID,
+                            'resource_type' => PermissionInterface::TYPE_ACCOUNT,
+                            'access_level' => '1000',
+                        ],
+                    ],
+                    'expires_at' => null,
+                ]
+            )
+            ->willReturn(
+                new Response(
+                    201,
+                    ['Content-Type' => 'application/json'],
+                    json_encode($this->getExpectedApiTokenResponse() + ['token' => 'fresh-secret-token-value'])
+                )
+            );
+
+        $this->apiToken->createApiToken($name, $this->getPermissions(), TokenExpiration::never());
+    }
+
+    public function testCreateApiTokenWithExpirationDateString(): void
+    {
+        $name = 'My API token';
+
+        $this->apiToken->expects($this->once())
+            ->method('httpPost')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/api_tokens',
+                [],
+                [
+                    'name' => $name,
+                    'resources' => [
+                        [
+                            'resource_id' => (string) self::FAKE_ACCOUNT_ID,
+                            'resource_type' => PermissionInterface::TYPE_ACCOUNT,
+                            'access_level' => '1000',
+                        ],
+                    ],
+                    'expires_at' => '2027-06-01T00:00:00Z',
+                ]
+            )
+            ->willReturn(
+                new Response(
+                    201,
+                    ['Content-Type' => 'application/json'],
+                    json_encode(
+                        array_merge($this->getExpectedApiTokenResponse(), ['expires_at' => '2027-06-01T00:00:00Z'])
+                            + ['token' => 'fresh-secret-token-value']
+                    )
+                )
+            );
+
+        $response = $this->apiToken->createApiToken($name, $this->getPermissions(), TokenExpiration::at('2027-06-01T00:00:00Z'));
+        $responseData = ResponseHelper::toArray($response);
+
+        $this->assertEquals('2027-06-01T00:00:00Z', $responseData['expires_at']);
+    }
+
+    public function testCreateApiTokenWithExpirationDateTimeObject(): void
+    {
+        $name = 'My API token';
+
+        $this->apiToken->expects($this->once())
+            ->method('httpPost')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/api_tokens',
+                [],
+                [
+                    'name' => $name,
+                    'resources' => [
+                        [
+                            'resource_id' => (string) self::FAKE_ACCOUNT_ID,
+                            'resource_type' => PermissionInterface::TYPE_ACCOUNT,
+                            'access_level' => '1000',
+                        ],
+                    ],
+                    'expires_at' => '2027-06-01T00:00:00+00:00',
+                ]
+            )
+            ->willReturn(
+                new Response(
+                    201,
+                    ['Content-Type' => 'application/json'],
+                    json_encode($this->getExpectedApiTokenResponse() + ['token' => 'fresh-secret-token-value'])
+                )
+            );
+
+        $this->apiToken->createApiToken(
+            $name,
+            $this->getPermissions(),
+            TokenExpiration::at(new DateTimeImmutable('2027-06-01T00:00:00+00:00'))
+        );
+    }
+
+    public function testCreateApiTokenFailsWithInvalidExpiration(): void
+    {
+        $this->apiToken->expects($this->once())
+            ->method('httpPost')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/api_tokens',
+                [],
+                [
+                    'name' => 'My API token',
+                    'resources' => [
+                        [
+                            'resource_id' => (string) self::FAKE_ACCOUNT_ID,
+                            'resource_type' => PermissionInterface::TYPE_ACCOUNT,
+                            'access_level' => '1000',
+                        ],
+                    ],
+                    'expires_at' => '2020-01-01T00:00:00Z',
+                ]
+            )
+            ->willReturn(
+                new Response(
+                    422,
+                    ['Content-Type' => 'application/json'],
+                    json_encode(['errors' => ['base' => ['Expiration date must be in the future']]])
+                )
+            );
+
+        $this->expectException(HttpClientException::class);
+        $this->expectExceptionMessage('Expiration date must be in the future');
+
+        $this->apiToken->createApiToken(
+            'My API token',
+            $this->getPermissions(),
+            TokenExpiration::at('2020-01-01T00:00:00Z')
+        );
+    }
+
     public function testCreateApiTokenFailsWithoutPermissions(): void
     {
         $this->expectException(RuntimeException::class);
@@ -177,7 +322,11 @@ class ApiTokenTest extends MailtrapTestCase
 
         $this->apiToken->expects($this->once())
             ->method('httpPost')
-            ->with(AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/api_tokens/' . $apiTokenId . '/reset')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/api_tokens/' . $apiTokenId . '/reset',
+                [],
+                null // no expiration argument -> no request body at all
+            )
             ->willReturn(
                 new Response(
                     200,
@@ -192,6 +341,78 @@ class ApiTokenTest extends MailtrapTestCase
         $this->assertArrayHasKey('id', $responseData);
         $this->assertArrayHasKey('token', $responseData);
         $this->assertEquals('rotated-secret-token-value', $responseData['token']);
+    }
+
+    public function testResetApiTokenWithNeverExpiration(): void
+    {
+        $apiTokenId = 1;
+
+        $this->apiToken->expects($this->once())
+            ->method('httpPost')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/api_tokens/' . $apiTokenId . '/reset',
+                [],
+                ['expires_at' => null]
+            )
+            ->willReturn(
+                new Response(
+                    200,
+                    ['Content-Type' => 'application/json'],
+                    json_encode($this->getExpectedApiTokenResponse() + ['token' => 'rotated-secret-token-value'])
+                )
+            );
+
+        $this->apiToken->resetApiToken($apiTokenId, TokenExpiration::never());
+    }
+
+    public function testResetApiTokenWithExpirationDateString(): void
+    {
+        $apiTokenId = 1;
+
+        $this->apiToken->expects($this->once())
+            ->method('httpPost')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/api_tokens/' . $apiTokenId . '/reset',
+                [],
+                ['expires_at' => '2027-06-01T00:00:00Z']
+            )
+            ->willReturn(
+                new Response(
+                    200,
+                    ['Content-Type' => 'application/json'],
+                    json_encode(
+                        array_merge($this->getExpectedApiTokenResponse(), ['expires_at' => '2027-06-01T00:00:00Z'])
+                            + ['token' => 'rotated-secret-token-value']
+                    )
+                )
+            );
+
+        $this->apiToken->resetApiToken($apiTokenId, TokenExpiration::at('2027-06-01T00:00:00Z'));
+    }
+
+    public function testResetApiTokenFailsWithInvalidExpiration(): void
+    {
+        $apiTokenId = 1;
+
+        $this->apiToken->expects($this->once())
+            ->method('httpPost')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/api_tokens/' . $apiTokenId . '/reset',
+                [],
+                ['expires_at' => '2020-01-01T00:00:00Z']
+            )
+            ->willReturn(
+                new Response(
+                    422,
+                    ['Content-Type' => 'application/json'],
+                    json_encode(['errors' => ['base' => ['Expiration date must be in the future']]])
+                )
+            );
+
+        $this->expectException(HttpClientException::class);
+        $this->expectExceptionMessage('Expiration date must be in the future');
+
+        $this->apiToken->resetApiToken($apiTokenId, TokenExpiration::at('2020-01-01T00:00:00Z'));
     }
 
     public function testResetApiTokenFailsWhenAlreadyReset(): void

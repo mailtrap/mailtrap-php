@@ -72,6 +72,7 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 
 | Purpose | File |
 |---------|------|
+| API tokens CRUD | [`api-tokens/all.php`](api-tokens/all.php) |
 | Accounts info | [`general/accounts.php`](general/accounts.php) |
 | Billing info | [`general/billing.php`](general/billing.php) |
 | Permissions listing | [`general/permissions.php`](general/permissions.php) |
