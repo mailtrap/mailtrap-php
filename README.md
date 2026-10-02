@@ -259,7 +259,8 @@ Inbound Email API:
 - Folder management CRUD – [`inbound/folders.php`](examples/inbound/folders.php)
 - Inbox management CRUD – [`inbound/inboxes.php`](examples/inbound/inboxes.php)
 - Message management (list / get / reply / reply-all / forward / delete) – [`inbound/messages.php`](examples/inbound/messages.php)
-- Thread management (list / get / delete) – [`inbound/threads.php`](examples/inbound/threads.php)
+- Thread management (list / search / get / delete) – [`inbound/threads.php`](examples/inbound/threads.php)
+- Forward rule management CRUD – [`inbound/forward-rules.php`](examples/inbound/forward-rules.php)
 
 Contact management:
 - Contacts CRUD & listing – [`contacts/all.php`](examples/contacts/all.php)

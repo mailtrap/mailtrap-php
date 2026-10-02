@@ -28,7 +28,7 @@ class MailtrapInboundClientTest extends MailtrapClientTestCase
     {
         foreach (MailtrapInboundClient::API_MAPPING as $key => $item) {
             yield match ($key) {
-                'inboxes', 'messages', 'threads' => [new $item($this->getConfigMock(), 1)],
+                'inboxes', 'messages', 'threads', 'forwardRules' => [new $item($this->getConfigMock(), 1)],
                 default => [new $item($this->getConfigMock())],
             };
         }

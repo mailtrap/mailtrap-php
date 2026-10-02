@@ -49,7 +49,8 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 | Folder CRUD / listing | [`inbound/folders.php`](inbound/folders.php) |
 | Inbox CRUD / listing | [`inbound/inboxes.php`](inbound/inboxes.php) |
 | Message list / get / reply / reply-all / forward / delete | [`inbound/messages.php`](inbound/messages.php) |
-| Thread list / get / delete | [`inbound/threads.php`](inbound/threads.php) |
+| Thread list / search / get / delete | [`inbound/threads.php`](inbound/threads.php) |
+| Forward rule CRUD / listing | [`inbound/forward-rules.php`](inbound/forward-rules.php) |
 
 ### Contact Management
 
