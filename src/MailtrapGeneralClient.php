@@ -10,6 +10,7 @@ namespace Mailtrap;
  * @method Api\General\Permission    permissions(int $accountId)
  * @method Api\General\Contact       contacts(int $accountId)
  * @method Api\General\EmailTemplate emailTemplates(int $accountId)
+ * @method Api\General\Template      templates(int $accountId)
  * @method Api\General\Billing       billing(int $accountId)
  * @method Api\General\ApiToken      apiTokens(int $accountId)
  * @method Api\General\Organization  organization(int $organizationId)
@@ -25,6 +26,7 @@ final class MailtrapGeneralClient extends AbstractMailtrapClient
         'permissions' => Api\General\Permission::class,
         'contacts' => Api\General\Contact::class,
         'emailTemplates' => Api\General\EmailTemplate::class,
+        'templates' => Api\General\Template::class,
         'billing' => Api\General\Billing::class,
         'apiTokens' => Api\General\ApiToken::class,
         'organization' => Api\General\Organization::class,
