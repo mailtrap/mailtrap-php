@@ -12,7 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Class EmailTemplate
  *
- * @deprecated use {@see Template}
+ * For the paginated, experimental templates endpoints, see {@see Template}.
  */
 class EmailTemplate extends AbstractApi implements GeneralInterface
 {
@@ -24,7 +24,6 @@ class EmailTemplate extends AbstractApi implements GeneralInterface
     /**
      * Get all Email Templates.
      *
-     * @deprecated use {@see Template::getTemplates()}
      * @return ResponseInterface
      */
     public function getAllEmailTemplates(): ResponseInterface
@@ -38,7 +37,6 @@ class EmailTemplate extends AbstractApi implements GeneralInterface
      * Get an Email Template by ID.
      *
      * @param int $templateId
-     * @deprecated use {@see Template::getTemplate()}
      * @return ResponseInterface
      */
     public function getEmailTemplate(int $templateId): ResponseInterface
@@ -52,7 +50,6 @@ class EmailTemplate extends AbstractApi implements GeneralInterface
      * Create a new Email Template.
      *
      * @param EmailTemplateDTO $emailTemplate
-     * @deprecated use {@see Template::createTemplate()}
      * @return ResponseInterface
      */
     public function createEmailTemplate(EmailTemplateDTO $emailTemplate): ResponseInterface
@@ -70,7 +67,6 @@ class EmailTemplate extends AbstractApi implements GeneralInterface
      *
      * @param int $templateId
      * @param EmailTemplateDTO $template
-     * @deprecated use {@see Template::updateTemplate()}
      * @return ResponseInterface
      */
     public function updateEmailTemplate(int $templateId, EmailTemplateDTO $template): ResponseInterface
@@ -87,7 +83,6 @@ class EmailTemplate extends AbstractApi implements GeneralInterface
      * Delete an Email Template by ID.
      *
      * @param int $templateId
-     * @deprecated use {@see Template::deleteTemplate()}
      * @return ResponseInterface
      */
     public function deleteEmailTemplate(int $templateId): ResponseInterface

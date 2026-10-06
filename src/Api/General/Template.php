@@ -13,7 +13,8 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Class Template
  *
- * Templates API (`/api/templates`), the paginated replacement for {@see EmailTemplate}.
+ * Templates API (`/api/accounts/{account_id}/templates`, also served as `/api/templates`),
+ * a paginated alternative to {@see EmailTemplate}.
  * The endpoints are experimental: their request and response shapes may change before general availability.
  */
 class Template extends AbstractApi implements GeneralInterface
@@ -25,7 +26,9 @@ class Template extends AbstractApi implements GeneralInterface
 
     /**
      * Get a paginated list of templates.
-     * The response is wrapped in `{ data: [...], pagination }`.
+     * The response is wrapped in `{ data: [...], pagination }`. Unlike
+     * {@see EmailTemplate::getAllEmailTemplates()}, it does not return every template:
+     * pass `pagination.next_token` with the same `$perPage` to get the next page.
      *
      * @param int|null $perPage Number of templates per page (max 100, default 50)
      * @param int|null $token   Page number to retrieve (page-token pagination, default 1)

@@ -65,7 +65,7 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 | Purpose | File |
 |---------|------|
 | Templates CRUD + paginated list (experimental) | [`templates/templates.php`](templates/templates.php) |
-| Email templates CRUD (deprecated, use Templates) | [`templates/all.php`](templates/all.php) |
+| Email templates CRUD | [`templates/all.php`](templates/all.php) |
 | Sending domains CRUD | [`sending-domains/all.php`](sending-domains/all.php) |
 | Sending domain company info | [`sending-domains/company-info.php`](sending-domains/company-info.php) |
 

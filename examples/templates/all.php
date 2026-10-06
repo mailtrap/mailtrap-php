@@ -7,7 +7,7 @@ use Mailtrap\DTO\Request\EmailTemplate;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapGeneralClient;
 
-// Deprecated: this covers the old /api/email_templates API, see templates.php for the paginated /api/templates API.
+// This covers the /api/email_templates API; see templates.php for the paginated, experimental /api/templates API.
 require __DIR__ . '/../../vendor/autoload.php';
 
 $accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
