@@ -272,7 +272,7 @@ Email marketing:
 - Email campaigns CRUD, listing, lifecycle & stats – [`email-campaigns/all.php`](examples/email-campaigns/all.php)
 
 General API:
-- Templates CRUD, paginated – [`templates/templates.php`](examples/templates/templates.php)
+- Templates CRUD, paginated (experimental) – [`templates/templates.php`](examples/templates/templates.php)
 - Email templates CRUD (deprecated, use Templates) – [`templates/all.php`](examples/templates/all.php)
 - API tokens CRUD – [`api-tokens/all.php`](examples/api-tokens/all.php)
 - Billing info – [`general/billing.php`](examples/general/billing.php)
