@@ -23,9 +23,17 @@ class Thread extends AbstractApi implements InboundInterface
     /**
      * List threads. Pass $lastId from a previous response to fetch the next page.
      */
-    public function getList(?string $lastId = null): ResponseInterface
+    public function getList(?string $lastId = null, ?string $search = null): ResponseInterface
     {
-        $parameters = $lastId !== null ? ['last_id' => $lastId] : [];
+        $parameters = [];
+
+        if ($lastId !== null) {
+            $parameters['last_id'] = $lastId;
+        }
+
+        if ($search !== null) {
+            $parameters['search'] = $search;
+        }
 
         return $this->handleResponse($this->httpGet($this->getBasePath(), $parameters));
     }

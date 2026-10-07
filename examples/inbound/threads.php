@@ -28,6 +28,19 @@ try {
 }
 
 /**
+ * Search threads.
+ *
+ * GET https://mailtrap.io/api/inbound/inboxes/{inbox_id}/threads?search=acme
+ */
+try {
+    $response = $threads->getList(search: 'acme');
+
+    var_dump(ResponseHelper::toArray($response));
+} catch (Exception $e) {
+    echo 'Caught exception: ', $e->getMessage(), "\n";
+}
+
+/**
  * Get a single thread with its messages embedded.
  *
  * GET https://mailtrap.io/api/inbound/inboxes/{inbox_id}/threads/{thread_id}

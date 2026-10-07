@@ -71,6 +71,44 @@ class MessageTest extends MailtrapTestCase
         $this->message->getList('cursor-1');
     }
 
+    public function testGetListExposesForwards(): void
+    {
+        $this->message->expects($this->once())
+            ->method('httpGet')
+            ->with(self::BASE_URL, [])
+            ->willReturn(new Response(
+                200,
+                ['Content-Type' => 'application/json'],
+                json_encode([
+                    'data' => [
+                        [
+                            'id' => self::MESSAGE_ID,
+                            'forwards' => [
+                                [
+                                    'rule_id' => 7,
+                                    'rule_name' => 'Copy to support team',
+                                    'destination' => 'team@example.com',
+                                    'status' => 'rejected',
+                                    'reason' => 'loop_prevention',
+                                    'message_id' => null,
+                                ],
+                            ],
+                        ],
+                    ],
+                    'total_count' => 1,
+                    'last_id' => null,
+                ])
+            ));
+
+        $data = ResponseHelper::toArray($this->message->getList());
+
+        $forward = $data['data'][0]['forwards'][0];
+        $this->assertSame('team@example.com', $forward['destination']);
+        $this->assertSame('rejected', $forward['status']);
+        $this->assertSame('loop_prevention', $forward['reason']);
+        $this->assertNull($forward['message_id']);
+    }
+
     public function testGetById(): void
     {
         $this->message->expects($this->once())

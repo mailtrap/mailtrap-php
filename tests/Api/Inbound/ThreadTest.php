@@ -67,6 +67,34 @@ class ThreadTest extends MailtrapTestCase
         $this->thread->getList('cursor-1');
     }
 
+    public function testGetListPassesSearch(): void
+    {
+        $this->thread->expects($this->once())
+            ->method('httpGet')
+            ->with(self::BASE_URL, ['search' => 'acme'])
+            ->willReturn(new Response(
+                200,
+                ['Content-Type' => 'application/json'],
+                json_encode(['data' => [], 'total_count' => 0, 'last_id' => null])
+            ));
+
+        $this->thread->getList(search: 'acme');
+    }
+
+    public function testGetListPassesSearchTogetherWithLastIdCursor(): void
+    {
+        $this->thread->expects($this->once())
+            ->method('httpGet')
+            ->with(self::BASE_URL, ['last_id' => 'WzE3NzgyNDE5MDAwMDAsIjE3MDAwMDAwMDAwMDAxMjMiXQ==', 'search' => 'acme'])
+            ->willReturn(new Response(
+                200,
+                ['Content-Type' => 'application/json'],
+                json_encode(['data' => [], 'total_count' => 0, 'last_id' => null])
+            ));
+
+        $this->thread->getList('WzE3NzgyNDE5MDAwMDAsIjE3MDAwMDAwMDAwMDAxMjMiXQ==', 'acme');
+    }
+
     public function testGetById(): void
     {
         $this->thread->expects($this->once())
@@ -81,6 +109,59 @@ class ThreadTest extends MailtrapTestCase
         $data = ResponseHelper::toArray($this->thread->getById(self::FAKE_THREAD_ID));
 
         $this->assertSame('inbound', $data['messages'][0]['direction']);
+    }
+
+    public function testGetByIdExposesForwardsAndDelivery(): void
+    {
+        $this->thread->expects($this->once())
+            ->method('httpGet')
+            ->with(self::BASE_URL . '/' . self::FAKE_THREAD_ID)
+            ->willReturn(new Response(
+                200,
+                ['Content-Type' => 'application/json'],
+                json_encode([
+                    'id' => self::FAKE_THREAD_ID,
+                    'messages' => [
+                        [
+                            'direction' => 'inbound',
+                            'visibility_status' => 'available',
+                            'forwards' => [
+                                [
+                                    'rule_id' => 7,
+                                    'rule_name' => 'Copy to support team',
+                                    'destination' => 'team@example.com',
+                                    'status' => 'forwarded',
+                                    'reason' => null,
+                                    'message_id' => 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
+                                ],
+                            ],
+                        ],
+                        [
+                            'direction' => 'outbound',
+                            'visibility_status' => 'available',
+                            'delivery' => [
+                                'to' => 'customer@example.com',
+                                'status' => 'delivered',
+                                'delivered_at' => '2026-05-08T11:40:05.000Z',
+                                'bounced_at' => null,
+                            ],
+                        ],
+                    ],
+                ])
+            ));
+
+        $data = ResponseHelper::toArray($this->thread->getById(self::FAKE_THREAD_ID));
+
+        $forward = $data['messages'][0]['forwards'][0];
+        $this->assertSame(7, $forward['rule_id']);
+        $this->assertSame('forwarded', $forward['status']);
+        $this->assertNull($forward['reason']);
+
+        $delivery = $data['messages'][1]['delivery'];
+        $this->assertSame('customer@example.com', $delivery['to']);
+        $this->assertSame('delivered', $delivery['status']);
+        $this->assertSame('2026-05-08T11:40:05.000Z', $delivery['delivered_at']);
+        $this->assertNull($delivery['bounced_at']);
     }
 
     public function testDelete(): void
