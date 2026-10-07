@@ -1,3 +1,14 @@
+## [3.16.0] - 2026-10-07
+
+## What's Changed
+* Release 3.15.0 by @github-actions[bot] in https://github.com/mailtrap/mailtrap-php/pull/79
+* Add Template API for the paginated /api/templates endpoints by @izikaj in https://github.com/mailtrap/mailtrap-php/pull/82
+
+## New Contributors
+* @izikaj made their first contribution in https://github.com/mailtrap/mailtrap-php/pull/82
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-php/compare/3.15.0...3.16.0
+
 ## [3.15.0] - 2026-08-28
 
 ## What's Changed
