@@ -11,6 +11,8 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class EmailTemplate
+ *
+ * For the paginated, experimental templates endpoints, see {@see Template}.
  */
 class EmailTemplate extends AbstractApi implements GeneralInterface
 {

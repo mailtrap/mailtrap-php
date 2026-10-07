@@ -7,6 +7,7 @@ use Mailtrap\DTO\Request\EmailTemplate;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapGeneralClient;
 
+// This covers the /api/email_templates API; see templates.php for the paginated, experimental /api/templates API.
 require __DIR__ . '/../../vendor/autoload.php';
 
 $accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
@@ -53,8 +54,8 @@ try {
     $response = $emailTemplates->createEmailTemplate(
         EmailTemplate::init(
             'Welcome Email', // Name
-            'Welcome to our service!', // Subject
             'Transactional', // Category
+            'Welcome to our service!', // Subject
             'Welcome to our service!', // Text Body
             '<div>Welcome to our service!</div>' // HTML Body
         )
@@ -78,8 +79,8 @@ try {
         $templateId,
         EmailTemplate::init(
             'Updated Welcome Email', // Name
-            'Updated Subject', // Subject
             'Transactional', // Category
+            'Updated Subject', // Subject
             'Updated Text Body', // Text Body
             '<div>Updated HTML Body</div>', // HTML Body
         )
