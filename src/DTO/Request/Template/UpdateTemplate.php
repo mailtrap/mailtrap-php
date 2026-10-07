@@ -12,6 +12,8 @@ use Mailtrap\Exception\RuntimeException;
  *
  * Attributes for updating a template. The request body is flat (no wrapper key).
  * The update is a PATCH: all fields are optional and only provided fields are sent.
+ * Pass an empty string to clear a body; null leaves the field unchanged.
+ * The API accepts an empty PATCH as a no-op, but toArray() throws instead, like UpdateEmailCampaign.
  */
 final class UpdateTemplate implements RequestInterface
 {
@@ -19,8 +21,8 @@ final class UpdateTemplate implements RequestInterface
      * @param string|null $name     Template name
      * @param string|null $subject  Email subject
      * @param string|null $category Template category
-     * @param string|null $bodyHtml HTML body
-     * @param string|null $bodyText Plain-text body
+     * @param string|null $bodyHtml HTML body ('' clears it)
+     * @param string|null $bodyText Plain-text body ('' clears it)
      */
     public function __construct(
         private ?string $name = null,
