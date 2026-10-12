@@ -276,6 +276,7 @@ General API:
 - Templates CRUD, paginated (experimental) – [`templates/templates.php`](examples/templates/templates.php)
 - Email templates CRUD – [`templates/all.php`](examples/templates/all.php)
 - API tokens CRUD – [`api-tokens/all.php`](examples/api-tokens/all.php)
+- Sub-accounts (list, create, delete) – [`sub-accounts/all.php`](examples/sub-accounts/all.php)
 - Billing info – [`general/billing.php`](examples/general/billing.php)
 - Accounts info – [`general/accounts.php`](examples/general/accounts.php)
 - Permissions listing – [`general/permissions.php`](examples/general/permissions.php)
