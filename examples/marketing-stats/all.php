@@ -13,9 +13,9 @@ require __DIR__ . '/../../vendor/autoload.php';
 $config = new Config($_ENV['MAILTRAP_API_KEY']); // your API token from https://mailtrap.io/api-tokens
 $marketingStats = (new MailtrapGeneralClient($config))->marketingStats();
 
-// The last 30 days
+// The last 30 days, today included (both dates are inclusive)
 $today = new DateTimeImmutable();
-$startDate = $today->modify('-30 days')->format('Y-m-d');
+$startDate = $today->modify('-29 days')->format('Y-m-d');
 $endDate = $today->format('Y-m-d');
 
 /**

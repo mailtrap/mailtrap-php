@@ -28,12 +28,7 @@ class MarketingStats extends AbstractApi implements GeneralInterface
     public function getMarketingStats(MarketingStatsFilter $filter): ResponseInterface
     {
         return $this->handleResponse(
-            $this->httpGet($this->getBasePath(), $filter->toArray())
+            $this->httpGet($this->getHost() . '/api/marketing/stats', $filter->toArray())
         );
-    }
-
-    private function getBasePath(): string
-    {
-        return sprintf('%s/api/marketing/stats', $this->getHost());
     }
 }

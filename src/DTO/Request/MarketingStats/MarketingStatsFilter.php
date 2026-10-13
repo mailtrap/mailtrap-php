@@ -34,7 +34,7 @@ final class MarketingStatsFilter implements MarketingStatsInterface
                 throw new InvalidArgumentException(sprintf(
                     '"sources" must contain only "%s"; "%s" given',
                     implode('", "', self::SOURCES),
-                    $source
+                    is_string($source) ? $source : get_debug_type($source)
                 ));
             }
         }
