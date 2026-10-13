@@ -1,0 +1,54 @@
+examples/README.md
+  s_a416a2bbf03afd::t_4def45f5dafa9d 68
+src/DTO/Request/Domain/CompanyInfo.php
+  s_a416a2bbf03afd::t_fceaad5c0b9358 1-18
+src/Api/Sending/Domain.php
+  s_a416a2bbf03afd::t_ed8fe48a9055bc 70-87
+  s_a416a2bbf03afd::t_345df5ef4dc7f1 9
+  s_a416a2bbf03afd::t_169a2dabe38c85 69
+tests/MailtrapSendingClientTest.php
+  s_a416a2bbf03afd::t_7ebdddb63b5c00 33
+README.md
+  s_a416a2bbf03afd::t_54c385be0d63d4 243
+src/DTO/Request/Domain/UpdateCompanyInfo.php
+  s_a416a2bbf03afd::t_2e2cf723b946f3 1-94
+src/Api/Sending/CompanyInfo.php
+  s_a416a2bbf03afd::t_3e7004619e0f55 1-84
+examples/sending-domains/all.php
+  s_a416a2bbf03afd::t_5614bde914952c 85-109
+  s_a416a2bbf03afd::t_257389a960ef77 6
+  s_a416a2bbf03afd::t_426db1a7eb590c 84
+src/MailtrapSendingClient.php
+  s_a416a2bbf03afd::t_e52721d28a2899 24
+  s_a416a2bbf03afd::t_35dbde7ee57046 11
+examples/company-info/all.php
+  s_a416a2bbf03afd::t_78e99bebbe42eb 1-81
+tests/Api/Sending/DomainTest.php
+  s_a416a2bbf03afd::t_4ecdbe04c97dd4 9,11
+  s_a416a2bbf03afd::t_658bcb0da47a87 29
+  s_a416a2bbf03afd::t_e5af2a2dbb7334 280-355
+src/DTO/Request/Domain/DomainInterface.php
+  s_a416a2bbf03afd::t_7bf296c5269e14 1-11
+tests/Api/Sending/CompanyInfoTest.php
+  s_a416a2bbf03afd::t_3965b675fadb2c 1-221
+src/DTO/Request/Domain/CreateCompanyInfo.php
+  s_a416a2bbf03afd::t_2f92718c070c1a 1-70
+src/DTO/Request/Domain/UpdateDomain.php
+  s_a416a2bbf03afd::t_7dc41069fc1794 1-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "61e2cf6185999860fe216f90e2f71bc3fb12caa6",
+  "prompts": {},
+  "sessions": {
+    "s_a416a2bbf03afd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "73aab1cf-cfd1-42b8-b656-f26905d319ee",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

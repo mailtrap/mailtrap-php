@@ -1,0 +1,25 @@
+CHANGELOG.md
+  s_84c25ad63d8c76::t_214a2d6c9674d9 41
+README.md
+  s_84c25ad63d8c76::t_5aedbf6887ba3f 277
+examples/README.md
+  s_84c25ad63d8c76::t_cfa482ce5fbd6f 76
+examples/sub-accounts/all.php
+  s_84c25ad63d8c76::t_645afe7ee3dc1e 38-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "42807d46215de725d0566871471571311a6f1780",
+  "prompts": {},
+  "sessions": {
+    "s_84c25ad63d8c76": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1fbe9c4a-85b3-45c0-922e-f12aed1c5674",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

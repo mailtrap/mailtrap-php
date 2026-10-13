@@ -1,0 +1,55 @@
+src/DTO/Request/TrackingOptOut/CreateTrackingOptOut.php
+  s_a416a2bbf03afd::t_7b5d7f9e4162f6 1-31
+src/Api/Sending/Suppression.php
+  s_a416a2bbf03afd::t_c92498a5c81e81 39-53
+  s_a416a2bbf03afd::t_3b2cbdb24c166b 9
+  s_a416a2bbf03afd::t_2113d1b85f3fa4 38
+src/MailtrapSendingClient.php
+  s_a416a2bbf03afd::t_560d93cd2d3cf9 10,24
+  s_a416a2bbf03afd::t_07cebf3b1390f2 8-9,11-15
+src/DTO/Request/TrackingOptOut/TrackingOptOutsFilter.php
+  s_a416a2bbf03afd::t_7b5d7f9e4162f6 1-50
+examples/sending/suppressions.php
+  s_a416a2bbf03afd::t_317e59ff88d032 37-58
+  s_a416a2bbf03afd::t_a4932008291db7 6-7
+  s_a416a2bbf03afd::t_35cdd1696111ca 36
+tests/Api/Sending/SuppressionTest.php
+  s_a416a2bbf03afd::t_e6a4b983734267 31
+  s_a416a2bbf03afd::t_b82487a0d0b953 110-184
+  s_a416a2bbf03afd::t_007d147d1adb65 23-24
+  s_a416a2bbf03afd::t_3f74bc993114e0 9-10
+src/DTO/Request/Suppression/CreateSuppression.php
+  s_a416a2bbf03afd::t_7b5d7f9e4162f6 1-43
+src/DTO/Request/Suppression/Suppression.php
+  s_a416a2bbf03afd::t_7b5d7f9e4162f6 1-23
+src/DTO/Request/TrackingOptOut/TrackingOptOutInterface.php
+  s_a416a2bbf03afd::t_7b5d7f9e4162f6 1-11
+README.md
+  s_a416a2bbf03afd::t_93835484d9bb93 244-245
+src/DTO/Request/Suppression/SuppressionInterface.php
+  s_a416a2bbf03afd::t_7b5d7f9e4162f6 1-11
+src/Api/Sending/TrackingOptOut.php
+  s_a416a2bbf03afd::t_560d93cd2d3cf9 1-71
+examples/README.md
+  s_a416a2bbf03afd::t_93835484d9bb93 19
+tests/Api/Sending/TrackingOptOutTest.php
+  s_a416a2bbf03afd::t_856124f892b4b3 1-210
+examples/sending/tracking-opt-outs.php
+  s_a416a2bbf03afd::t_4a7d54db65421c 1-74
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "1eaee6bb2442c90e2dd10d3e86a9e8c15633a274",
+  "prompts": {},
+  "sessions": {
+    "s_a416a2bbf03afd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "73aab1cf-cfd1-42b8-b656-f26905d319ee",
+        "model": "claude-opus-5"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

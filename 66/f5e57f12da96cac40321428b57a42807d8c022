@@ -1,0 +1,19 @@
+tests/Api/General/ApiTokenTest.php
+  s_2a081af338fd48::t_af1b9e0442a317 283,288,408,413
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "66f5e57f12da96cac40321428b57a42807d8c022",
+  "prompts": {},
+  "sessions": {
+    "s_2a081af338fd48": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ac08a353-2db9-4311-bf0b-ea1d15baccb2",
+        "model": "claude-fable-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

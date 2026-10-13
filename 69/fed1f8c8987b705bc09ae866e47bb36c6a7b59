@@ -1,0 +1,55 @@
+examples/inbound/threads.php
+  s_ea02f2a89792e1::t_4ede2f1edb628b 36-38
+  s_ea02f2a89792e1::t_f0ab851438efc7 33-35
+  s_ea02f2a89792e1::t_a16e6ec42ac2c6 39-41
+  s_ea02f2a89792e1::t_945aae18a765de 30-32,42
+src/DTO/Request/Inbound/InboundForwardRule.php
+  s_ea02f2a89792e1::t_1a6e946d67b193 8
+  s_ea02f2a89792e1::t_d6b93799597606 5-7
+  s_ea02f2a89792e1::t_5bc6e26c3eda0e 9-11
+  s_ea02f2a89792e1::t_0298f988292acd 1-4,12-43
+README.md
+  s_ea02f2a89792e1::t_c89de2841131c7 262-263
+examples/README.md
+  s_ea02f2a89792e1::t_061657371c0ad2 52-53
+src/Api/Inbound/ForwardRule.php
+  s_ea02f2a89792e1::t_700f439f4fdaf2 1-56
+src/Api/Inbound/Thread.php
+  s_ea02f2a89792e1::t_ca444f807665bc 26,28-36
+src/DTO/Request/Inbound/CreateInboundForwardRule.php
+  s_ea02f2a89792e1::t_03511290490dc4 1-47
+src/DTO/Request/Inbound/InboundForwardRuleCondition.php
+  s_ea02f2a89792e1::t_ae7ab240c293ad 1-55
+src/DTO/Request/Inbound/InboundForwardRuleDestination.php
+  s_ea02f2a89792e1::t_2e83c803fc9083 1-25
+src/DTO/Request/Inbound/UpdateInboundForwardRule.php
+  s_ea02f2a89792e1::t_9874faf3293281 1-54
+src/MailtrapInboundClient.php
+  s_ea02f2a89792e1::t_7f6c1ac45798e6 8-12,23
+tests/Api/Inbound/ForwardRuleTest.php
+  s_ea02f2a89792e1::t_6e882e080ad1d9 1-230
+tests/Api/Inbound/MessageTest.php
+  s_ea02f2a89792e1::t_a5a4d807525c5c 74-111
+tests/Api/Inbound/ThreadTest.php
+  s_ea02f2a89792e1::t_7a74eb6b167dc3 70-97,114-166
+tests/MailtrapInboundClientTest.php
+  s_ea02f2a89792e1::t_111adcdb09486a 31
+examples/inbound/forward-rules.php
+  s_ea02f2a89792e1::t_c85b0aa142480e 1-99
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "69fed1f8c8987b705bc09ae866e47bb36c6a7b59",
+  "prompts": {},
+  "sessions": {
+    "s_ea02f2a89792e1": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "87ceb478-60a1-47fe-84f9-1458c02d71bf",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Marcin Klocek <marcin.klocek@railsware.com>"
+    }
+  }
+}

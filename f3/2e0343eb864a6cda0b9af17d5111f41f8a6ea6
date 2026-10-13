@@ -1,0 +1,56 @@
+src/DTO/Request/Domain/CreateCompanyInfo.php
+  s_a416a2bbf03afd::t_2f92718c070c1a 1-70
+tests/Api/Sending/CompanyInfoTest.php
+  s_a416a2bbf03afd::t_a8a2cac87b8b7e 34
+  s_a416a2bbf03afd::t_3965b675fadb2c 1-33,35-197,199-218
+  s_a416a2bbf03afd::t_5deb36167bbe9f 198
+src/DTO/Request/Domain/CompanyInfo.php
+  s_a416a2bbf03afd::t_fceaad5c0b9358 1-18
+README.md
+  s_a416a2bbf03afd::t_54c385be0d63d4 243
+examples/company-info/all.php
+  s_a416a2bbf03afd::t_78e99bebbe42eb 1-16,18-80
+  s_a416a2bbf03afd::t_578e768d0672e5 17
+examples/sending-domains/all.php
+  s_a416a2bbf03afd::t_5614bde914952c 85-109
+  s_a416a2bbf03afd::t_257389a960ef77 6
+  s_a416a2bbf03afd::t_426db1a7eb590c 84
+src/Api/Sending/Domain.php
+  s_a416a2bbf03afd::t_169a2dabe38c85 69
+  s_a416a2bbf03afd::t_345df5ef4dc7f1 9
+  s_a416a2bbf03afd::t_ed8fe48a9055bc 70-87
+src/DTO/Request/Domain/UpdateCompanyInfo.php
+  s_a416a2bbf03afd::t_2e2cf723b946f3 1-94
+tests/Api/Sending/DomainTest.php
+  s_a416a2bbf03afd::t_e5af2a2dbb7334 280-355
+  s_a416a2bbf03afd::t_658bcb0da47a87 29
+  s_a416a2bbf03afd::t_4ecdbe04c97dd4 9,11
+src/DTO/Request/Domain/UpdateDomain.php
+  s_a416a2bbf03afd::t_7dc41069fc1794 1-67
+src/DTO/Request/Domain/DomainInterface.php
+  s_a416a2bbf03afd::t_7bf296c5269e14 1-11
+src/MailtrapSendingClient.php
+  s_a416a2bbf03afd::t_e52721d28a2899 24
+  s_a416a2bbf03afd::t_72d6fa7b656202 11
+src/Api/Sending/CompanyInfo.php
+  s_a416a2bbf03afd::t_3cd182e37a1092 71
+  s_a416a2bbf03afd::t_3e7004619e0f55 1-70,72-73
+examples/README.md
+  s_a416a2bbf03afd::t_4def45f5dafa9d 68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "f32e0343eb864a6cda0b9af17d5111f41f8a6ea6",
+  "prompts": {},
+  "sessions": {
+    "s_a416a2bbf03afd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "73aab1cf-cfd1-42b8-b656-f26905d319ee",
+        "model": "claude-opus-5"
+      },
+      "human_author": null
+    }
+  }
+}

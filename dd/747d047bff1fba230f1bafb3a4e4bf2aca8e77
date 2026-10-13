@@ -1,0 +1,21 @@
+src/Api/General/SubAccount.php
+  s_84c25ad63d8c76::t_feeb9b8179f5d2 49-64
+tests/Api/General/SubAccountTest.php
+  s_84c25ad63d8c76::t_53695ecca78e05 27,113-160
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.2",
+  "base_commit_sha": "dd747d047bff1fba230f1bafb3a4e4bf2aca8e77",
+  "prompts": {},
+  "sessions": {
+    "s_84c25ad63d8c76": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1fbe9c4a-85b3-45c0-922e-f12aed1c5674",
+        "model": "claude-fable-5-1"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

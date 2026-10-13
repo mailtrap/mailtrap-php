@@ -1,0 +1,60 @@
+src/DTO/Request/Domain/CompanyInfo.php
+  s_a416a2bbf03afd::t_fceaad5c0b9358 1-18
+tests/MailtrapSendingClientTest.php
+  s_a416a2bbf03afd::t_5c4a6702f3f3b2 36
+  s_a416a2bbf03afd::t_aa0bc5b8e6ed21 19-20
+tests/Api/Sending/DomainTest.php
+  s_a416a2bbf03afd::t_4ecdbe04c97dd4 9,11
+  s_a416a2bbf03afd::t_658bcb0da47a87 29
+  s_a416a2bbf03afd::t_e5af2a2dbb7334 280-355
+src/MailtrapSendingClient.php
+  s_a416a2bbf03afd::t_e52721d28a2899 24
+  s_a416a2bbf03afd::t_920f10153cd34a 11
+src/Api/Sending/Domain.php
+  s_a416a2bbf03afd::t_345df5ef4dc7f1 9
+  s_a416a2bbf03afd::t_169a2dabe38c85 69
+  s_a416a2bbf03afd::t_ed8fe48a9055bc 70-87
+examples/company-info/all.php
+  s_a416a2bbf03afd::t_920f10153cd34a 17,53,70
+  s_a416a2bbf03afd::t_78e99bebbe42eb 1-16,18-21,23-49,51-52,54-64,66-69,71-76
+  s_a416a2bbf03afd::t_61bf7c13d571db 22,50,65
+src/DTO/Request/Domain/DomainInterface.php
+  s_a416a2bbf03afd::t_7bf296c5269e14 1-11
+src/Api/Sending/CompanyInfo.php
+  s_a416a2bbf03afd::t_920f10153cd34a 8,18-22,24,28,31,36,42,46,55,60,64,72,74
+  s_a416a2bbf03afd::t_3e7004619e0f55 1-7,9-17,23,25-27,29-30,32-35,37-41,43-45,47-54,56-59,61-63,65-71,73,75-76
+src/DTO/Request/Domain/UpdateDomain.php
+  s_a416a2bbf03afd::t_7dc41069fc1794 1-67
+README.md
+  s_a416a2bbf03afd::t_54c385be0d63d4 243
+tests/Api/Sending/CompanyInfoTest.php
+  s_a416a2bbf03afd::t_5deb36167bbe9f 195
+  s_a416a2bbf03afd::t_3965b675fadb2c 1-33,35-52,54-72,74-189,191-194,196-215
+  s_a416a2bbf03afd::t_920f10153cd34a 34,53,73,190
+src/DTO/Request/Domain/UpdateCompanyInfo.php
+  s_a416a2bbf03afd::t_2e2cf723b946f3 1-94
+examples/README.md
+  s_a416a2bbf03afd::t_4def45f5dafa9d 68
+src/DTO/Request/Domain/CreateCompanyInfo.php
+  s_a416a2bbf03afd::t_2f92718c070c1a 1-70
+examples/sending-domains/all.php
+  s_a416a2bbf03afd::t_426db1a7eb590c 84
+  s_a416a2bbf03afd::t_5614bde914952c 85-109
+  s_a416a2bbf03afd::t_257389a960ef77 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.24",
+  "base_commit_sha": "4aad8cf9613e21e5db71ca05a8e545cdf5ce90ca",
+  "prompts": {},
+  "sessions": {
+    "s_a416a2bbf03afd": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "73aab1cf-cfd1-42b8-b656-f26905d319ee",
+        "model": "claude-opus-5"
+      },
+      "human_author": null
+    }
+  }
+}
