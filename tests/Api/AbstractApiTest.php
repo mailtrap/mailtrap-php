@@ -26,13 +26,7 @@ class AbstractApiTest extends MailtrapTestCase
                 'category' => ['operator' => 'equal', 'value' => ['Cat1', 'Cat2']],
             ],
         ];
-        $api = new EmailLogs($this->getConfigMock(), self::FAKE_ACCOUNT_ID);
-        $reflection = new ReflectionClass(AbstractApi::class);
-        $method = $reflection->getMethod('normalizeArrayParams');
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-        $queryString = $method->invoke($api, $params);
+        $queryString = $this->normalizeArrayParams($params);
 
         $this->assertStringNotContainsString('[0]', $queryString, 'Numeric indices must be normalized to bracket notation');
         $this->assertStringNotContainsString('[1]', $queryString, 'Numeric indices must be normalized to bracket notation');
@@ -41,5 +35,34 @@ class AbstractApiTest extends MailtrapTestCase
             $queryString,
             'Query must use filters[category][value][]=Cat1&filters[category][value][]=Cat2'
         );
+    }
+
+    /**
+     * Ensures top-level list params (such as the marketing stats `sources[]`) are sent as
+     * key[]=a&key[]=b, whatever their numeric indices.
+     */
+    public function testNormalizeArrayParamsUsesBracketNotationForListParams(): void
+    {
+        $params = [
+            'start_date' => '2026-05-01',
+            'sources' => ['campaigns', 'automations'],
+            'sending_domain_ids' => [3 => 10, 7 => 20],
+        ];
+
+        $this->assertSame(
+            'start_date=2026-05-01&sources[]=campaigns&sources[]=automations'
+            . '&sending_domain_ids[]=10&sending_domain_ids[]=20',
+            urldecode($this->normalizeArrayParams($params))
+        );
+    }
+
+    private function normalizeArrayParams(array $params): string
+    {
+        $method = (new ReflectionClass(AbstractApi::class))->getMethod('normalizeArrayParams');
+        if (PHP_VERSION_ID < 80100) {
+            $method->setAccessible(true);
+        }
+
+        return $method->invoke(new EmailLogs($this->getConfigMock(), self::FAKE_ACCOUNT_ID), $params);
     }
 }
