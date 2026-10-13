@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Mailtrap\Tests\Api;
 
 use Mailtrap\Api\AbstractApi;
-use Mailtrap\Api\General\MarketingStats;
 use Mailtrap\Api\Sending\EmailLogs;
-use Mailtrap\DTO\Request\MarketingStats\MarketingStatsFilter;
-use Mailtrap\DTO\Request\MarketingStats\MarketingStatsInterface;
 use Mailtrap\Tests\MailtrapTestCase;
 use ReflectionClass;
 
@@ -29,13 +26,7 @@ class AbstractApiTest extends MailtrapTestCase
                 'category' => ['operator' => 'equal', 'value' => ['Cat1', 'Cat2']],
             ],
         ];
-        $api = new EmailLogs($this->getConfigMock(), self::FAKE_ACCOUNT_ID);
-        $reflection = new ReflectionClass(AbstractApi::class);
-        $method = $reflection->getMethod('normalizeArrayParams');
-        if (PHP_VERSION_ID < 80100) {
-            $method->setAccessible(true);
-        }
-        $queryString = $method->invoke($api, $params);
+        $queryString = $this->normalizeArrayParams($params);
 
         $this->assertStringNotContainsString('[0]', $queryString, 'Numeric indices must be normalized to bracket notation');
         $this->assertStringNotContainsString('[1]', $queryString, 'Numeric indices must be normalized to bracket notation');
@@ -47,28 +38,31 @@ class AbstractApiTest extends MailtrapTestCase
     }
 
     /**
-     * Ensures top-level list filters (such as the marketing stats `sources[]`) are sent as
-     * key[]=a&key[]=b, with empty lists left out of the query by the filter DTO.
+     * Ensures top-level list params (such as the marketing stats `sources[]`) are sent as
+     * key[]=a&key[]=b, whatever their numeric indices.
      */
-    public function testNormalizeArrayParamsUsesBracketNotationForListFilters(): void
+    public function testNormalizeArrayParamsUsesBracketNotationForListParams(): void
     {
-        $params = (new MarketingStatsFilter(
-            startDate: '2026-05-01',
-            endDate: '2026-05-31',
-            sources: [MarketingStatsInterface::SOURCE_CAMPAIGNS, MarketingStatsInterface::SOURCE_AUTOMATIONS],
-            emailServiceProviders: ['Google'],
-        ))->toArray();
-        $api = new MarketingStats($this->getConfigMock());
-        $reflection = new ReflectionClass(AbstractApi::class);
-        $method = $reflection->getMethod('normalizeArrayParams');
+        $params = [
+            'start_date' => '2026-05-01',
+            'sources' => ['campaigns', 'automations'],
+            'sending_domain_ids' => [3 => 10, 7 => 20],
+        ];
+
+        $this->assertSame(
+            'start_date=2026-05-01&sources[]=campaigns&sources[]=automations'
+            . '&sending_domain_ids[]=10&sending_domain_ids[]=20',
+            urldecode($this->normalizeArrayParams($params))
+        );
+    }
+
+    private function normalizeArrayParams(array $params): string
+    {
+        $method = (new ReflectionClass(AbstractApi::class))->getMethod('normalizeArrayParams');
         if (PHP_VERSION_ID < 80100) {
             $method->setAccessible(true);
         }
 
-        $this->assertSame(
-            'start_date=2026-05-01&end_date=2026-05-31&sources[]=campaigns&sources[]=automations'
-            . '&email_service_providers[]=Google',
-            urldecode($method->invoke($api, $params))
-        );
+        return $method->invoke(new EmailLogs($this->getConfigMock(), self::FAKE_ACCOUNT_ID), $params);
     }
 }

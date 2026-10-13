@@ -32,7 +32,7 @@ final class MarketingStatsFilter implements MarketingStatsInterface
         foreach ($sources as $source) {
             if (!in_array($source, self::SOURCES, true)) {
                 throw new InvalidArgumentException(sprintf(
-                    '"sources" must contain only "%s", "%s" given',
+                    '"sources" must contain only "%s"; "%s" given',
                     implode('", "', self::SOURCES),
                     $source
                 ));
@@ -42,23 +42,15 @@ final class MarketingStatsFilter implements MarketingStatsInterface
 
     public function toArray(): array
     {
-        $payload = [
-            'start_date' => $this->startDate,
-            'end_date' => $this->endDate,
-        ];
-
-        if ($this->sendingDomainIds !== []) {
-            $payload['sending_domain_ids'] = $this->sendingDomainIds;
-        }
-
-        if ($this->sources !== []) {
-            $payload['sources'] = $this->sources;
-        }
-
-        if ($this->emailServiceProviders !== []) {
-            $payload['email_service_providers'] = $this->emailServiceProviders;
-        }
-
-        return $payload;
+        return array_filter(
+            [
+                'start_date' => $this->startDate,
+                'end_date' => $this->endDate,
+                'sending_domain_ids' => array_values($this->sendingDomainIds),
+                'sources' => array_values($this->sources),
+                'email_service_providers' => array_values($this->emailServiceProviders),
+            ],
+            fn ($value) => $value !== []
+        );
     }
 }

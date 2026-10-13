@@ -95,7 +95,7 @@ class MarketingStatsTest extends MailtrapTestCase
     public function testMarketingStatsFilterRejectsUnknownSource(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('"sources" must contain only "campaigns", "automations", "newsletters" given');
+        $this->expectExceptionMessage('"sources" must contain only "campaigns", "automations"; "newsletters" given');
 
         new MarketingStatsFilter(startDate: self::START_DATE, endDate: self::END_DATE, sources: ['newsletters']);
     }
