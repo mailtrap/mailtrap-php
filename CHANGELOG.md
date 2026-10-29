@@ -1,3 +1,11 @@
+## [3.17.0] - 2026-10-29
+
+## What's Changed
+* Add marketing stats API for GET /api/marketing/stats by @Rabsztok in https://github.com/mailtrap/mailtrap-php/pull/85
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-php/compare/3.16.0...3.17.0
+
 ## [3.16.0] - 2026-10-07
 
 ## What's Changed
