@@ -1,0 +1,22 @@
+.github/workflows/ci-psalm.yaml
+  s_36375e34f48c4f::t_01a38c37bd527a 18
+.github/workflows/ci-phpunit.yml
+  s_36375e34f48c4f::t_be69ace5c1febe 101,105-108
+  s_36375e34f48c4f::t_bf44e9b7b3f95e 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2e8461b6b1379e6916fe8d05c58e10e1d06e869f",
+  "prompts": {},
+  "sessions": {
+    "s_36375e34f48c4f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "3520112e-7f79-4d87-9f60-acf6da2b45b0",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
