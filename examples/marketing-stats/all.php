@@ -38,7 +38,7 @@ try {
 
 /**
  * Get Email Marketing stats with filters: campaigns only, sent to Google and Yahoo.
- * Pass `sendingDomainIds` as well to narrow the stats to specific sending domains.
+ * Pass `sendingDomainIds` as well to narrow the stats to specific domains.
  *
  * GET https://mailtrap.io/api/marketing/stats
  */

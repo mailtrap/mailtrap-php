@@ -25,7 +25,7 @@ final class SendSandboxMailCommand
         $response = MailtrapClient::initSendingEmails(
             apiKey:    $_ENV['MAILTRAP_API_KEY'], // your API token from here https://mailtrap.io/api-tokens
             isSandbox: true,
-            inboxId:   $_ENV['MAILTRAP_INBOX_ID'], // your Inbox ID from here https://mailtrap.io/inboxes
+            sandboxId: $_ENV['MAILTRAP_SANDBOX_ID'], // your Sandbox ID from here https://mailtrap.io/inboxes
         )->send($email);
 
         var_dump(ResponseHelper::toArray($response));

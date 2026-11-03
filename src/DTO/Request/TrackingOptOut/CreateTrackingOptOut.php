@@ -7,13 +7,13 @@ namespace Mailtrap\DTO\Request\TrackingOptOut;
 /**
  * Class CreateTrackingOptOut
  *
- * Adds an email address to the tracking opt-out list for a sending domain.
+ * Adds an email address to the tracking opt-out list for a domain.
  */
 final class CreateTrackingOptOut implements TrackingOptOutInterface
 {
     /**
      * @param string $email    Email address to opt out of tracking
-     * @param int    $domainId ID of the sending domain the opt-out applies to
+     * @param int    $domainId ID of the domain the opt-out applies to
      */
     public function __construct(
         private string $email,

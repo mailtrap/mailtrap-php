@@ -9,6 +9,7 @@ use Mailtrap\Config;
 use Mailtrap\EmailsSendMailtrapClientInterface;
 use Mailtrap\Exception\RuntimeException;
 use Mailtrap\Exception\Transport\UnsupportedHostException;
+use Mailtrap\Helper\Deprecation;
 use Mailtrap\MailtrapClient;
 use Mailtrap\MailtrapSandboxClient;
 use Symfony\Component\HttpClient\Psr18Client;
@@ -28,7 +29,7 @@ final class MailtrapSdkTransportFactory extends AbstractTransportFactory
             throw new UnsupportedSchemeException($dsn, 'mailtrap+sdk', $this->getSupportedSchemes());
         }
 
-        $inboxId = !empty($dsn->getOption('inboxId')) ? (int) $dsn->getOption('inboxId') : null;
+        $sandboxId = $this->getSandboxId($dsn);
         $config = (new Config($this->getUser($dsn)))
             ->setHost('default' === $dsn->getHost() ? AbstractApi::SENDMAIL_TRANSACTIONAL_HOST : $dsn->getHost())
             ->setHttpClient(null === $this->client ? null : new Psr18Client($this->client))
@@ -36,13 +37,13 @@ final class MailtrapSdkTransportFactory extends AbstractTransportFactory
 
         $emailsSendMailtrapClient = $this->getEmailsSendMailTrapClient($config);
         if ($emailsSendMailtrapClient instanceof MailtrapSandboxClient) {
-            if (null === $inboxId) {
+            if (null === $sandboxId) {
                 throw new RuntimeException(
-                    'You cannot send an email to a sandbox with an empty "inboxId" parameter. Example -> "MAILER_DSN=mailtrap+sdk://APIKEY@sandbox.api.mailtrap.io?inboxId=1234"'
+                    'You cannot send an email to a sandbox with an empty "sandboxId" parameter. Example -> "MAILER_DSN=mailtrap+sdk://APIKEY@sandbox.api.mailtrap.io?sandboxId=1234"'
                 );
             }
 
-            $emailsSendApiLayer = $emailsSendMailtrapClient->emails($inboxId);
+            $emailsSendApiLayer = $emailsSendMailtrapClient->emails($sandboxId);
         } else {
             $emailsSendApiLayer = $emailsSendMailtrapClient->emails();
         }
@@ -53,6 +54,28 @@ final class MailtrapSdkTransportFactory extends AbstractTransportFactory
     protected function getSupportedSchemes(): array
     {
         return ['mailtrap+sdk'];
+    }
+
+    /**
+     * Reads the "sandboxId" option, falling back to the deprecated "inboxId" one. In Laravel these are the
+     * services.mailtrap-sdk config keys, set from MAILTRAP_SANDBOX_ID and MAILTRAP_INBOX_ID.
+     */
+    private function getSandboxId(Dsn $dsn): ?int
+    {
+        if (!empty($dsn->getOption('sandboxId'))) {
+            return (int) $dsn->getOption('sandboxId');
+        }
+
+        if (!empty($dsn->getOption('inboxId'))) {
+            Deprecation::trigger(
+                'The "inboxId" option of the mailtrap+sdk transport (MAILTRAP_INBOX_ID in Laravel)',
+                'the "sandboxId" option (MAILTRAP_SANDBOX_ID)'
+            );
+
+            return (int) $dsn->getOption('inboxId');
+        }
+
+        return null;
     }
 
     private function getEmailsSendMailTrapClient(Config $config): EmailsSendMailtrapClientInterface

@@ -65,12 +65,12 @@ class MailtrapSdkTransport extends AbstractTransport
 
     private function getEndpoint(): string
     {
-        $inboxId = null;
+        $sandboxId = null;
         if ($this->emailsSendApiLayer instanceof SandboxEmails) {
-            $inboxId = $this->emailsSendApiLayer->getInboxId();
+            $sandboxId = $this->emailsSendApiLayer->getSandboxId();
         }
 
-        return $this->config->getHost() . (null === $inboxId ? '' : '?inboxId=' . $inboxId);
+        return $this->config->getHost() . (null === $sandboxId ? '' : '?sandboxId=' . $sandboxId);
     }
 
     private function getEnvelopeRecipients(Email $email, Envelope $envelope): array

@@ -10,6 +10,7 @@ use Mailtrap\DTO\Request\Domain\UpdateDomain;
 use Mailtrap\Exception\HttpClientException;
 use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\Helper\ResponseHelper;
+use Mailtrap\Tests\AssertsDeprecationsTrait;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
 
@@ -20,6 +21,8 @@ use Nyholm\Psr7\Response;
  */
 class DomainTest extends MailtrapTestCase
 {
+    use AssertsDeprecationsTrait;
+
     private ?Domain $domain;
 
     protected function setUp(): void
@@ -37,7 +40,7 @@ class DomainTest extends MailtrapTestCase
         parent::tearDown();
     }
 
-    public function testGetSendingDomains(): void
+    public function testGetDomains(): void
     {
         $expectedResponseBody = $this->getExpectedDomainsResponse();
 
@@ -46,7 +49,7 @@ class DomainTest extends MailtrapTestCase
             ->with(AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/sending_domains')
             ->willReturn(new Response(200, ['Content-Type' => 'application/json'], $expectedResponseBody));
 
-        $response = $this->domain->getSendingDomains();
+        $response = $this->domain->getDomains();
         $responseData = ResponseHelper::toArray($response);
 
         $this->assertSame(200, $response->getStatusCode());
@@ -58,7 +61,7 @@ class DomainTest extends MailtrapTestCase
         $this->assertArrayHasKey('permissions', $responseData['data'][0]);
     }
 
-    public function testCreateSendingDomain(): void
+    public function testCreateDomain(): void
     {
         $domainName = 'example.com';
         $expectedResponseBody = $this->getExpectedDomainResponse($domainName);
@@ -76,7 +79,7 @@ class DomainTest extends MailtrapTestCase
             )
             ->willReturn(new Response(201, ['Content-Type' => 'application/json'], $expectedResponseBody));
 
-        $response = $this->domain->createSendingDomain($domainName);
+        $response = $this->domain->createDomain($domainName);
         $responseData = ResponseHelper::toArray($response);
 
         $this->assertSame(201, $response->getStatusCode());
@@ -88,7 +91,7 @@ class DomainTest extends MailtrapTestCase
         $this->assertSame($domainName, $responseData['domain_name']);
     }
 
-    public function testCreateSendingDomainInvalid(): void
+    public function testCreateDomainInvalid(): void
     {
         $domainName = '';
         $errorResponse = [
@@ -115,7 +118,7 @@ class DomainTest extends MailtrapTestCase
         $this->expectException(HttpClientException::class);
         $this->expectExceptionMessage('Errors: sending_domain -> domain_name -> can\'t be blank.');
 
-        $this->domain->createSendingDomain($domainName);
+        $this->domain->createDomain($domainName);
     }
 
     public function testGetDomainById(): void
@@ -158,7 +161,7 @@ class DomainTest extends MailtrapTestCase
         $this->domain->getDomainById($domainId);
     }
 
-    public function testDeleteSendingDomain(): void
+    public function testDeleteDomain(): void
     {
         $domainId = 12345;
 
@@ -167,11 +170,11 @@ class DomainTest extends MailtrapTestCase
             ->with(AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/sending_domains/' . $domainId)
             ->willReturn(new Response(204));
 
-        $response = $this->domain->deleteSendingDomain($domainId);
+        $response = $this->domain->deleteDomain($domainId);
         $this->assertSame(204, $response->getStatusCode());
     }
 
-    public function testDeleteSendingDomainNotFound(): void
+    public function testDeleteDomainNotFound(): void
     {
         $domainId = 99999;
         $errorResponse = [
@@ -186,7 +189,7 @@ class DomainTest extends MailtrapTestCase
         $this->expectException(HttpClientException::class);
         $this->expectExceptionMessage('The requested entity has not been found. Errors: Domain not found.');
 
-        $this->domain->deleteSendingDomain($domainId);
+        $this->domain->deleteDomain($domainId);
     }
 
     public function testSendDomainSetupInstructions(): void
@@ -277,7 +280,7 @@ class DomainTest extends MailtrapTestCase
         ]);
     }
 
-    public function testUpdateSendingDomain(): void
+    public function testUpdateDomain(): void
     {
         $domainId = 12345;
         $expectedResponseBody = $this->getExpectedDomainResponse('example.com', $domainId);
@@ -299,7 +302,7 @@ class DomainTest extends MailtrapTestCase
             )
             ->willReturn(new Response(200, ['Content-Type' => 'application/json'], $expectedResponseBody));
 
-        $response = $this->domain->updateSendingDomain(
+        $response = $this->domain->updateDomain(
             $domainId,
             new UpdateDomain(
                 openTrackingEnabled: true,
@@ -315,7 +318,7 @@ class DomainTest extends MailtrapTestCase
         $this->assertSame($domainId, $responseData['id']);
     }
 
-    public function testUpdateSendingDomainSendsOnlyProvidedFields(): void
+    public function testUpdateDomainSendsOnlyProvidedFields(): void
     {
         $domainId = 12345;
         $expectedResponseBody = $this->getExpectedDomainResponse('example.com', $domainId);
@@ -333,7 +336,7 @@ class DomainTest extends MailtrapTestCase
             )
             ->willReturn(new Response(200, ['Content-Type' => 'application/json'], $expectedResponseBody));
 
-        $response = $this->domain->updateSendingDomain(
+        $response = $this->domain->updateDomain(
             $domainId,
             new UpdateDomain(trackingOptOutEnabled: false)
         );
@@ -341,16 +344,45 @@ class DomainTest extends MailtrapTestCase
         $this->assertSame(200, $response->getStatusCode());
     }
 
-    public function testUpdateSendingDomainWithEmptyPayload(): void
+    public function testUpdateDomainWithEmptyPayload(): void
     {
         $this->domain->expects($this->never())->method('httpPatch');
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            'At least one updatable field must be provided to update a sending domain'
+            'At least one updatable field must be provided to update a domain'
         );
 
-        $this->domain->updateSendingDomain(12345, new UpdateDomain());
+        $this->domain->updateDomain(12345, new UpdateDomain());
+    }
+
+    /**
+     * @dataProvider deprecatedMethodsProvider
+     */
+    public function testDeprecatedMethods(string $method, array $arguments, string $httpMethod, string $newMethod): void
+    {
+        $this->domain->expects($this->once())
+            ->method($httpMethod)
+            ->willReturn(new Response(200, ['Content-Type' => 'application/json'], $this->getExpectedDomainResponse('example.com')));
+
+        $response = $this->assertDeprecationTriggered(
+            sprintf(
+                'Mailtrap\Api\Sending\Domain::%s() is deprecated and will be removed in a future major release; use Mailtrap\Api\Sending\Domain::%s() instead.',
+                $method,
+                $newMethod
+            ),
+            fn () => $this->domain->{$method}(...$arguments)
+        );
+
+        $this->assertSame(200, $response->getStatusCode());
+    }
+
+    public function deprecatedMethodsProvider(): iterable
+    {
+        yield ['getSendingDomains', [], 'httpGet', 'getDomains'];
+        yield ['createSendingDomain', ['example.com'], 'httpPost', 'createDomain'];
+        yield ['updateSendingDomain', [12345, new UpdateDomain(openTrackingEnabled: false)], 'httpPatch', 'updateDomain'];
+        yield ['deleteSendingDomain', [12345], 'httpDelete', 'deleteDomain'];
     }
 
     private function getExpectedDomainResponse(string $domainName, ?int $domainId = null): string

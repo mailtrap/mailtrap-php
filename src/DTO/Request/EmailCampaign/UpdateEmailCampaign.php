@@ -16,7 +16,7 @@ final class UpdateEmailCampaign implements EmailCampaignInterface
 {
     /**
      * @param string|null             $name               Campaign name
-     * @param int|null                $domainId           ID of the verified sending domain, as returned by the Sending Domains endpoints
+     * @param int|null                $domainId           ID of the verified domain, as returned by the Domains endpoints
      * @param string|null             $fromDisplayName    Display name shown in the From header
      * @param string|null             $fromLocalPart      Local part (before the @) of the From address
      * @param string|null             $deliveryMode       One of EmailCampaignInterface::DELIVERY_MODE_*

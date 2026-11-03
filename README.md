@@ -77,7 +77,7 @@ Example `.env` variables (or export in shell):
 ```
 MAILTRAP_API_KEY=your_api_token # https://mailtrap.io/api-tokens
 MAILTRAP_USE_SANDBOX=true       # true/false toggle
-MAILTRAP_INBOX_ID=123456        # Only needed for sandbox
+MAILTRAP_SANDBOX_ID=123456      # Only needed for sandbox
 ```
 
 Bootstrap logic:
@@ -93,12 +93,12 @@ require __DIR__ . '/vendor/autoload.php';
 
 $apiKey    = getenv('MAILTRAP_API_KEY');
 $isSandbox = filter_var(getenv('MAILTRAP_USE_SANDBOX'), FILTER_VALIDATE_BOOL);
-$inboxId   = $isSandbox ? getenv('MAILTRAP_INBOX_ID') : null; // required only for sandbox
+$sandboxId = $isSandbox ? getenv('MAILTRAP_SANDBOX_ID') : null; // required only for sandbox
 
 $client = MailtrapClient::initSendingEmails(
     apiKey: $apiKey,
     isSandbox: $isSandbox,
-    inboxId: $inboxId // null is ignored for production
+    sandboxId: $sandboxId // null is ignored for production
 );
 
 $email = (new MailtrapEmail())
@@ -142,7 +142,7 @@ $mailtrap = MailtrapClient::initSendingEmails(
     apiKey: getenv('MAILTRAP_API_KEY'), # your API token
     isBulk: false,                      # set to true for bulk email sending (false by default)
     isSandbox: false,                   # set to true for sandbox mode       (false by default)
-    inboxId: null                       # optional, only for sandbox mode    (false by default)
+    sandboxId: null                     # required only for sandbox mode     (null by default)
 );
 
 $email = (new MailtrapEmail())
@@ -239,21 +239,21 @@ Email API:
 - Batch send (Bulk) – [`batch/bulk.php`](examples/batch/bulk.php)
 - Batch send with Template (Transactional) – [`batch/transactional_template.php`](examples/batch/transactional_template.php)
 - Batch send with Template (Bulk) – [`batch/bulk_template.php`](examples/batch/bulk_template.php)
-- Sending domain management CRUD – [`sending-domains/all.php`](examples/sending-domains/all.php)
-- Sending domain company info – [`sending-domains/company-info.php`](examples/sending-domains/company-info.php)
+- Domain management CRUD – [`domains/all.php`](examples/domains/all.php)
+- Domain company info – [`domains/company-info.php`](examples/domains/company-info.php)
 - Suppressions (create, find & delete) – [`sending/suppressions.php`](examples/sending/suppressions.php)
 - Tracking Opt-outs (list, create & delete) – [`sending/tracking-opt-outs.php`](examples/sending/tracking-opt-outs.php)
 - Email Logs (list & get by message ID) – [`sending/email-logs.php`](examples/sending/email-logs.php)
 
-Email Sandbox (Testing):
-- Send an email (Sandbox) – [`testing/send-mail.php`](examples/testing/send-mail.php)
-- Send an email with a Template (Sandbox) – [`testing/template.php`](examples/testing/template.php)
+Email Sandbox:
+- Send an email (Sandbox) – [`sandbox/send-mail.php`](examples/sandbox/send-mail.php)
+- Send an email with a Template (Sandbox) – [`sandbox/template.php`](examples/sandbox/template.php)
 - Batch send (Sandbox) – [`batch/sandbox.php`](examples/batch/sandbox.php)
 - Batch send with Template (Sandbox) – [`batch/sandbox_template.php`](examples/batch/sandbox_template.php)
-- Message management CRUD – [`testing/messages.php`](examples/testing/messages.php)
-- Inbox management CRUD – [`testing/inboxes.php`](examples/testing/inboxes.php)
-- Project management CRUD – [`testing/projects.php`](examples/testing/projects.php)
-- Attachments operations – [`testing/attachments.php`](examples/testing/attachments.php)
+- Message management CRUD – [`sandbox/messages.php`](examples/sandbox/messages.php)
+- Sandbox management CRUD – [`sandbox/sandboxes.php`](examples/sandbox/sandboxes.php)
+- Project management CRUD – [`sandbox/projects.php`](examples/sandbox/projects.php)
+- Attachments operations – [`sandbox/attachments.php`](examples/sandbox/attachments.php)
 
 Inbound Email API:
 - Folder management CRUD – [`inbound/folders.php`](examples/inbound/folders.php)
@@ -296,6 +296,31 @@ See the full indexed list at [`examples/README.md`](examples/README.md).
 
 Webhooks:
 - Verifying webhook signatures – [`webhooks/verify_signature.php`](examples/webhooks/verify_signature.php)
+
+## Renamed APIs
+
+The Email Sandbox's testing inboxes are now called **sandboxes**, and sending domains are now called **domains**.
+The SDK follows these names. The old ones still work: they call the same API endpoints, and each emits an
+`E_USER_DEPRECATED` notice the first time it is used. Symfony and Laravel log these notices; plain PHP ignores them.
+The old names will be removed in a future major release.
+
+| Old name (deprecated) | New name |
+|---|---|
+| `MailtrapSandboxClient::inboxes($accountId)` | `MailtrapSandboxClient::sandboxes($accountId)` |
+| `Mailtrap\Api\Sandbox\Inbox` | `Mailtrap\Api\Sandbox\Sandbox` |
+| `Inbox::getInboxAttributes($inboxId)` | `Sandbox::getSandboxAttributes($sandboxId)` |
+| `Mailtrap\DTO\Request\Inbox` | `Mailtrap\DTO\Request\Sandbox` |
+| `inboxId:` argument of `MailtrapClient::initSendingEmails()` and of the sandbox `emails()`, `messages()` and `attachments()` | `sandboxId:` |
+| `getInboxId()` of the sandbox `Emails`, `Message` and `Attachment` APIs | `getSandboxId()` |
+| Symfony DSN option `?inboxId=` | `?sandboxId=` |
+| Laravel `services.mailtrap-sdk.inboxId` config key | `services.mailtrap-sdk.sandboxId` (`MAILTRAP_SANDBOX_ID`) |
+| `Domain::getSendingDomains()` | `Domain::getDomains()` |
+| `Domain::createSendingDomain($domainName)` | `Domain::createDomain($domainName)` |
+| `Domain::updateSendingDomain($domainId, $domain)` | `Domain::updateDomain($domainId, $domain)` |
+| `Domain::deleteSendingDomain($domainId)` | `Domain::deleteDomain($domainId)` |
+
+Names that mirror an API field keep the old term, for example `inbox_id` in message responses,
+`User::getList($inboxIds)`, `PermissionInterface::TYPE_INBOX` and the `sendingDomainIds` stats filters.
 
 ## Contributing
 

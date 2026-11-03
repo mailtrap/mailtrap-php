@@ -59,7 +59,7 @@ MAILTRAP_HOST="bulk.api.mailtrap.io"
 MAILTRAP_API_KEY="YOUR_API_KEY_HERE"
 ```
 ### Sandbox
-You need to set the API key to the `MAILTRAP_API_KEY` variable and set your inboxId to the `MAILTRAP_INBOX_ID`.
+You need to set the API key to the `MAILTRAP_API_KEY` variable and set your sandbox ID to the `MAILTRAP_SANDBOX_ID`.
 
 More info sandbox -> https://help.mailtrap.io/article/109-getting-started-with-mailtrap-email-testing
 ```bash
@@ -67,8 +67,9 @@ MAIL_MAILER="mailtrap-sdk"
 
 MAILTRAP_HOST="sandbox.api.mailtrap.io"
 MAILTRAP_API_KEY="YOUR_API_KEY_HERE"
-MAILTRAP_INBOX_ID=1000001
+MAILTRAP_SANDBOX_ID=1000001
 ```
+The deprecated `MAILTRAP_INBOX_ID` variable and `inboxId` key in `config/services.php` still work.
 
 Before starting, run the clear configuration cache command to set up new variables.
 ```bash
@@ -358,7 +359,7 @@ Please add them manually to the `config/services.php` file and after that run th
 'mailtrap-sdk' => [
     'host' => env('MAILTRAP_HOST', 'send.api.mailtrap.io'),
     'apiKey' => env('MAILTRAP_API_KEY'),
-    'inboxId' => env('MAILTRAP_INBOX_ID'),
+    'sandboxId' => env('MAILTRAP_SANDBOX_ID'),
 ],
 ```
 

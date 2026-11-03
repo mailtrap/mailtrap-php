@@ -33,7 +33,7 @@ class TrackingOptOut extends AbstractApi implements SendingInterface
     }
 
     /**
-     * Add an email address to the tracking opt-out list for a sending domain.
+     * Add an email address to the tracking opt-out list for a domain.
      *
      * @param CreateTrackingOptOut $trackingOptOut
      * @return ResponseInterface

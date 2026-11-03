@@ -7,6 +7,7 @@ namespace Mailtrap\Api\Sending;
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\ConfigInterface;
 use Mailtrap\DTO\Request\Domain\UpdateDomain;
+use Mailtrap\Helper\Deprecation;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -20,11 +21,11 @@ class Domain extends AbstractApi implements SendingInterface
     }
 
     /**
-     * Get a list of sending domains.
+     * Get a list of domains.
      *
      * @return ResponseInterface
      */
-    public function getSendingDomains(): ResponseInterface
+    public function getDomains(): ResponseInterface
     {
         return $this->handleResponse(
             $this->httpGet($this->getBasePath())
@@ -32,12 +33,12 @@ class Domain extends AbstractApi implements SendingInterface
     }
 
     /**
-     * Create a new sending domain.
+     * Create a new domain.
      *
      * @param string $domainName
      * @return ResponseInterface
      */
-    public function createSendingDomain(string $domainName): ResponseInterface
+    public function createDomain(string $domainName): ResponseInterface
     {
         return $this->handleResponse(
             $this->httpPost(
@@ -52,7 +53,7 @@ class Domain extends AbstractApi implements SendingInterface
     }
 
     /**
-     * Get a sending domain by ID.
+     * Get a domain by ID.
      *
      * @param int $domainId
      * @return ResponseInterface
@@ -67,13 +68,13 @@ class Domain extends AbstractApi implements SendingInterface
     }
 
     /**
-     * Update configuration settings for a sending domain.
+     * Update configuration settings for a domain.
      *
      * @param int          $domainId
      * @param UpdateDomain $domain
      * @return ResponseInterface
      */
-    public function updateSendingDomain(int $domainId, UpdateDomain $domain): ResponseInterface
+    public function updateDomain(int $domainId, UpdateDomain $domain): ResponseInterface
     {
         return $this->handleResponse(
             $this->httpPatch(
@@ -86,12 +87,12 @@ class Domain extends AbstractApi implements SendingInterface
     }
 
     /**
-     * Delete a sending domain by ID.
+     * Delete a domain by ID.
      *
      * @param int $domainId
      * @return ResponseInterface
      */
-    public function deleteSendingDomain(int $domainId): ResponseInterface
+    public function deleteDomain(int $domainId): ResponseInterface
     {
         return $this->handleResponse(
             $this->httpDelete(
@@ -101,7 +102,7 @@ class Domain extends AbstractApi implements SendingInterface
     }
 
     /**
-     * Send sending domain setup instructions.
+     * Send domain setup instructions.
      *
      * @param int $domainId
      * @param string $email
@@ -117,6 +118,46 @@ class Domain extends AbstractApi implements SendingInterface
                 ]
             )
         );
+    }
+
+    /**
+     * @deprecated Use getDomains() instead.
+     */
+    public function getSendingDomains(): ResponseInterface
+    {
+        Deprecation::trigger(self::class . '::getSendingDomains()', self::class . '::getDomains()');
+
+        return $this->getDomains();
+    }
+
+    /**
+     * @deprecated Use createDomain() instead.
+     */
+    public function createSendingDomain(string $domainName): ResponseInterface
+    {
+        Deprecation::trigger(self::class . '::createSendingDomain()', self::class . '::createDomain()');
+
+        return $this->createDomain($domainName);
+    }
+
+    /**
+     * @deprecated Use updateDomain() instead.
+     */
+    public function updateSendingDomain(int $domainId, UpdateDomain $domain): ResponseInterface
+    {
+        Deprecation::trigger(self::class . '::updateSendingDomain()', self::class . '::updateDomain()');
+
+        return $this->updateDomain($domainId, $domain);
+    }
+
+    /**
+     * @deprecated Use deleteDomain() instead.
+     */
+    public function deleteSendingDomain(int $domainId): ResponseInterface
+    {
+        Deprecation::trigger(self::class . '::deleteSendingDomain()', self::class . '::deleteDomain()');
+
+        return $this->deleteDomain($domainId);
     }
 
     private function getBasePath(): string

@@ -14,15 +14,21 @@ use Symfony\Component\Mime\Email;
  */
 class Emails extends AbstractEmails implements SandboxInterface
 {
-    public function __construct(ConfigInterface $config, private int $inboxId)
+    use SandboxIdTrait;
+
+    /**
+     * @param int|null $inboxId deprecated, use $sandboxId instead
+     */
+    public function __construct(ConfigInterface $config, ?int $sandboxId = null, ?int $inboxId = null)
     {
         parent::__construct($config);
+        $this->setSandboxId($sandboxId, $inboxId);
     }
 
     public function send(Email $email): ResponseInterface
     {
         return $this->handleResponse(
-            $this->httpPost(sprintf('%s/api/send/%s', $this->getHost(), $this->getInboxId()), [], $this->getPayload($email))
+            $this->httpPost(sprintf('%s/api/send/%s', $this->getHost(), $this->getSandboxId()), [], $this->getPayload($email))
         );
     }
 
@@ -30,7 +36,7 @@ class Emails extends AbstractEmails implements SandboxInterface
     {
         return $this->handleResponse(
             $this->httpPost(
-                sprintf('%s/api/batch/%s', $this->getHost(), $this->getInboxId()),
+                sprintf('%s/api/batch/%s', $this->getHost(), $this->getSandboxId()),
                 [],
                 $this->getBatchBody($recipientEmails, $baseEmail),
             )
@@ -40,10 +46,5 @@ class Emails extends AbstractEmails implements SandboxInterface
     protected function getHost(): string
     {
         return $this->config->getHost() ?: self::SENDMAIL_SANDBOX_HOST;
-    }
-
-    public function getInboxId(): int
-    {
-        return $this->inboxId;
     }
 }

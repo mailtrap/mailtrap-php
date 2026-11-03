@@ -9,7 +9,7 @@ use Mailtrap\Exception\InvalidArgumentException;
 /**
  * Class UpdateDomain
  *
- * Configuration settings for a sending domain. Only the fields provided are
+ * Configuration settings for a domain. Only the fields provided are
  * updated.
  */
 final class UpdateDomain implements DomainInterface
@@ -58,7 +58,7 @@ final class UpdateDomain implements DomainInterface
 
         if ($payload === []) {
             throw new InvalidArgumentException(
-                'At least one updatable field must be provided to update a sending domain'
+                'At least one updatable field must be provided to update a domain'
             );
         }
 

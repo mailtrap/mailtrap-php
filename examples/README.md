@@ -3,8 +3,8 @@
 Central index of runnable example scripts demonstrating Mailtrap PHP SDK features. Each script is intentionally minimal; open the file to inspect parameters. Run examples from project root (adjust env vars first).
 
 ## Prerequisites
-* Export or place inside the file your ENV variables (MAILTRAP_API_KEY, MAILTRAP_INBOX_ID, etc)
-* Some examples require a verified sending domain (production / bulk / templates).
+* Export or place inside the file your ENV variables (MAILTRAP_API_KEY, MAILTRAP_SANDBOX_ID, etc)
+* Some examples require a verified domain (production / bulk / templates).
 
 ## Contents
 
@@ -31,16 +31,16 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 | Sandbox batch send | [`batch/sandbox.php`](batch/sandbox.php) |
 | Sandbox batch send (template) | [`batch/sandbox_template.php`](batch/sandbox_template.php) |
 
-### Sandbox (Email Testing)
+### Email Sandbox
 
 | Purpose | File |
 |---------|------|
-| Sandbox transactional send | [`testing/send-mail.php`](testing/send-mail.php) |
-| Sandbox send with template | [`testing/template.php`](testing/template.php) |
-| Manage attachments of a message | [`testing/attachments.php`](testing/attachments.php) |
-| Inbox CRUD / listing | [`testing/inboxes.php`](testing/inboxes.php) |
-| Message CRUD / listing | [`testing/messages.php`](testing/messages.php) |
-| Project CRUD / listing | [`testing/projects.php`](testing/projects.php) |
+| Sandbox transactional send | [`sandbox/send-mail.php`](sandbox/send-mail.php) |
+| Sandbox send with template | [`sandbox/template.php`](sandbox/template.php) |
+| Manage attachments of a message | [`sandbox/attachments.php`](sandbox/attachments.php) |
+| Sandbox CRUD / listing | [`sandbox/sandboxes.php`](sandbox/sandboxes.php) |
+| Message CRUD / listing | [`sandbox/messages.php`](sandbox/messages.php) |
+| Project CRUD / listing | [`sandbox/projects.php`](sandbox/projects.php) |
 
 ### Inbound Email
 
@@ -68,8 +68,8 @@ Central index of runnable example scripts demonstrating Mailtrap PHP SDK feature
 |---------|------|
 | Templates CRUD + paginated list (experimental) | [`templates/templates.php`](templates/templates.php) |
 | Email templates CRUD | [`templates/all.php`](templates/all.php) |
-| Sending domains CRUD | [`sending-domains/all.php`](sending-domains/all.php) |
-| Sending domain company info | [`sending-domains/company-info.php`](sending-domains/company-info.php) |
+| Domains CRUD | [`domains/all.php`](domains/all.php) |
+| Domain company info | [`domains/company-info.php`](domains/company-info.php) |
 
 ### General API
 
@@ -104,6 +104,6 @@ For batch examples, ensure the stream (bulk vs transactional vs sandbox) matches
 ## Tips
 - Keep secrets out of committed files; rely on environment variables.
 - Template examples require existing template UUIDs in your Mailtrap account.
-- Sandbox examples need `MAILTRAP_INBOX_ID`.
+- Sandbox examples need `MAILTRAP_SANDBOX_ID`.
 
 ---
