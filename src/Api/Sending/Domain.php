@@ -125,7 +125,7 @@ class Domain extends AbstractApi implements SendingInterface
      */
     public function getSendingDomains(): ResponseInterface
     {
-        Deprecation::trigger(self::class . '::getSendingDomains()', self::class . '::getDomains()');
+        Deprecation::trigger(__METHOD__ . '()', self::class . '::getDomains()');
 
         return $this->getDomains();
     }
@@ -135,7 +135,7 @@ class Domain extends AbstractApi implements SendingInterface
      */
     public function createSendingDomain(string $domainName): ResponseInterface
     {
-        Deprecation::trigger(self::class . '::createSendingDomain()', self::class . '::createDomain()');
+        Deprecation::trigger(__METHOD__ . '()', self::class . '::createDomain()');
 
         return $this->createDomain($domainName);
     }
@@ -145,7 +145,7 @@ class Domain extends AbstractApi implements SendingInterface
      */
     public function updateSendingDomain(int $domainId, UpdateDomain $domain): ResponseInterface
     {
-        Deprecation::trigger(self::class . '::updateSendingDomain()', self::class . '::updateDomain()');
+        Deprecation::trigger(__METHOD__ . '()', self::class . '::updateDomain()');
 
         return $this->updateDomain($domainId, $domain);
     }
@@ -155,7 +155,7 @@ class Domain extends AbstractApi implements SendingInterface
      */
     public function deleteSendingDomain(int $domainId): ResponseInterface
     {
-        Deprecation::trigger(self::class . '::deleteSendingDomain()', self::class . '::deleteDomain()');
+        Deprecation::trigger(__METHOD__ . '()', self::class . '::deleteDomain()');
 
         return $this->deleteDomain($domainId);
     }

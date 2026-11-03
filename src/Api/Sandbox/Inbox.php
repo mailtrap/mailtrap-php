@@ -34,7 +34,7 @@ class Inbox extends Sandbox
      */
     public function getInboxAttributes(int $inboxId): ResponseInterface
     {
-        Deprecation::trigger(self::class . '::getInboxAttributes()', Sandbox::class . '::getSandboxAttributes()');
+        Deprecation::trigger(__METHOD__ . '()', Sandbox::class . '::getSandboxAttributes()');
 
         return $this->getSandboxAttributes($inboxId);
     }
