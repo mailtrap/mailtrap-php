@@ -16,6 +16,7 @@ jobs:
     name: PHP ${{ matrix.php-version }} Latest
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
         php-version: [ '8.1','8.2','8.3','8.4','8.5' ]
@@ -58,6 +59,7 @@ jobs:
     name: Symfony ${{ matrix.symfony }} LTS and PHP ${{ matrix.php-version }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
           - symfony: '6'
@@ -96,6 +98,7 @@ jobs:
     name: Laravel ${{ matrix.laravel }} LTS and PHP ${{ matrix.php-version }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
           - laravel: '12.0'
