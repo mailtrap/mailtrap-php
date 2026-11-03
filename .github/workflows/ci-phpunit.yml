@@ -16,9 +16,10 @@ jobs:
     name: PHP ${{ matrix.php-version }} Latest
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
-        php-version: [ '8.0','8.1','8.2','8.3','8.4','8.5' ]
+        php-version: [ '8.1','8.2','8.3','8.4','8.5' ]
 
     steps:
       - name: Checkout
@@ -58,6 +59,7 @@ jobs:
     name: Symfony ${{ matrix.symfony }} LTS and PHP ${{ matrix.php-version }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
           - symfony: '6'
@@ -96,18 +98,17 @@ jobs:
     name: Laravel ${{ matrix.laravel }} LTS and PHP ${{ matrix.php-version }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
-          - laravel: '9.0'
-            php-version: '8.1'
-          - laravel: '10.0'
+          - laravel: '12.0'
             php-version: '8.2'
-          - laravel: '11.0'
-            php-version: '8.3'
-          - laravel: '11.0'
-            php-version: '8.4'
           - laravel: '12.0'
             php-version: '8.4'
+          - laravel: '13.0'
+            php-version: '8.3'
+          - laravel: '13.0'
+            php-version: '8.5'
 
     steps:
       - name: Checkout
