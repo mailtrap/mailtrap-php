@@ -1,0 +1,23 @@
+UPGRADE-2.0.md
+  s_1379daa774a895::t_778d187a91e166 71
+src/Api/Sandbox/Inbox.php
+  s_1379daa774a895::t_3e15547abe4750 37
+src/Api/Sending/Domain.php
+  s_1379daa774a895::t_3e15547abe4750 128,138,148,158
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a18f34885eea5c6d2124173d3ed9f66f1e23992b",
+  "prompts": {},
+  "sessions": {
+    "s_1379daa774a895": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "436dd284-dfb9-4a80-bbda-dc7252db0874",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
