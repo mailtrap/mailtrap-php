@@ -37,7 +37,7 @@ try {
 }
 
 /**
- * Delete a sub-account from the organization. Requires sub-account management permissions.
+ * Delete a sub-account from the organization. Requires organization admin permissions.
  * The deletion is permanent and removes all sub-account data; deleting the organization's last
  * sub-account also deletes the organization. A repeated call for the same ID returns 404.
  *

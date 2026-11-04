@@ -47,7 +47,7 @@ class SubAccount extends AbstractApi implements GeneralInterface
     }
 
     /**
-     * Delete a sub-account by ID. Requires sub-account management permissions for the organization.
+     * Delete a sub-account by ID. Requires organization admin permissions.
      * The deletion is permanent and removes all sub-account data; deleting the organization's last
      * sub-account also deletes the organization. A repeated call for the same ID returns 404.
      * Rate limit: 10 requests per minute per organization.
