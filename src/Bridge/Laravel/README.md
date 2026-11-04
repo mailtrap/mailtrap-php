@@ -69,7 +69,7 @@ MAILTRAP_HOST="sandbox.api.mailtrap.io"
 MAILTRAP_API_KEY="YOUR_API_KEY_HERE"
 MAILTRAP_SANDBOX_ID=1000001
 ```
-The deprecated `MAILTRAP_INBOX_ID` variable and `inboxId` key in `config/services.php` still work.
+The deprecated `MAILTRAP_INBOX_ID` variable and `inboxId` key still work. If your `config/services.php` defines its own `mailtrap-sdk` entry, it replaces the package's default one as a whole, so change its `inboxId` key to `'sandboxId' => env('MAILTRAP_SANDBOX_ID')` when you rename the variable.
 
 Before starting, run the clear configuration cache command to set up new variables.
 ```bash
