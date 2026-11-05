@@ -13,7 +13,7 @@ use Mailtrap\MailtrapClientInterface;
  */
 abstract class MailtrapClientTestCase extends MailtrapTestCase
 {
-    private ?MailtrapClientInterface $mailtrapClientLayer;
+    protected ?MailtrapClientInterface $mailtrapClientLayer;
 
     abstract public function getMailtrapClientClassName(): string;
 

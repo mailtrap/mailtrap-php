@@ -68,7 +68,7 @@ UPGRADE FROM 1.x to 2.0
   ```
 
 ### Sandbox API
-* **BC BREAK**: Rebuild `Projects` & `Messages` & `Attachments` & `Inboxes` layers ([examples](examples/testing))
+* **BC BREAK**: Rebuild `Projects` & `Messages` & `Attachments` & `Inboxes` layers ([examples](examples/sandbox))
 
   __Before__:
   ```php

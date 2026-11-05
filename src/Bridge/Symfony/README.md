@@ -39,12 +39,13 @@ MAILER_DSN=mailtrap+sdk://YOUR_API_KEY_HERE@bulk.api.mailtrap.io
 ```
 
 ### Sandbox
-Add or change MAILER_DSN variable inside your `.env` file. Also, you need to change the `YOUR_API_KEY_HERE` placeholder and put correct `inboxId`.
+Add or change MAILER_DSN variable inside your `.env` file. Also, you need to change the `YOUR_API_KEY_HERE` placeholder and put correct `sandboxId`.
 
 More info sandbox -> https://help.mailtrap.io/article/109-getting-started-with-mailtrap-email-testing
 ```bash
-MAILER_DSN=mailtrap+sdk://YOUR_API_KEY_HERE@sandbox.api.mailtrap.io?inboxId=1000001
+MAILER_DSN=mailtrap+sdk://YOUR_API_KEY_HERE@sandbox.api.mailtrap.io?sandboxId=1000001
 ```
+The deprecated `inboxId` option still works.
 
 ### Send you first email
 

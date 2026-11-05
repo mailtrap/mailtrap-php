@@ -19,7 +19,7 @@ class Project extends AbstractApi implements SandboxInterface
     }
 
     /**
-     * List projects and their inboxes to which the API token has access.
+     * List projects and their sandboxes to which the API token has access.
      *
      * @return ResponseInterface
      */
@@ -31,7 +31,7 @@ class Project extends AbstractApi implements SandboxInterface
     }
 
     /**
-     * Get the project and its inboxes.
+     * Get the project and its sandboxes.
      *
      * @param int $projectId
      *
@@ -61,7 +61,7 @@ class Project extends AbstractApi implements SandboxInterface
     }
 
     /**
-     * Delete project and its inboxes.
+     * Delete project and its sandboxes.
      *
      * @param int $projectId
      *

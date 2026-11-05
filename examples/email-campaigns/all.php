@@ -42,7 +42,7 @@ try {
 try {
     $response = $emailCampaigns->createEmailCampaign(new CreateEmailCampaign(
         name: 'Spring Sale',
-        domainId: (int) $_ENV['MAILTRAP_DOMAIN_ID'], // set this environment variable with your sending domain ID
+        domainId: (int) $_ENV['MAILTRAP_DOMAIN_ID'], // set this environment variable with your domain ID
         fromLocalPart: 'news',
         templateAttributes: new TemplateAttributes(subject: 'Spring is here — 30% off'),
         fromDisplayName: 'Acme Marketing',

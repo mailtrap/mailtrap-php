@@ -12,7 +12,7 @@ $config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https
 $sandboxProjects = (new MailtrapSandboxClient($config))->projects($accountId); #required parameter is accountId
 
 /**
- * List projects and their inboxes to which the API token has access.
+ * List projects and their sandboxes to which the API token has access.
  *
  * GET https://mailtrap.io/api/accounts/{account_id}/projects
  */
@@ -27,7 +27,7 @@ try {
 
 
 /**
- * Get the project and its inboxes.
+ * Get the project and its sandboxes.
  *
  * GET https://mailtrap.io/api/accounts/{account_id}/projects/{project_id}
  */
@@ -80,7 +80,7 @@ try {
 
 
 /**
- * Delete project and its inboxes.
+ * Delete project and its sandboxes.
  *
  * DELETE https://mailtrap.io/api/accounts/{account_id}/projects/{project_id}
  */

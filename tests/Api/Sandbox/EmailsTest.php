@@ -33,7 +33,7 @@ final class EmailsTest extends MailtrapTestCase
 
         $this->email = $this->getMockBuilder(Emails::class)
             ->onlyMethods(['httpPost'])
-            ->setConstructorArgs([$this->getConfigMock(), self::FAKE_INBOX_ID])
+            ->setConstructorArgs([$this->getConfigMock(), self::FAKE_SANDBOX_ID])
             ->getMock()
         ;
     }
@@ -70,7 +70,7 @@ final class EmailsTest extends MailtrapTestCase
         $this->email
             ->expects($this->once())
             ->method('httpPost')
-            ->with(AbstractApi::SENDMAIL_SANDBOX_HOST . '/api/send/' . self::FAKE_INBOX_ID, [], [
+            ->with(AbstractApi::SENDMAIL_SANDBOX_HOST . '/api/send/' . self::FAKE_SANDBOX_ID, [], [
                 'from' => [
                     'email' => 'foo@example.com',
                     'name' => 'Ms. Foo Bar',
@@ -144,7 +144,7 @@ final class EmailsTest extends MailtrapTestCase
         $this->email
             ->expects($this->once())
             ->method('httpPost')
-            ->with(AbstractApi::SENDMAIL_SANDBOX_HOST . '/api/send/' . self::FAKE_INBOX_ID, [], [
+            ->with(AbstractApi::SENDMAIL_SANDBOX_HOST . '/api/send/' . self::FAKE_SANDBOX_ID, [], [
                 'from' => [
                     'email' => 'foo@example.com',
                     'name' => 'Ms. Foo Bar',
@@ -230,7 +230,7 @@ final class EmailsTest extends MailtrapTestCase
         $this->email
             ->expects($this->once())
             ->method('httpPost')
-            ->with(AbstractApi::SENDMAIL_SANDBOX_HOST . '/api/send/' . self::FAKE_INBOX_ID, [], [
+            ->with(AbstractApi::SENDMAIL_SANDBOX_HOST . '/api/send/' . self::FAKE_SANDBOX_ID, [], [
                 'from' => [
                     'email' => 'foo@example.com',
                     'name' => 'Ms. Foo Bar',
@@ -335,7 +335,7 @@ final class EmailsTest extends MailtrapTestCase
         $this->email
             ->expects($this->once())
             ->method('httpPost')
-            ->with(AbstractApi::SENDMAIL_SANDBOX_HOST . '/api/batch/' . self::FAKE_INBOX_ID, [], $expectedPayload)
+            ->with(AbstractApi::SENDMAIL_SANDBOX_HOST . '/api/batch/' . self::FAKE_SANDBOX_ID, [], $expectedPayload)
             ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($expectedResponse)));
 
         $response = $this->email->batchSend($recipientEmails, $baseEmail);

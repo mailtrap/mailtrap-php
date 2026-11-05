@@ -26,7 +26,7 @@ class EmailLogs extends AbstractApi implements SendingInterface
     /**
      * List email logs (paginated).
      *
-     * Returns a paginated list of email logs for the account. Results are restricted to sending domains
+     * Returns a paginated list of email logs for the account. Results are restricted to domains
      * the authenticated token has access to. Invalid or unknown filters are ignored.
      * Results are ordered by sent_at descending.
      *
@@ -58,7 +58,7 @@ class EmailLogs extends AbstractApi implements SendingInterface
     /**
      * Get a single email log message by ID.
      *
-     * Returns message details including events. Message must belong to the account and a sending domain
+     * Returns message details including events. Message must belong to the account and a domain
      * the token can access.
      *
      * @param string $sendingMessageId Message UUID (sending_message_id).

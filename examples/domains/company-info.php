@@ -17,7 +17,7 @@ $config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https
 $companyInfo = (new MailtrapSendingClient($config))->companyInfo($domainId); #required parameter is domainId
 
 /**
- * Create company info for a sending domain
+ * Create company info for a domain
  *
  * POST https://mailtrap.io/api/domains/{domain_id}/company_info
  */
@@ -45,7 +45,7 @@ try {
 
 
 /**
- * Get company info for a sending domain
+ * Get company info for a domain
  *
  * GET https://mailtrap.io/api/domains/{domain_id}/company_info
  */
@@ -60,7 +60,7 @@ try {
 
 
 /**
- * Update company info for a sending domain
+ * Update company info for a domain
  *
  * PATCH https://mailtrap.io/api/domains/{domain_id}/company_info
  *

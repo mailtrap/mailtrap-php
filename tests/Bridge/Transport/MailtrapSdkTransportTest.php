@@ -42,7 +42,7 @@ class MailtrapSdkTransportTest extends MailtrapTestCase
         $sendConfig = (new Config('key'))->setHost(AbstractApi::SENDMAIL_TRANSACTIONAL_HOST);
         $sandboxConfig = (new Config('key'))->setHost(AbstractApi::SENDMAIL_SANDBOX_HOST);
         $bulkConfig = (new Config('key'))->setHost(AbstractApi::SENDMAIL_BULK_HOST);
-        $inboxId = 1234;
+        $sandboxId = 1234;
 
         return [
             [
@@ -54,10 +54,10 @@ class MailtrapSdkTransportTest extends MailtrapTestCase
             ],
             [
                 new MailtrapSdkTransport(
-                    (new MailtrapSandboxClient($sandboxConfig))->emails($inboxId),
+                    (new MailtrapSandboxClient($sandboxConfig))->emails($sandboxId),
                     $sandboxConfig
                 ),
-                sprintf('mailtrap+sdk://%s?inboxId=%s', AbstractApi::SENDMAIL_SANDBOX_HOST, $inboxId),
+                sprintf('mailtrap+sdk://%s?sandboxId=%s', AbstractApi::SENDMAIL_SANDBOX_HOST, $sandboxId),
             ],
             [
                 new MailtrapSdkTransport(

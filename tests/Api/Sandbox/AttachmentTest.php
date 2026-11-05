@@ -27,7 +27,7 @@ class AttachmentTest extends MailtrapTestCase
 
         $this->attachment = $this->getMockBuilder(Attachment::class)
             ->onlyMethods(['httpGet'])
-            ->setConstructorArgs([$this->getConfigMock(), self::FAKE_ACCOUNT_ID, self::FAKE_INBOX_ID])
+            ->setConstructorArgs([$this->getConfigMock(), self::FAKE_ACCOUNT_ID, self::FAKE_SANDBOX_ID])
             ->getMock()
         ;
     }
@@ -49,7 +49,7 @@ class AttachmentTest extends MailtrapTestCase
                     '%s/api/accounts/%s/inboxes/%s/messages/%s/attachments',
                     AbstractApi::DEFAULT_HOST,
                     self::FAKE_ACCOUNT_ID,
-                    self::FAKE_INBOX_ID,
+                    self::FAKE_SANDBOX_ID,
                     self::FAKE_MESSAGE_ID,
                 ),
                 [
@@ -77,7 +77,7 @@ class AttachmentTest extends MailtrapTestCase
                 '%s/api/accounts/%s/inboxes/%s/messages/%s/attachments/%s',
                 AbstractApi::DEFAULT_HOST,
                 self::FAKE_ACCOUNT_ID,
-                self::FAKE_INBOX_ID,
+                self::FAKE_SANDBOX_ID,
                 self::FAKE_MESSAGE_ID,
                 self::FAKE_MESSAGE_ATTACHMENT_ID
             ))

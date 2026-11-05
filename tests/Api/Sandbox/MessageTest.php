@@ -28,7 +28,7 @@ class MessageTest extends MailtrapTestCase
 
         $this->message = $this->getMockBuilder(Message::class)
             ->onlyMethods(['httpGet', 'httpPost', 'httpPatch', 'httpDelete'])
-            ->setConstructorArgs([$this->getConfigMock(), self::FAKE_ACCOUNT_ID, self::FAKE_INBOX_ID])
+            ->setConstructorArgs([$this->getConfigMock(), self::FAKE_ACCOUNT_ID, self::FAKE_SANDBOX_ID])
             ->getMock()
         ;
     }
@@ -45,7 +45,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpGet')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages',
             )
             ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($this->getMessagesData())));
 
@@ -66,7 +66,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpGet')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages',
                 [
                     'page' => $page,
                     'search' => $search,
@@ -86,7 +86,7 @@ class MessageTest extends MailtrapTestCase
         $responseData = array_shift($responseData);
         $this->assertArrayHasKey('id', $responseData);
         $this->assertEquals(self::FAKE_MESSAGE_ID, $responseData['id']);
-        $this->assertEquals(self::FAKE_INBOX_ID, $responseData['inbox_id']);
+        $this->assertEquals(self::FAKE_SANDBOX_ID, $responseData['inbox_id']);
     }
 
     public function testGetById(): void
@@ -94,7 +94,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpGet')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID,
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID,
             )
             ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($this->getMessagesData()[0])));
 
@@ -104,7 +104,7 @@ class MessageTest extends MailtrapTestCase
         $this->assertInstanceOf(Response::class, $response);
         $this->assertArrayHasKey('id', $responseData);
         $this->assertEquals(self::FAKE_MESSAGE_ID, $responseData['id']);
-        $this->assertEquals(self::FAKE_INBOX_ID, $responseData['inbox_id']);
+        $this->assertEquals(self::FAKE_SANDBOX_ID, $responseData['inbox_id']);
     }
 
     /**
@@ -115,7 +115,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpGet')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/spam_report',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/spam_report',
             )
             ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($expectedData)));
 
@@ -134,7 +134,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpGet')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/analyze',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/analyze',
             )
             ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($expectedData)));
 
@@ -158,7 +158,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpGet')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/mail_headers',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/mail_headers',
             )
             ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($expectedHeaders)));
 
@@ -176,7 +176,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpPost')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/forward',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/forward',
                 [],
                 ['email' => $email]
             )
@@ -195,7 +195,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpPost')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/forward',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/forward',
                 [],
                 ['email' => $email]
             )
@@ -225,7 +225,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpGet')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/body.txt',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/body.txt',
             )
             ->willReturn(new Response(200, ['Content-Type' => 'text/plain'], $expectedData));
 
@@ -242,7 +242,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpGet')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/body.raw',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/body.raw',
             )
             ->willReturn(new Response(200, ['Content-Type' => 'text/plain'], $expectedData));
 
@@ -259,7 +259,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpGet')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/body.html',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/body.html',
             )
             ->willReturn(new Response(200, ['Content-Type' => 'text/html'], $expectedData));
 
@@ -276,7 +276,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpGet')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/body.eml',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/body.eml',
             )
             ->willReturn(new Response(200, ['Content-Type' => 'message/rfc822'], $expectedData));
 
@@ -293,7 +293,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpGet')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/body.htmlsource',
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID . '/body.htmlsource',
             )
             ->willReturn(new Response(200, ['Content-Type' => 'text/html'], $expectedData));
 
@@ -312,7 +312,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpPatch')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID,
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID,
                 [],
                 [
                     'message' => [
@@ -335,7 +335,7 @@ class MessageTest extends MailtrapTestCase
         $this->message->expects($this->once())
             ->method('httpDelete')
             ->with(
-                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_INBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID,
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/inboxes/' . self::FAKE_SANDBOX_ID . '/messages/' . self::FAKE_MESSAGE_ID,
             )
             ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($this->getMessagesData()[0])));
 
@@ -345,7 +345,7 @@ class MessageTest extends MailtrapTestCase
         $this->assertInstanceOf(Response::class, $response);
         $this->assertArrayHasKey('id', $responseData);
         $this->assertEquals(self::FAKE_MESSAGE_ID, $responseData['id']);
-        $this->assertEquals(self::FAKE_INBOX_ID, $responseData['inbox_id']);
+        $this->assertEquals(self::FAKE_SANDBOX_ID, $responseData['inbox_id']);
     }
 
     public function spamScoreProvider(): array
@@ -443,7 +443,7 @@ class MessageTest extends MailtrapTestCase
         return [
             [
                 "id" => self::FAKE_MESSAGE_ID,
-                "inbox_id" => self::FAKE_INBOX_ID,
+                "inbox_id" => self::FAKE_SANDBOX_ID,
                 "subject" => "Test email",
                 "sent_at" => "2022-08-19T11:34:33.839Z",
                 "from_email" => "per667son25@feeney.biz",

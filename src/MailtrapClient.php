@@ -6,6 +6,7 @@ namespace Mailtrap;
 
 use Mailtrap\Api\EmailsSendApiInterface;
 use Mailtrap\Exception\InvalidArgumentException;
+use Mailtrap\Helper\Deprecation;
 
 /**
  * The main entry point to use all possible API layers
@@ -34,12 +35,24 @@ class MailtrapClient extends AbstractMailtrapClient
         self::LAYER_INBOUND => MailtrapInboundClient::class,
     ];
 
+    /**
+     * @param int|null $sandboxId required for the sandbox API
+     * @param int|null $inboxId   deprecated, use $sandboxId instead
+     */
     public static function initSendingEmails(
         string $apiKey,
         bool $isBulk = false,
         bool $isSandbox = false,
+        ?int $sandboxId = null,
         ?int $inboxId = null,
     ): EmailsSendApiInterface {
+        $sandboxId = Deprecation::renamedArgument(
+            self::class . '::initSendingEmails()',
+            'inboxId',
+            'sandboxId',
+            $inboxId,
+            $sandboxId
+        );
         $client = new self(new Config($apiKey));
 
         if ($isBulk && $isSandbox) {
@@ -47,7 +60,7 @@ class MailtrapClient extends AbstractMailtrapClient
         }
 
         if ($isSandbox) {
-            return $client->sandbox()->emails($inboxId);
+            return $client->sandbox()->emails($sandboxId);
         }
 
         if ($isBulk) {

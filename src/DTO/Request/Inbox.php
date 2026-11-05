@@ -4,43 +4,19 @@ declare(strict_types=1);
 
 namespace Mailtrap\DTO\Request;
 
+use Mailtrap\Helper\Deprecation;
+
 /**
- * Class UpdateInbox
+ * @deprecated Use {@see Sandbox} instead.
+ *
+ * Class Inbox
  */
-class Inbox implements RequestInterface
+class Inbox extends Sandbox
 {
-    public function __construct(private ?string $name = null, private ?string $emailUsername = null)
+    public function __construct(?string $name = null, ?string $emailUsername = null)
     {
-    }
+        Deprecation::trigger(self::class, Sandbox::class);
 
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getEmailUsername(): ?string
-    {
-        return $this->emailUsername;
-    }
-
-    public function toArray(): array
-    {
-        $array = [];
-
-        if (!empty($this->getName())) {
-            $array['name'] = $this->getName();
-        }
-
-        if (!empty($this->getEmailUsername())) {
-            $array['email_username'] = $this->getEmailUsername();
-        }
-
-        return $array;
+        parent::__construct($name, $emailUsername);
     }
 }

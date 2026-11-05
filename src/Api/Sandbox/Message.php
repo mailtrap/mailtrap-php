@@ -14,16 +14,23 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Message extends AbstractApi implements SandboxInterface
 {
+    use SandboxIdTrait;
+
+    /**
+     * @param int|null $inboxId deprecated, use $sandboxId instead
+     */
     public function __construct(
         ConfigInterface $config,
         private int $accountId,
-        private int $inboxId,
+        ?int $sandboxId = null,
+        ?int $inboxId = null,
     ) {
         parent::__construct($config);
+        $this->setSandboxId($sandboxId, $inboxId);
     }
 
     /**
-     * Get all messages in the inbox
+     * Get all messages in the sandbox
      * Note: if you want to get all messages you need to use "page" param (by default will return only 30 messages per
      * page)
      *
@@ -56,7 +63,7 @@ class Message extends AbstractApi implements SandboxInterface
         }
 
         return $this->handleResponse($this->httpGet(
-            sprintf('%s/api/accounts/%s/inboxes/%s/messages', $this->getHost(), $this->getAccountId(), $this->getInboxId()),
+            sprintf('%s/api/accounts/%s/inboxes/%s/messages', $this->getHost(), $this->getAccountId(), $this->getSandboxId()),
             $parameters
         ));
     }
@@ -71,7 +78,7 @@ class Message extends AbstractApi implements SandboxInterface
     public function getById(int $messageId): ResponseInterface
     {
         return $this->handleResponse($this->httpGet(
-            sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s', $this->getHost(), $this->getAccountId(), $this->getInboxId(), $messageId)
+            sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s', $this->getHost(), $this->getAccountId(), $this->getSandboxId(), $messageId)
         ));
     }
 
@@ -88,7 +95,7 @@ class Message extends AbstractApi implements SandboxInterface
             '%s/api/accounts/%s/inboxes/%s/messages/%s/spam_report',
             $this->getHost(),
             $this->getAccountId(),
-            $this->getInboxId(),
+            $this->getSandboxId(),
             $messageId
         )));
     }
@@ -106,7 +113,7 @@ class Message extends AbstractApi implements SandboxInterface
             '%s/api/accounts/%s/inboxes/%s/messages/%s/analyze',
             $this->getHost(),
             $this->getAccountId(),
-            $this->getInboxId(),
+            $this->getSandboxId(),
             $messageId
         )));
     }
@@ -124,7 +131,7 @@ class Message extends AbstractApi implements SandboxInterface
             '%s/api/accounts/%s/inboxes/%s/messages/%s/mail_headers',
             $this->getHost(),
             $this->getAccountId(),
-            $this->getInboxId(),
+            $this->getSandboxId(),
             $messageId
         )));
     }
@@ -142,7 +149,7 @@ class Message extends AbstractApi implements SandboxInterface
             '%s/api/accounts/%s/inboxes/%s/messages/%s/body.txt',
             $this->getHost(),
             $this->getAccountId(),
-            $this->getInboxId(),
+            $this->getSandboxId(),
             $messageId
         )));
     }
@@ -160,7 +167,7 @@ class Message extends AbstractApi implements SandboxInterface
             '%s/api/accounts/%s/inboxes/%s/messages/%s/body.raw',
             $this->getHost(),
             $this->getAccountId(),
-            $this->getInboxId(),
+            $this->getSandboxId(),
             $messageId
         )));
     }
@@ -178,7 +185,7 @@ class Message extends AbstractApi implements SandboxInterface
             '%s/api/accounts/%s/inboxes/%s/messages/%s/body.html',
             $this->getHost(),
             $this->getAccountId(),
-            $this->getInboxId(),
+            $this->getSandboxId(),
             $messageId
         )));
     }
@@ -196,7 +203,7 @@ class Message extends AbstractApi implements SandboxInterface
             '%s/api/accounts/%s/inboxes/%s/messages/%s/body.eml',
             $this->getHost(),
             $this->getAccountId(),
-            $this->getInboxId(),
+            $this->getSandboxId(),
             $messageId
         )));
     }
@@ -214,7 +221,7 @@ class Message extends AbstractApi implements SandboxInterface
             '%s/api/accounts/%s/inboxes/%s/messages/%s/body.htmlsource',
             $this->getHost(),
             $this->getAccountId(),
-            $this->getInboxId(),
+            $this->getSandboxId(),
             $messageId
         )));
     }
@@ -230,7 +237,7 @@ class Message extends AbstractApi implements SandboxInterface
     public function markAsRead(int $messageId, bool $isRead = true): ResponseInterface
     {
         return $this->handleResponse($this->httpPatch(
-            sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s', $this->getHost(), $this->getAccountId(), $this->getInboxId(), $messageId),
+            sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s', $this->getHost(), $this->getAccountId(), $this->getSandboxId(), $messageId),
             [],
             [
                 'message' => [
@@ -241,7 +248,7 @@ class Message extends AbstractApi implements SandboxInterface
     }
 
     /**
-     * Delete message from inbox.
+     * Delete message from sandbox.
      *
      * @param int $messageId
      *
@@ -250,7 +257,7 @@ class Message extends AbstractApi implements SandboxInterface
     public function delete(int $messageId): ResponseInterface
     {
         return $this->handleResponse($this->httpDelete(
-            sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s', $this->getHost(), $this->getAccountId(), $this->getInboxId(), $messageId)
+            sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s', $this->getHost(), $this->getAccountId(), $this->getSandboxId(), $messageId)
         ));
     }
 
@@ -269,7 +276,7 @@ class Message extends AbstractApi implements SandboxInterface
         }
 
         return $this->handleResponse($this->httpPost(
-            sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s/forward', $this->getHost(), $this->getAccountId(), $this->getInboxId(), $messageId),
+            sprintf('%s/api/accounts/%s/inboxes/%s/messages/%s/forward', $this->getHost(), $this->getAccountId(), $this->getSandboxId(), $messageId),
             [],
             ['email' => $email]
         ));
@@ -278,10 +285,5 @@ class Message extends AbstractApi implements SandboxInterface
     public function getAccountId(): int
     {
         return $this->accountId;
-    }
-
-    public function getInboxId(): int
-    {
-        return $this->inboxId;
     }
 }

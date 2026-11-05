@@ -7,7 +7,7 @@ namespace Mailtrap\DTO\Request\Domain;
 /**
  * Class CreateCompanyInfo
  *
- * Company information for a sending domain. Required for domain compliance
+ * Company information for a domain. Required for domain compliance
  * verification.
  */
 final class CreateCompanyInfo implements DomainInterface
