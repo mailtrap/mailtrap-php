@@ -1,0 +1,19 @@
+CHANGELOG.md
+  s_b212833c618ea2::t_fa97d60597c12b 41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3109d73cfb4365c08b9373662aae4729c0703f98",
+  "prompts": {},
+  "sessions": {
+    "s_b212833c618ea2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a737877e-e7f5-4bd6-8349-f02fb874b467",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}
