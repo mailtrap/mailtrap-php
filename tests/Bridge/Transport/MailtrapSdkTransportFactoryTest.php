@@ -147,27 +147,49 @@ class MailtrapSdkTransportFactoryTest extends TransportFactoryTestCase
             'inboxId' => '1234',
         ]];
 
+        yield 'empty sandboxId' => [['sandboxId' => '', 'inboxId' => '1234']];
+
         yield 'sandboxId and inboxId with the same value' => [['sandboxId' => '1234', 'inboxId' => '1234']];
     }
 
-    public function testDifferentSandboxIdAndInboxIdOptions(): void
+    /**
+     * @dataProvider differentSandboxIdAndInboxIdOptionsProvider
+     */
+    public function testDifferentSandboxIdAndInboxIdOptions(array $options): void
     {
         $this->expectExceptionObject(new InvalidArgumentException(
             'The mailtrap+sdk transport received different values for the "sandboxId" and "inboxId" options (MAILTRAP_SANDBOX_ID and MAILTRAP_INBOX_ID in Laravel); set only "sandboxId".'
         ));
 
         $this->getFactory()->create(
-            new Dsn('mailtrap+sdk', AbstractApi::SENDMAIL_SANDBOX_HOST, self::USER, null, null, ['sandboxId' => '1234', 'inboxId' => '5678'])
+            new Dsn('mailtrap+sdk', AbstractApi::SENDMAIL_SANDBOX_HOST, self::USER, null, null, $options)
         );
     }
 
-    public function testSandboxWithoutSandboxIdOption(): void
+    public function differentSandboxIdAndInboxIdOptionsProvider(): iterable
+    {
+        yield 'two IDs' => [['sandboxId' => '1234', 'inboxId' => '5678']];
+        yield 'zero sandboxId' => [['sandboxId' => '0', 'inboxId' => '1234']];
+        yield 'zero inboxId' => [['sandboxId' => '1234', 'inboxId' => '0']];
+    }
+
+    /**
+     * @dataProvider withoutSandboxIdOptionsProvider
+     */
+    public function testSandboxWithoutSandboxIdOption(array $options): void
     {
         $this->expectExceptionObject(new RuntimeException(
             'You cannot send an email to a sandbox with an empty "sandboxId" parameter. Example -> "MAILER_DSN=mailtrap+sdk://APIKEY@sandbox.api.mailtrap.io?sandboxId=1234"'
         ));
 
-        $this->getFactory()->create(new Dsn('mailtrap+sdk', AbstractApi::SENDMAIL_SANDBOX_HOST, self::USER));
+        $this->getFactory()->create(new Dsn('mailtrap+sdk', AbstractApi::SENDMAIL_SANDBOX_HOST, self::USER, null, null, $options));
+    }
+
+    public function withoutSandboxIdOptionsProvider(): iterable
+    {
+        yield 'no options' => [[]];
+        yield 'zero sandboxId' => [['sandboxId' => '0']];
+        yield 'zero inboxId' => [['inboxId' => '0']];
     }
 
     public function unsupportedSchemeProvider(): iterable

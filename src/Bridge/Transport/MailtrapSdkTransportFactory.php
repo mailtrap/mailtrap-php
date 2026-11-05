@@ -38,7 +38,7 @@ final class MailtrapSdkTransportFactory extends AbstractTransportFactory
 
         $emailsSendMailtrapClient = $this->getEmailsSendMailTrapClient($config);
         if ($emailsSendMailtrapClient instanceof MailtrapSandboxClient) {
-            if (null === $sandboxId) {
+            if (!$sandboxId) {
                 throw new RuntimeException(
                     'You cannot send an email to a sandbox with an empty "sandboxId" parameter. Example -> "MAILER_DSN=mailtrap+sdk://APIKEY@sandbox.api.mailtrap.io?sandboxId=1234"'
                 );
@@ -60,14 +60,15 @@ final class MailtrapSdkTransportFactory extends AbstractTransportFactory
     /**
      * Reads the "sandboxId" option, falling back to the deprecated "inboxId" one. In Laravel these are the
      * services.mailtrap-sdk config keys, set from MAILTRAP_SANDBOX_ID and MAILTRAP_INBOX_ID. Setting both to
-     * different values is an error, as passing both arguments to MailtrapClient::initSendingEmails() is.
+     * different values, a zero included, is an error, as passing both arguments to
+     * MailtrapClient::initSendingEmails() is.
      */
     private function getSandboxId(Dsn $dsn): ?int
     {
-        $sandboxId = $dsn->getOption('sandboxId');
-        $inboxId = $dsn->getOption('inboxId');
-        if (empty($inboxId)) {
-            return empty($sandboxId) ? null : (int) $sandboxId;
+        $sandboxId = $this->getIdOption($dsn, 'sandboxId');
+        $inboxId = $this->getIdOption($dsn, 'inboxId');
+        if (null === $inboxId) {
+            return $sandboxId;
         }
 
         Deprecation::trigger(
@@ -75,13 +76,23 @@ final class MailtrapSdkTransportFactory extends AbstractTransportFactory
             'the "sandboxId" option (MAILTRAP_SANDBOX_ID)'
         );
 
-        if (!empty($sandboxId) && (int) $sandboxId !== (int) $inboxId) {
+        if (null !== $sandboxId && $sandboxId !== $inboxId) {
             throw new InvalidArgumentException(
                 'The mailtrap+sdk transport received different values for the "sandboxId" and "inboxId" options (MAILTRAP_SANDBOX_ID and MAILTRAP_INBOX_ID in Laravel); set only "sandboxId".'
             );
         }
 
-        return (int) $inboxId;
+        return $inboxId;
+    }
+
+    /**
+     * An option left empty, such as an empty MAILTRAP_SANDBOX_ID in Laravel, is unset.
+     */
+    private function getIdOption(Dsn $dsn, string $option): ?int
+    {
+        $value = $dsn->getOption($option);
+
+        return null === $value || '' === $value ? null : (int) $value;
     }
 
     private function getEmailsSendMailTrapClient(Config $config): EmailsSendMailtrapClientInterface
