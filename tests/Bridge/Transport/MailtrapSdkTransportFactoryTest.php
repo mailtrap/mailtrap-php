@@ -8,6 +8,7 @@ use Mailtrap\Api\AbstractApi;
 use Mailtrap\Bridge\Transport\MailtrapSdkTransport;
 use Mailtrap\Bridge\Transport\MailtrapSdkTransportFactory;
 use Mailtrap\Config;
+use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\Exception\RuntimeException;
 use Mailtrap\MailtrapClient;
 use Mailtrap\Tests\AssertsDeprecationsTrait;
@@ -145,20 +146,19 @@ class MailtrapSdkTransportFactoryTest extends TransportFactoryTestCase
             'sandboxId' => null,
             'inboxId' => '1234',
         ]];
+
+        yield 'sandboxId and inboxId with the same value' => [['sandboxId' => '1234', 'inboxId' => '1234']];
     }
 
-    public function testSandboxIdOptionTakesPrecedenceOverInboxId(): void
+    public function testDifferentSandboxIdAndInboxIdOptions(): void
     {
-        $transport = $this->getFactory()->create(new Dsn(
-            'mailtrap+sdk',
-            AbstractApi::SENDMAIL_SANDBOX_HOST,
-            self::USER,
-            null,
-            null,
-            ['sandboxId' => '1234', 'inboxId' => '5678']
+        $this->expectExceptionObject(new InvalidArgumentException(
+            'The mailtrap+sdk transport received different values for the "sandboxId" and "inboxId" options (MAILTRAP_SANDBOX_ID and MAILTRAP_INBOX_ID in Laravel); set only "sandboxId".'
         ));
 
-        $this->assertSame(sprintf('mailtrap+sdk://%s?sandboxId=1234', AbstractApi::SENDMAIL_SANDBOX_HOST), (string) $transport);
+        $this->getFactory()->create(
+            new Dsn('mailtrap+sdk', AbstractApi::SENDMAIL_SANDBOX_HOST, self::USER, null, null, ['sandboxId' => '1234', 'inboxId' => '5678'])
+        );
     }
 
     public function testSandboxWithoutSandboxIdOption(): void

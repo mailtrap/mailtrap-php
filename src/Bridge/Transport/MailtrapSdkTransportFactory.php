@@ -7,6 +7,7 @@ namespace Mailtrap\Bridge\Transport;
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\Config;
 use Mailtrap\EmailsSendMailtrapClientInterface;
+use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\Exception\RuntimeException;
 use Mailtrap\Exception\Transport\UnsupportedHostException;
 use Mailtrap\Helper\Deprecation;
@@ -58,24 +59,29 @@ final class MailtrapSdkTransportFactory extends AbstractTransportFactory
 
     /**
      * Reads the "sandboxId" option, falling back to the deprecated "inboxId" one. In Laravel these are the
-     * services.mailtrap-sdk config keys, set from MAILTRAP_SANDBOX_ID and MAILTRAP_INBOX_ID.
+     * services.mailtrap-sdk config keys, set from MAILTRAP_SANDBOX_ID and MAILTRAP_INBOX_ID. Setting both to
+     * different values is an error, as passing both arguments to MailtrapClient::initSendingEmails() is.
      */
     private function getSandboxId(Dsn $dsn): ?int
     {
-        if (!empty($dsn->getOption('sandboxId'))) {
-            return (int) $dsn->getOption('sandboxId');
+        $sandboxId = $dsn->getOption('sandboxId');
+        $inboxId = $dsn->getOption('inboxId');
+        if (empty($inboxId)) {
+            return empty($sandboxId) ? null : (int) $sandboxId;
         }
 
-        if (!empty($dsn->getOption('inboxId'))) {
-            Deprecation::trigger(
-                'The "inboxId" option of the mailtrap+sdk transport (MAILTRAP_INBOX_ID in Laravel)',
-                'the "sandboxId" option (MAILTRAP_SANDBOX_ID)'
+        Deprecation::trigger(
+            'The "inboxId" option of the mailtrap+sdk transport (MAILTRAP_INBOX_ID in Laravel)',
+            'the "sandboxId" option (MAILTRAP_SANDBOX_ID)'
+        );
+
+        if (!empty($sandboxId) && (int) $sandboxId !== (int) $inboxId) {
+            throw new InvalidArgumentException(
+                'The mailtrap+sdk transport received different values for the "sandboxId" and "inboxId" options (MAILTRAP_SANDBOX_ID and MAILTRAP_INBOX_ID in Laravel); set only "sandboxId".'
             );
-
-            return (int) $dsn->getOption('inboxId');
         }
 
-        return null;
+        return (int) $inboxId;
     }
 
     private function getEmailsSendMailTrapClient(Config $config): EmailsSendMailtrapClientInterface
