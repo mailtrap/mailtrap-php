@@ -24,7 +24,7 @@ class SubAccountTest extends MailtrapTestCase
     {
         parent::setUp();
         $this->subAccount = $this->getMockBuilder(SubAccount::class)
-            ->onlyMethods(['httpGet', 'httpPost'])
+            ->onlyMethods(['httpGet', 'httpPost', 'httpDelete'])
             ->setConstructorArgs([$this->getConfigMock(), self::FAKE_ORGANIZATION_ID])
             ->getMock();
     }
@@ -108,6 +108,54 @@ class SubAccountTest extends MailtrapTestCase
         $this->expectExceptionMessage("Name can't be blank");
 
         $this->subAccount->createSubAccount($invalidName);
+    }
+
+    public function testDeleteSubAccount(): void
+    {
+        $subAccountId = 1;
+
+        $this->subAccount->expects($this->once())
+            ->method('httpDelete')
+            ->with(AbstractApi::DEFAULT_HOST . '/api/organizations/' . self::FAKE_ORGANIZATION_ID . '/sub_accounts/' . $subAccountId)
+            ->willReturn(new Response(204));
+
+        $response = $this->subAccount->deleteSubAccount($subAccountId);
+
+        $this->assertEquals(204, $response->getStatusCode());
+    }
+
+    public function testDeleteSubAccountFailsWithForbidden(): void
+    {
+        $subAccountId = 1;
+
+        $this->subAccount->expects($this->once())
+            ->method('httpDelete')
+            ->with(AbstractApi::DEFAULT_HOST . '/api/organizations/' . self::FAKE_ORGANIZATION_ID . '/sub_accounts/' . $subAccountId)
+            ->willReturn(
+                new Response(403, ['Content-Type' => 'application/json'], json_encode(['errors' => 'Access forbidden']))
+            );
+
+        $this->expectException(HttpClientException::class);
+        $this->expectExceptionMessage('Access forbidden');
+
+        $this->subAccount->deleteSubAccount($subAccountId);
+    }
+
+    public function testDeleteSubAccountFailsWithNotFound(): void
+    {
+        $subAccountId = 1;
+
+        $this->subAccount->expects($this->once())
+            ->method('httpDelete')
+            ->with(AbstractApi::DEFAULT_HOST . '/api/organizations/' . self::FAKE_ORGANIZATION_ID . '/sub_accounts/' . $subAccountId)
+            ->willReturn(
+                new Response(404, ['Content-Type' => 'application/json'], json_encode(['error' => 'Not Found']))
+            );
+
+        $this->expectException(HttpClientException::class);
+        $this->expectExceptionMessage('Not Found');
+
+        $this->subAccount->deleteSubAccount($subAccountId);
     }
 
     private function getExpectedSubAccountResponse(int $id = 1, string $name = 'My sub-account'): array

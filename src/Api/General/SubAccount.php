@@ -46,6 +46,24 @@ class SubAccount extends AbstractApi implements GeneralInterface
         );
     }
 
+    /**
+     * Delete a sub-account by ID. Requires organization admin permissions.
+     * The organization must have the Organization & Sub-accounts feature enabled; otherwise the call fails with 403.
+     * The deletion is permanent and removes all sub-account data; deleting the organization's last
+     * sub-account also deletes the organization. A repeated call for the same ID returns 404.
+     * A concurrent deletion of the same sub-account fails with 409.
+     * Rate limit: 10 requests per minute per organization.
+     *
+     * @param int $subAccountId
+     * @return ResponseInterface
+     */
+    public function deleteSubAccount(int $subAccountId): ResponseInterface
+    {
+        return $this->handleResponse(
+            $this->httpDelete($this->getBasePath() . '/' . $subAccountId)
+        );
+    }
+
     public function getOrganizationId(): int
     {
         return $this->organizationId;
