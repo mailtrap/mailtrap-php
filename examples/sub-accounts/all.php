@@ -31,9 +31,14 @@ try {
 try {
     $response = $subAccounts->createSubAccount('My new sub-account');
 
-    var_dump(ResponseHelper::toArray($response));
+    $subAccount = ResponseHelper::toArray($response);
+    $subAccountId = $subAccount['id']; // deleted by the example below
+
+    var_dump($subAccount);
 } catch (Exception $e) {
     echo 'Caught exception: ',  $e->getMessage(), "\n";
+
+    exit(1); // the example below deletes the sub-account created here
 }
 
 /**
@@ -44,8 +49,6 @@ try {
  * DELETE https://mailtrap.io/api/organizations/{organization_id}/sub_accounts/{sub_account_id}
  */
 try {
-    $subAccountId = 12347;
-
     $response = $subAccounts->deleteSubAccount($subAccountId);
 
     echo $response->getStatusCode(); // 204
