@@ -1,3 +1,13 @@
+## [3.18.0] - 2026-11-09
+
+## What's Changed
+* Drop EOL PHP 8.0 and Laravel 9-11 from CI matrix by @Rabsztok in https://github.com/mailtrap/mailtrap-php/pull/87
+* Add deleteSubAccount for organization sub-accounts by @oshchyhol in https://github.com/mailtrap/mailtrap-php/pull/80
+* Add Sandbox and Domain names; deprecate the Inbox and SendingDomain names by @Rabsztok in https://github.com/mailtrap/mailtrap-php/pull/88
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-php/compare/3.17.0...3.18.0
+
 ## [3.17.0] - 2026-10-29
 
 ## What's Changed
