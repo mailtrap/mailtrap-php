@@ -46,7 +46,7 @@ jobs:
 
       - name: Resolve pending release
         id: pending
-        uses: railsware/github-actions/resolve-pending-release@08ad3c39a7ff8276d1f0d815e862458f72c435cd
+        uses: railsware/github-actions/resolve-pending-release@master
         with:
           tag-prefix: "" # tags are bare X.Y.Z
 
@@ -101,12 +101,12 @@ jobs:
       contents: write # edit and un-draft the release
     steps:
       - name: Check GitHub release
-        uses: railsware/github-actions/check-sdk-github-release@08ad3c39a7ff8276d1f0d815e862458f72c435cd
+        uses: railsware/github-actions/check-sdk-github-release@master
         with:
           tag: ${{ needs.detect.outputs.tag }}
 
       - name: Publish GitHub release
-        uses: railsware/github-actions/publish-github-release@08ad3c39a7ff8276d1f0d815e862458f72c435cd
+        uses: railsware/github-actions/publish-github-release@master
         with:
           tag: ${{ needs.detect.outputs.tag }}
           target: ${{ github.sha }}
