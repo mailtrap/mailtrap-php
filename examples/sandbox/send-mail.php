@@ -10,27 +10,22 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 
 /**
- * Test Email WITH TEMPLATE
+ * Email Sandbox API
  *
- * WARNING! If template is provided then subject, text, html, category  and other params are forbidden.
- *
- * UUID of email template. Subject, text and html will be generated from template using optional template_variables.
- * Optional template variables that will be used to generate actual subject, text and html from email template
+ * POST https://sandbox.api.mailtrap.io/api/send/{inbox_id}
  */
 try {
     $mailtrap = MailtrapClient::initSendingEmails(
         apiKey: $_ENV['MAILTRAP_API_KEY'], #your API token from here https://mailtrap.io/api-tokens
         isSandbox: true, # Sandbox sending (@see https://help.mailtrap.io/article/109-getting-started-with-mailtrap-email-testing)
-        inboxId: $_ENV['MAILTRAP_INBOX_ID'] # required param for sandbox sending
+        sandboxId: $_ENV['MAILTRAP_SANDBOX_ID'] # required param for sandbox sending
     );
 
     $email = (new MailtrapEmail())
-        ->from(new Address('example@YOUR-DOMAIN-HERE.com', 'Mailtrap Test'))
-        ->to(new Address('example@gmail.com', 'Jon'))
-        ->templateUuid('bfa432fd-0000-0000-0000-8493da283a69')
-        ->templateVariables([
-            'user_name' => 'Jon Bush',
-        ])
+        ->from(new Address('mailtrap@example.com', 'Mailtrap Test'))
+        ->to(new Address('email@example.com', 'Jon'))
+        ->subject('Hello from Mailtrap!')
+        ->text('Welcome to Mailtrap Sandbox!')
     ;
 
     $response = $mailtrap->send($email);

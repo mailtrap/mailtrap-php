@@ -19,7 +19,7 @@ try {
     $mailtrap = MailtrapClient::initSendingEmails(
         apiKey: $_ENV['MAILTRAP_API_KEY'], #your API token from here https://mailtrap.io/api-tokens
         isSandbox: true, # Sandbox sending (@see https://help.mailtrap.io/article/109-getting-started-with-mailtrap-email-testing)
-        inboxId: $_ENV['MAILTRAP_INBOX_ID'] # required param for sandbox sending
+        sandboxId: $_ENV['MAILTRAP_SANDBOX_ID'] # required param for sandbox sending
     );
 
     $baseEmail = (new MailtrapEmail())

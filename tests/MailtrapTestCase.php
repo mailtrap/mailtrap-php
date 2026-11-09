@@ -19,6 +19,7 @@ abstract class MailtrapTestCase extends TestCase
     public const FAKE_ORGANIZATION_ID = 7777;
     public const FAKE_ACCOUNT_ACCESS_ID = 1000001;
     public const FAKE_PROJECT_ID = 2436;
+    public const FAKE_SANDBOX_ID = 4015;
     public const FAKE_INBOX_ID = 4015;
     public const FAKE_MESSAGE_ID = 457;
     public const FAKE_MESSAGE_ATTACHMENT_ID = 67;

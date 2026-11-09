@@ -17,7 +17,7 @@ final class MarketingStatsFilter implements MarketingStatsInterface
     /**
      * @param string   $startDate             Start of the date range (inclusive), `YYYY-MM-DD`
      * @param string   $endDate               End of the date range (inclusive), `YYYY-MM-DD`
-     * @param int[]    $sendingDomainIds      Only traffic sent from these sending domains
+     * @param int[]    $sendingDomainIds      Only traffic sent from these domains
      * @param string[] $sources               Subset of MarketingStatsInterface::SOURCES; one value narrows
      *                                        to that source, none or both mean all Email Marketing traffic
      * @param string[] $emailServiceProviders Only traffic to these email service providers (e.g. "Google")

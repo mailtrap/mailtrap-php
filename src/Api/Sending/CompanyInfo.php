@@ -21,7 +21,7 @@ class CompanyInfo extends AbstractApi implements SendingInterface
     }
 
     /**
-     * Get the company info associated with the sending domain.
+     * Get the company info associated with the domain.
      *
      * @return ResponseInterface
      */
@@ -33,7 +33,7 @@ class CompanyInfo extends AbstractApi implements SendingInterface
     }
 
     /**
-     * Create the company info for the sending domain. Company info is required
+     * Create the company info for the domain. Company info is required
      * for domain compliance verification.
      *
      * @param CreateCompanyInfo $companyInfo
@@ -52,7 +52,7 @@ class CompanyInfo extends AbstractApi implements SendingInterface
     }
 
     /**
-     * Update the company info for the sending domain.
+     * Update the company info for the domain.
      *
      * @param UpdateCompanyInfo $companyInfo
      * @return ResponseInterface

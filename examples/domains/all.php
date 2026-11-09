@@ -12,15 +12,15 @@ require __DIR__ . '/../../vendor/autoload.php';
 $accountId = (int) $_ENV['MAILTRAP_ACCOUNT_ID'];
 $config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens
 
-$sendingDomains = (new MailtrapSendingClient($config))->domains($accountId); #required parameter is accountId
+$domains = (new MailtrapSendingClient($config))->domains($accountId); #required parameter is accountId
 
 /**
- * Get a list of sending domains.
+ * Get a list of domains.
  *
  * GET https://mailtrap.io/api/accounts/{account_id}/domains
  */
 try {
-    $response = $sendingDomains->getSendingDomains();
+    $response = $domains->getDomains();
 
     // print the response body (array)
     var_dump(ResponseHelper::toArray($response));
@@ -30,14 +30,14 @@ try {
 
 
 /**
- * Create a new sending domain
+ * Create a new domain
  *
  * POST https://mailtrap.io/api/accounts/{account_id}/domains
  */
 try {
     $domainName = 'example.com';
 
-    $response = $sendingDomains->createSendingDomain($domainName);
+    $response = $domains->createDomain($domainName);
 
     // print the response body (array)
     var_dump(ResponseHelper::toArray($response));
@@ -47,14 +47,14 @@ try {
 
 
 /**
- * Get a sending domain by ID
+ * Get a domain by ID
  *
  * GET https://mailtrap.io/api/accounts/{account_id}/domains/{domain_id}
  */
 try {
     $domainId = (int) $_ENV['MAILTRAP_DOMAIN_ID']; // Set this environment variable with a valid domain ID
 
-    $response = $sendingDomains->getDomainById($domainId);
+    $response = $domains->getDomainById($domainId);
 
     // print the response body (array)
     var_dump(ResponseHelper::toArray($response));
@@ -72,7 +72,7 @@ try {
     $domainId = (int) $_ENV['MAILTRAP_DOMAIN_ID']; // Set this environment variable with a valid domain ID
     $email = 'devops@example.com'; // Email address to send setup instructions to
 
-    $response = $sendingDomains->sendDomainSetupInstructions($domainId, $email);
+    $response = $domains->sendDomainSetupInstructions($domainId, $email);
 
     // print the response body (array)
     var_dump(ResponseHelper::toArray($response));
@@ -82,14 +82,14 @@ try {
 
 
 /**
- * Update sending domain configuration settings
+ * Update domain configuration settings
  *
  * PATCH https://mailtrap.io/api/accounts/{account_id}/domains/{domain_id}
  */
 try {
     $domainId = (int) $_ENV['MAILTRAP_DOMAIN_ID']; // Set this environment variable with a valid domain ID
 
-    $response = $sendingDomains->updateSendingDomain(
+    $response = $domains->updateDomain(
         $domainId,
         new UpdateDomain(
             openTrackingEnabled: true,
@@ -108,14 +108,14 @@ try {
 
 
 /**
- * Delete a sending domain
+ * Delete a domain
  *
  * DELETE https://mailtrap.io/api/accounts/{account_id}/domains/{domain_id}
  */
 try {
     $domainId = (int) $_ENV['MAILTRAP_DOMAIN_ID']; // Set this environment variable with a valid domain ID
 
-    $response = $sendingDomains->deleteSendingDomain($domainId);
+    $response = $domains->deleteDomain($domainId);
 
     // Print the response status code
     var_dump($response->getStatusCode());

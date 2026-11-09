@@ -12,7 +12,7 @@ $billing = (new MailtrapGeneralClient($config))->billing($accountId);
 
 
 /**
- * Get current billing cycle usage for Email Testing and Email Sending.
+ * Get current billing cycle usage for Email Sandbox and Email Sending.
  *
  * GET https://mailtrap.io/api/accounts/{account_id}/billing/usage
  */

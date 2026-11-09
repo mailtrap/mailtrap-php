@@ -13,16 +13,23 @@ use Psr\Http\Message\ResponseInterface;
  */
 class Attachment extends AbstractApi implements SandboxInterface
 {
+    use SandboxIdTrait;
+
+    /**
+     * @param int|null $inboxId deprecated, use $sandboxId instead
+     */
     public function __construct(
         ConfigInterface $config,
         private int $accountId,
-        private int $inboxId,
+        ?int $sandboxId = null,
+        ?int $inboxId = null,
     ) {
         parent::__construct($config);
+        $this->setSandboxId($sandboxId, $inboxId);
     }
 
     /**
-     * Get message attachments by inboxId and messageId.
+     * Get message attachments by sandboxId and messageId.
      *
      * @param int         $messageId
      * @param string|null $attachmentType
@@ -45,7 +52,7 @@ class Attachment extends AbstractApi implements SandboxInterface
                 '%s/api/accounts/%s/inboxes/%s/messages/%s/attachments',
                 $this->getHost(),
                 $this->getAccountId(),
-                $this->getInboxId(),
+                $this->getSandboxId(),
                 $messageId
             ),
             $parameters
@@ -66,7 +73,7 @@ class Attachment extends AbstractApi implements SandboxInterface
             '%s/api/accounts/%s/inboxes/%s/messages/%s/attachments/%s',
             $this->getHost(),
             $this->getAccountId(),
-            $this->getInboxId(),
+            $this->getSandboxId(),
             $messageId,
             $attachmentId
         )));
@@ -75,10 +82,5 @@ class Attachment extends AbstractApi implements SandboxInterface
     public function getAccountId(): int
     {
         return $this->accountId;
-    }
-
-    public function getInboxId(): int
-    {
-        return $this->inboxId;
     }
 }

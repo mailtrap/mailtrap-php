@@ -15,7 +15,7 @@ require __DIR__ . '/../../vendor/autoload.php';
  * UUID of email template. Subject, text and html will be generated from template using optional template_variables.
  * Optional template variables that will be used to generate actual subject, text and html from email template
  *
- * For this example, you need to have ready-to-use sending domain or, a Demo domain that allows sending emails to your own account email.
+ * For this example, you need to have ready-to-use domain or, a Demo domain that allows sending emails to your own account email.
  * @see https://help.mailtrap.io/article/69-sending-domain-setup
  */
 try {

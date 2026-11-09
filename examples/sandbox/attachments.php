@@ -7,10 +7,10 @@ use Mailtrap\MailtrapSandboxClient;
 require __DIR__ . '/../../vendor/autoload.php';
 
 $accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
-$inboxId = $_ENV['MAILTRAP_INBOX_ID'];
+$sandboxId = $_ENV['MAILTRAP_SANDBOX_ID'];
 $config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens
 
-$sandboxAttachments = (new MailtrapSandboxClient($config))->attachments($accountId, $inboxId); #required parameters are accountId amd inboxId
+$sandboxAttachments = (new MailtrapSandboxClient($config))->attachments($accountId, $sandboxId); #required parameters are accountId and sandboxId
 
 
 /**

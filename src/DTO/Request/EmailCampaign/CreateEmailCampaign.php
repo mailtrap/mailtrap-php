@@ -15,7 +15,7 @@ final class CreateEmailCampaign implements EmailCampaignInterface
 {
     /**
      * @param string             $name               Campaign name (required)
-     * @param int                $domainId           ID of the verified sending domain, as returned by the Sending Domains endpoints (required)
+     * @param int                $domainId           ID of the verified domain, as returned by the Domains endpoints (required)
      * @param string             $fromLocalPart      Local part (before the @) of the From address (required)
      * @param TemplateAttributes $templateAttributes Template attributes; `subject` is required on create
      * @param string|null        $fromDisplayName    Display name shown in the From header
