@@ -1,3 +1,11 @@
+## [3.18.1] - 2026-11-12
+
+## What's Changed
+* Add release workflow by @IgorDobryn in https://github.com/mailtrap/mailtrap-php/pull/90
+
+
+**Full Changelog**: https://github.com/mailtrap/mailtrap-php/compare/3.18.0...3.18.1
+
 ## [3.18.0] - 2026-11-09
 
 ## What's Changed
