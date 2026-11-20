@@ -196,7 +196,9 @@ class WebhookTest extends MailtrapTestCase
     public function testCreateWebhookRejectsUnknownWebhookType(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('"webhookType" must be one of "email_sending", "audit_log", or "inbound_receiving", "spam" given');
+        $this->expectExceptionMessage(
+            '"webhookType" must be one of "email_sending", "audit_log", "inbound_receiving", or "campaigns", "spam" given'
+        );
 
         new CreateWebhook(
             url: 'https://example.com/mailtrap/webhooks',
@@ -225,6 +227,88 @@ class WebhookTest extends MailtrapTestCase
             url: 'https://example.com/mailtrap/webhooks',
             webhookType: Webhook::TYPE_EMAIL_SENDING,
             eventTypes: [Webhook::EVENT_DELIVERY],
+        );
+    }
+
+    public function testCreateCampaignsWebhook(): void
+    {
+        $createDto = new CreateWebhook(
+            url: 'https://example.com/mailtrap/webhooks',
+            webhookType: Webhook::TYPE_CAMPAIGNS,
+            eventTypes: [Webhook::EVENT_DELIVERY, Webhook::EVENT_SUBSCRIPTION_PREFERENCES_UPDATE],
+            payloadFormat: Webhook::PAYLOAD_FORMAT_JSON,
+            domainId: 435,
+        );
+
+        $this->assertSame(
+            [
+                'url' => 'https://example.com/mailtrap/webhooks',
+                'webhook_type' => 'campaigns',
+                'event_types' => ['delivery', 'subscription_preferences_update'],
+                'payload_format' => 'json',
+                'domain_id' => 435,
+            ],
+            $createDto->toArray()
+        );
+    }
+
+    public function testCreateWebhookWithSubscriptionPreferencesUpdate(): void
+    {
+        $createDto = new CreateWebhook(
+            url: 'https://example.com/mailtrap/webhooks',
+            webhookType: Webhook::TYPE_EMAIL_SENDING,
+            eventTypes: [Webhook::EVENT_UNSUBSCRIBE, Webhook::EVENT_SUBSCRIPTION_PREFERENCES_UPDATE],
+            sendingStream: Webhook::SENDING_STREAM_BULK,
+        );
+        $webhookResponse = [
+            'sending_stream' => Webhook::SENDING_STREAM_BULK,
+            'event_types' => [Webhook::EVENT_UNSUBSCRIBE, Webhook::EVENT_SUBSCRIPTION_PREFERENCES_UPDATE],
+        ] + $this->getExpectedWebhookResponse();
+
+        $this->webhook->expects($this->once())
+            ->method('httpPost')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/webhooks',
+                [],
+                [
+                    'webhook' => [
+                        'url' => 'https://example.com/mailtrap/webhooks',
+                        'webhook_type' => 'email_sending',
+                        'event_types' => ['unsubscribe', 'subscription_preferences_update'],
+                        'sending_stream' => 'bulk',
+                    ],
+                ]
+            )
+            ->willReturn(
+                new Response(200, ['Content-Type' => 'application/json'], json_encode(['data' => $webhookResponse]))
+            );
+
+        $responseData = ResponseHelper::toArray($this->webhook->createWebhook($createDto));
+
+        $this->assertContains(Webhook::EVENT_SUBSCRIPTION_PREFERENCES_UPDATE, $responseData['data']['event_types']);
+    }
+
+    public function testCreateCampaignsWebhookRejectsMissingEventTypes(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('"eventTypes" is required for campaigns webhooks');
+
+        new CreateWebhook(
+            url: 'https://example.com/mailtrap/webhooks',
+            webhookType: Webhook::TYPE_CAMPAIGNS,
+        );
+    }
+
+    public function testCreateCampaignsWebhookRejectsSendingStream(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('"sendingStream" is not allowed for campaigns webhooks');
+
+        new CreateWebhook(
+            url: 'https://example.com/mailtrap/webhooks',
+            webhookType: Webhook::TYPE_CAMPAIGNS,
+            eventTypes: [Webhook::EVENT_DELIVERY],
+            sendingStream: Webhook::SENDING_STREAM_BULK,
         );
     }
 

@@ -15,7 +15,8 @@ final class CreateSuppression implements SuppressionInterface
      * @param string      $email         Email address to suppress
      * @param int         $domainId      ID of the domain to suppress this email for
      * @param string      $sendingStream One of Suppression::SENDING_STREAM_*
-     * @param string|null $type          One of Suppression::TYPE_*. The API defaults to
+     * @param string|null $type          One of Suppression::TYPE_* except TYPE_TOPIC_UNSUBSCRIPTION,
+     *                                   which the API doesn't create. The API defaults to
      *                                   "manual import" when omitted.
      */
     public function __construct(

@@ -73,6 +73,16 @@ try {
         echo "Status: " . $message['status'] . PHP_EOL;
         echo "Subject: " . ($message['subject'] ?? '') . PHP_EOL;
         echo "Events: " . count($message['events'] ?? []) . PHP_EOL;
+
+        // Each event's `details` depend on its `event_type`; the API may add types, so don't fail on
+        // one you don't know. The subscription topic events carry the topic's ID.
+        foreach ($message['events'] ?? [] as $event) {
+            $line = "  - " . $event['event_type'] . " at " . $event['created_at'];
+            if (in_array($event['event_type'], ['topic_unsubscribe', 'topic_resubscribe'], true)) {
+                $line .= " (subscription topic " . ($event['details']['subscription_topic_id'] ?? 'unknown') . ")";
+            }
+            echo $line . PHP_EOL;
+        }
     } else {
         echo "No messages in the list." . PHP_EOL;
     }

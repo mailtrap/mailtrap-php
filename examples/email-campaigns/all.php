@@ -14,8 +14,10 @@ use Mailtrap\MailtrapGeneralClient;
 require __DIR__ . '/../../vendor/autoload.php';
 
 $accountId = (int) $_ENV['MAILTRAP_ACCOUNT_ID'];
+$domainId = (int) $_ENV['MAILTRAP_DOMAIN_ID']; // set this environment variable with your domain ID
 $config = new Config($_ENV['MAILTRAP_API_KEY']); // your API token from https://mailtrap.io/api-tokens
-$emailCampaigns = (new MailtrapGeneralClient($config))->emailCampaigns($accountId);
+$generalClient = new MailtrapGeneralClient($config);
+$emailCampaigns = $generalClient->emailCampaigns($accountId);
 
 /**
  * Get a paginated list of email campaigns (newest first).
@@ -34,15 +36,37 @@ try {
 }
 
 /**
+ * Pick the subscription topic the campaign is sent for: the first one that covers the campaign's
+ * domain (a topic with no `domain_id` covers every domain). Accounts without Subscription Topics
+ * get 403 here, and the campaign below is created without a topic.
+ *
+ * GET https://mailtrap.io/api/subscription_topics
+ */
+$subscriptionTopicId = null;
+try {
+    $topics = ResponseHelper::toArray($generalClient->subscriptionTopics()->getSubscriptionTopics());
+
+    foreach ($topics['data'] as $topic) {
+        if ($topic['domain_id'] === null || $topic['domain_id'] === $domainId) {
+            $subscriptionTopicId = $topic['id'];
+            break;
+        }
+    }
+} catch (Exception $e) {
+    echo 'No subscription topic for the campaign: ', $e->getMessage(), PHP_EOL;
+}
+
+/**
  * Create a new email campaign in the `draft` state (wrapped in `data`).
  * `name`, `domain_id`, `from_local_part` and a template `subject` are required.
+ * `subscription_topic_id` is left out when null; the response returns it, null without a topic.
  *
  * POST https://mailtrap.io/api/email_campaigns
  */
 try {
     $response = $emailCampaigns->createEmailCampaign(new CreateEmailCampaign(
         name: 'Spring Sale',
-        domainId: (int) $_ENV['MAILTRAP_DOMAIN_ID'], // set this environment variable with your domain ID
+        domainId: $domainId,
         fromLocalPart: 'news',
         templateAttributes: new TemplateAttributes(subject: 'Spring is here — 30% off'),
         fromDisplayName: 'Acme Marketing',
@@ -51,6 +75,7 @@ try {
             localPart: 'support',
             domain: 'acme.com',
         ),
+        subscriptionTopicId: $subscriptionTopicId,
     ));
 
     $emailCampaign = ResponseHelper::toArray($response);
@@ -221,7 +246,7 @@ try {
 try {
     $throwaway = ResponseHelper::toArray($emailCampaigns->createEmailCampaign(new CreateEmailCampaign(
         name: 'Draft to delete',
-        domainId: (int) $_ENV['MAILTRAP_DOMAIN_ID'],
+        domainId: $domainId,
         fromLocalPart: 'news',
         templateAttributes: new TemplateAttributes(subject: 'Draft to delete')
     )));

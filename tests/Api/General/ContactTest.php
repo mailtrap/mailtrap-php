@@ -7,9 +7,11 @@ use Mailtrap\Api\General\Contact;
 use Mailtrap\DTO\Request\Contact\CreateContact;
 use Mailtrap\DTO\Request\Contact\CreateContactEvent;
 use Mailtrap\DTO\Request\Contact\ContactExportFilter;
+use Mailtrap\DTO\Request\Contact\ContactSubscriptionTopic;
 use Mailtrap\DTO\Request\Contact\UpdateContact;
 use Mailtrap\DTO\Request\Contact\ImportContact;
 use Mailtrap\Exception\HttpClientException;
+use Mailtrap\Exception\HttpServerException;
 use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
@@ -22,6 +24,9 @@ use Mailtrap\Helper\ResponseHelper;
  */
 class ContactTest extends MailtrapTestCase
 {
+    private const FAKE_SUBSCRIPTION_TOPIC_ID = 17;
+    private const FAKE_DOMAIN_ID = 3938;
+
     /**
      * @var Contact|null
      */
@@ -205,6 +210,56 @@ class ContactTest extends MailtrapTestCase
         $this->assertInstanceOf(Response::class, $response);
         $this->assertArrayHasKey('email', $responseData);
         $this->assertEquals('test@example.com', $responseData['email']);
+        $this->assertEquals(
+            [
+                [
+                    'subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                    'domain_id' => self::FAKE_DOMAIN_ID,
+                    'status' => ContactSubscriptionTopic::STATUS_SUBSCRIBED,
+                ],
+                [
+                    'subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                    'domain_id' => 3939,
+                    'status' => ContactSubscriptionTopic::STATUS_UNSUBSCRIBED,
+                ],
+            ],
+            $responseData['subscription_topics']
+        );
+    }
+
+    public function testGetContactWithUnreadableSubscriptionTopics(): void
+    {
+        $contactId = '019706a8-9612-77be-8586-4f26816b467a';
+        $contactData = $this->getExpectedContactData();
+        // null when the topic statuses can't be read: retry rather than take them as subscribed
+        $contactData['data']['subscription_topics'] = null;
+
+        $this->contact->expects($this->once())
+            ->method('httpGet')
+            ->with(AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/contacts/' . $contactId)
+            ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($contactData)));
+
+        $responseData = ResponseHelper::toArray($this->contact->getContactById($contactId))['data'];
+
+        $this->assertArrayHasKey('subscription_topics', $responseData);
+        $this->assertNull($responseData['subscription_topics']);
+    }
+
+    public function testGetContactForAccountWithoutSubscriptionTopics(): void
+    {
+        $contactId = '019706a8-9612-77be-8586-4f26816b467a';
+        $contactData = $this->getExpectedContactData();
+        unset($contactData['data']['subscription_topics']);
+
+        $this->contact->expects($this->once())
+            ->method('httpGet')
+            ->with(AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/contacts/' . $contactId)
+            ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($contactData)));
+
+        $responseData = ResponseHelper::toArray($this->contact->getContactById($contactId))['data'];
+
+        $this->assertEquals('test@example.com', $responseData['email']);
+        $this->assertArrayNotHasKey('subscription_topics', $responseData);
     }
 
     public function testGetContactByEmail(): void
@@ -248,6 +303,144 @@ class ContactTest extends MailtrapTestCase
         $this->assertInstanceOf(Response::class, $response);
         $this->assertArrayHasKey('email', $responseData);
         $this->assertEquals($fakeEmail, $responseData['email']);
+    }
+
+    public function testCreateContactWithSubscriptionTopics(): void
+    {
+        $contactDTO = CreateContact::init(
+            'test@example.com',
+            ['first_name' => 'John'],
+            [1, 2],
+            [
+                ContactSubscriptionTopic::init(
+                    self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                    self::FAKE_DOMAIN_ID,
+                    ContactSubscriptionTopic::STATUS_UNSUBSCRIBED
+                ),
+            ]
+        );
+
+        $this->contact->expects($this->once())
+            ->method('httpPost')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/contacts',
+                [],
+                [
+                    'contact' => [
+                        'email' => 'test@example.com',
+                        'fields' => ['first_name' => 'John'],
+                        'list_ids' => [1, 2],
+                        'subscription_topics' => [
+                            [
+                                'subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                                'domain_id' => self::FAKE_DOMAIN_ID,
+                                'status' => 'unsubscribed',
+                            ],
+                        ],
+                    ],
+                ]
+            )
+            ->willReturn(
+                new Response(201, ['Content-Type' => 'application/json'], json_encode($this->getExpectedContactData()))
+            );
+
+        $responseData = ResponseHelper::toArray($this->contact->createContact($contactDTO))['data'];
+
+        $this->assertCount(2, $responseData['subscription_topics']);
+    }
+
+    public function testCreateContactExcludesUnsetSubscriptionTopics(): void
+    {
+        $payload = (new CreateContact('test@example.com', ['first_name' => 'John'], [1, 2]))->toArray();
+
+        $this->assertArrayNotHasKey('subscription_topics', $payload);
+    }
+
+    public function testCreateContactSendsSubscriptionTopicsAsList(): void
+    {
+        $subscriptionTopic = new ContactSubscriptionTopic(
+            self::FAKE_SUBSCRIPTION_TOPIC_ID,
+            self::FAKE_DOMAIN_ID,
+            ContactSubscriptionTopic::STATUS_SUBSCRIBED
+        );
+
+        // keyed entries would otherwise encode as a JSON object, which the API ignores
+        $payload = (new CreateContact(
+            email: 'test@example.com',
+            subscriptionTopics: ['newsletter' => $subscriptionTopic]
+        ))->toArray();
+
+        $this->assertSame(
+            '[{"subscription_topic_id":17,"domain_id":3938,"status":"subscribed"}]',
+            json_encode($payload['subscription_topics'])
+        );
+    }
+
+    public function testCreateContactRejectsInvalidSubscriptionTopic(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Each subscription topic must be an instance of ContactSubscriptionTopic.');
+
+        (new CreateContact(
+            email: 'test@example.com',
+            subscriptionTopics: [['subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID]]
+        ))->toArray();
+    }
+
+    public function testCreateContactWithSubscriptionTopicsFailsForAccountWithoutTopics(): void
+    {
+        $contactDTO = new CreateContact(
+            email: 'test@example.com',
+            subscriptionTopics: [
+                new ContactSubscriptionTopic(
+                    self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                    self::FAKE_DOMAIN_ID,
+                    ContactSubscriptionTopic::STATUS_SUBSCRIBED
+                ),
+            ]
+        );
+
+        $this->contact->expects($this->once())
+            ->method('httpPost')
+            ->willReturn(
+                new Response(
+                    422,
+                    ['Content-Type' => 'application/json'],
+                    json_encode(['errors' => ['subscription_topics' => ['are not available for this account']]])
+                )
+            );
+
+        $this->expectException(HttpClientException::class);
+        $this->expectExceptionMessage('Errors: subscription_topics -> are not available for this account.');
+
+        $this->contact->createContact($contactDTO);
+    }
+
+    public function testCreateContactReportsUnsavedSubscriptionTopics(): void
+    {
+        $contactId = '019706a8-9612-77be-8586-4f26816b467a';
+        $message = 'The contact was saved, but its subscription topic preferences were not. '
+            . 'Send them again in an update of contact ' . $contactId . '.';
+
+        $this->contact->expects($this->once())
+            ->method('httpPost')
+            ->willReturn(new Response(503, ['Content-Type' => 'application/json'], json_encode(['errors' => $message])));
+
+        $this->expectException(HttpServerException::class);
+        $this->expectExceptionCode(503);
+        $this->expectExceptionMessage('Internal Server Error. HTTP response code ("503") received from the API server. '
+            . 'Retry later or contact support. Errors: ' . $message);
+
+        $this->contact->createContact(new CreateContact(
+            email: 'test@example.com',
+            subscriptionTopics: [
+                new ContactSubscriptionTopic(
+                    self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                    self::FAKE_DOMAIN_ID,
+                    ContactSubscriptionTopic::STATUS_UNSUBSCRIBED
+                ),
+            ]
+        ));
     }
 
     public function testUpdateContactById(): void
@@ -328,6 +521,92 @@ class ContactTest extends MailtrapTestCase
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertEquals('unsubscribed', $responseData['status']);
+    }
+
+    public function testUpdateContactExcludesUnsetSubscriptionTopics(): void
+    {
+        $payload = (new UpdateContact('test@example.com', ['last_name' => 'Smith'], [3], [1, 2], true))->toArray();
+
+        $this->assertArrayNotHasKey('subscription_topics', $payload);
+    }
+
+    public function testUpdateContactWithSubscriptionTopicsOnly(): void
+    {
+        $contactId = '019706a8-9612-77be-8586-4f26816b467a';
+        // the topic and domain pairs left out keep their status
+        $contactDTO = UpdateContact::init(
+            email: 'test@example.com',
+            subscriptionTopics: [
+                ContactSubscriptionTopic::init(
+                    self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                    self::FAKE_DOMAIN_ID,
+                    ContactSubscriptionTopic::STATUS_SUBSCRIBED
+                ),
+            ]
+        );
+
+        $this->contact->expects($this->once())
+            ->method('httpPatch')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/contacts/' . $contactId,
+                [],
+                [
+                    'contact' => [
+                        'email' => 'test@example.com',
+                        'fields' => [],
+                        'list_ids_included' => [],
+                        'list_ids_excluded' => [],
+                        'subscription_topics' => [
+                            [
+                                'subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                                'domain_id' => self::FAKE_DOMAIN_ID,
+                                'status' => 'subscribed',
+                            ],
+                        ],
+                    ],
+                ]
+            )
+            ->willReturn(
+                new Response(200, ['Content-Type' => 'application/json'], json_encode($this->getExpectedUpdateContactData()))
+            );
+
+        $responseData = ResponseHelper::toArray($this->contact->updateContactById($contactId, $contactDTO))['data'];
+
+        $this->assertEquals(
+            [
+                [
+                    'subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                    'domain_id' => self::FAKE_DOMAIN_ID,
+                    'status' => ContactSubscriptionTopic::STATUS_SUBSCRIBED,
+                ],
+            ],
+            $responseData['subscription_topics']
+        );
+    }
+
+    public function testUpdateContactReportsUnsavedSubscriptionTopics(): void
+    {
+        $contactId = '019706a8-9612-77be-8586-4f26816b467a';
+        $message = 'The contact was saved, but its subscription topic preferences were not. '
+            . 'Send them again in an update of contact ' . $contactId . '.';
+
+        $this->contact->expects($this->once())
+            ->method('httpPatch')
+            ->willReturn(new Response(503, ['Content-Type' => 'application/json'], json_encode(['errors' => $message])));
+
+        $this->expectException(HttpServerException::class);
+        $this->expectExceptionMessage('Errors: ' . $message);
+
+        $this->contact->updateContactById($contactId, new UpdateContact(
+            email: 'test@example.com',
+            subscriptionTopics: [
+                new ContactSubscriptionTopic(
+                    self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                    self::FAKE_DOMAIN_ID,
+                    ContactSubscriptionTopic::STATUS_UNSUBSCRIBED
+                ),
+            ]
+        ));
     }
 
     public function testDeleteContactById(): void
@@ -507,7 +786,14 @@ class ContactTest extends MailtrapTestCase
                 email: 'customer1@example.com',
                 fields: ['first_name' => 'John', 'last_name' => 'Smith', 'zip_code' => 11111],
                 listIdsIncluded: [1, 2, 3],
-                listIdsExcluded: [4, 5, 6]
+                listIdsExcluded: [4, 5, 6],
+                subscriptionTopics: [
+                    new ContactSubscriptionTopic(
+                        self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                        self::FAKE_DOMAIN_ID,
+                        ContactSubscriptionTopic::STATUS_UNSUBSCRIBED
+                    ),
+                ]
             ),
             new ImportContact(
                 email: 'customer2@example.com',
@@ -527,7 +813,30 @@ class ContactTest extends MailtrapTestCase
             ->with(
                 AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/contacts/imports',
                 [],
-                ['contacts' => array_map(fn(ImportContact $contact) => $contact->toArray(), $contacts)]
+                [
+                    'contacts' => [
+                        [
+                            'email' => 'customer1@example.com',
+                            'fields' => ['first_name' => 'John', 'last_name' => 'Smith', 'zip_code' => 11111],
+                            'list_ids_included' => [1, 2, 3],
+                            'list_ids_excluded' => [4, 5, 6],
+                            'subscription_topics' => [
+                                [
+                                    'subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                                    'domain_id' => self::FAKE_DOMAIN_ID,
+                                    'status' => 'unsubscribed',
+                                ],
+                            ],
+                        ],
+                        // a contact without topics sends no subscription_topics
+                        [
+                            'email' => 'customer2@example.com',
+                            'fields' => ['first_name' => 'Joe', 'last_name' => 'Doe', 'zip_code' => 22222],
+                            'list_ids_included' => [1],
+                            'list_ids_excluded' => [4],
+                        ],
+                    ],
+                ]
             )
             ->willReturn(new Response(201, ['Content-Type' => 'application/json'], json_encode($expectedResponse)));
 
@@ -1109,6 +1418,18 @@ class ContactTest extends MailtrapTestCase
                     'first_name' => 'John',
                     'last_name' => null,
                 ],
+                'subscription_topics' => [
+                    [
+                        'subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                        'domain_id' => self::FAKE_DOMAIN_ID,
+                        'status' => 'subscribed',
+                    ],
+                    [
+                        'subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                        'domain_id' => 3939,
+                        'status' => 'unsubscribed',
+                    ],
+                ],
             ],
         ];
     }
@@ -1126,6 +1447,13 @@ class ContactTest extends MailtrapTestCase
                 'fields' => [
                     'first_name' => 'John',
                     'last_name' => 'Smith',
+                ],
+                'subscription_topics' => [
+                    [
+                        'subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID,
+                        'domain_id' => self::FAKE_DOMAIN_ID,
+                        'status' => 'subscribed',
+                    ],
                 ],
             ],
             'action' => 'updated',

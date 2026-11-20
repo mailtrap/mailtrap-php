@@ -16,6 +16,11 @@ final class Suppression
     public const TYPE_UNSUBSCRIPTION = 'unsubscription';
     public const TYPE_SPAM_COMPLAINT = 'spam complaint';
     public const TYPE_MANUAL_IMPORT = 'manual import';
+    /**
+     * A contact's unsubscription from a subscription topic. Returned only by the suppressions list,
+     * with SuppressionsFilter::$includeTopicUnsubscriptions; it can't be created or deleted here.
+     */
+    public const TYPE_TOPIC_UNSUBSCRIPTION = 'topic unsubscription';
 
     private function __construct()
     {

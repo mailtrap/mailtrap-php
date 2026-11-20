@@ -95,10 +95,7 @@ abstract class AbstractApi
             case $statusCode >= 400 && $statusCode < 500:
                 throw HttpClientException::createFromResponse($response);
             case $statusCode >= 500:
-                throw new HttpServerException(
-                    sprintf('Internal Server Error. HTTP response code ("%d") received from the API server. Retry later or contact support.', $statusCode),
-                    $statusCode
-                );
+                throw HttpServerException::createFromResponse($response);
             default:
                 throw new HttpException(
                     sprintf('An unexpected error occurred. HTTP response code ("%d") received.', $statusCode),

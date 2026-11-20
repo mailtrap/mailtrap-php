@@ -36,6 +36,13 @@ try {
         )
     );
 
+    // OR include contacts' subscription topic unsubscriptions: rows of type
+    // Suppression::TYPE_TOPIC_UNSUBSCRIPTION with their `subscription_topic_id`.
+    // Accounts without Subscription Topics have no such rows.
+    $response = $mailtrapSuppression->getSuppressions(
+        new SuppressionsFilter(includeTopicUnsubscriptions: true)
+    );
+
     // Print the response body (array)
     var_dump(ResponseHelper::toArray($response));
 } catch (Exception $e) {
@@ -68,6 +75,8 @@ try {
 
 /**
  * Delete Suppression by ID.
+ * Topic unsubscription rows can't be deleted (404): resubscribe the contact to the topic in a
+ * contact update instead (see contacts/all.php).
  *
  * DELETE https://mailtrap.io/api/accounts/{account_id}/suppressions/{suppression_id}
  */

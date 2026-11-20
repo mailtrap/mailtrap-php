@@ -12,6 +12,7 @@ final class Webhook
     public const TYPE_EMAIL_SENDING = 'email_sending';
     public const TYPE_AUDIT_LOG = 'audit_log';
     public const TYPE_INBOUND_RECEIVING = 'inbound_receiving';
+    public const TYPE_CAMPAIGNS = 'campaigns';
 
     public const PAYLOAD_FORMAT_JSON = 'json';
     public const PAYLOAD_FORMAT_JSONLINES = 'jsonlines';
@@ -28,6 +29,11 @@ final class Webhook
     public const EVENT_SPAM_COMPLAINT = 'spam_complaint';
     public const EVENT_CLICK = 'click';
     public const EVENT_REJECT = 'reject';
+    /**
+     * A recipient changed their subscription topic preferences. Only for Bulk stream
+     * email_sending webhooks and campaigns webhooks; the API rejects it on others.
+     */
+    public const EVENT_SUBSCRIPTION_PREFERENCES_UPDATE = 'subscription_preferences_update';
 
     private function __construct()
     {

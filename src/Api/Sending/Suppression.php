@@ -60,6 +60,8 @@ class Suppression extends AbstractApi implements SendingInterface
     /**
      * Delete a suppression by ID (UUID).
      * Mailtrap will no longer prevent sending to this email unless it's recorded in suppressions again.
+     * A topic unsubscription row can't be deleted (`404`): resubscribe the contact to the topic in a
+     * contact update instead.
      *
      * @param string $suppressionId
      * @return ResponseInterface

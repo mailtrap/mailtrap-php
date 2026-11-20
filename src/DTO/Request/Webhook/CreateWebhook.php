@@ -14,9 +14,10 @@ final class CreateWebhook implements WebhookInterface
     /**
      * @param string      $url            Webhook destination URL
      * @param string      $webhookType    One of Webhook::TYPE_*
-     * @param string[]    $eventTypes     Subset of Webhook::EVENT_* (required for email_sending)
+     * @param string[]    $eventTypes     Subset of Webhook::EVENT_* (required for email_sending and campaigns)
      * @param string|null $payloadFormat  One of Webhook::PAYLOAD_FORMAT_*
-     * @param string|null $sendingStream  One of Webhook::SENDING_STREAM_* (required for email_sending)
+     * @param string|null $sendingStream  One of Webhook::SENDING_STREAM_* (required for email_sending,
+     *                                    not allowed for campaigns)
      * @param int|null    $domainId       Scope to a specific domain id (null = all account domains)
      * @param bool|null   $active         Defaults to true on the server side
      * @param int|null    $inboundInboxId Scope an inbound_receiving webhook to a specific
@@ -36,13 +37,15 @@ final class CreateWebhook implements WebhookInterface
             Webhook::TYPE_EMAIL_SENDING,
             Webhook::TYPE_AUDIT_LOG,
             Webhook::TYPE_INBOUND_RECEIVING,
+            Webhook::TYPE_CAMPAIGNS,
         ];
         if (!in_array($webhookType, $allowedTypes, true)) {
             throw new InvalidArgumentException(sprintf(
-                '"webhookType" must be one of "%s", "%s", or "%s", "%s" given',
+                '"webhookType" must be one of "%s", "%s", "%s", or "%s", "%s" given',
                 Webhook::TYPE_EMAIL_SENDING,
                 Webhook::TYPE_AUDIT_LOG,
                 Webhook::TYPE_INBOUND_RECEIVING,
+                Webhook::TYPE_CAMPAIGNS,
                 $webhookType
             ));
         }
@@ -53,6 +56,15 @@ final class CreateWebhook implements WebhookInterface
             }
             if ($sendingStream === null) {
                 throw new InvalidArgumentException('"sendingStream" is required for email_sending webhooks');
+            }
+        }
+
+        if ($webhookType === Webhook::TYPE_CAMPAIGNS) {
+            if ($eventTypes === []) {
+                throw new InvalidArgumentException('"eventTypes" is required for campaigns webhooks');
+            }
+            if ($sendingStream !== null) {
+                throw new InvalidArgumentException('"sendingStream" is not allowed for campaigns webhooks');
             }
         }
     }
