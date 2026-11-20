@@ -1,0 +1,95 @@
+tests/Api/General/EmailCampaignTest.php
+  s_0bcb2fb56a79d6::t_c412fa13eab9fc 29,133-156,229-242,314,320-326,593,605,610-611,633
+src/DTO/Request/Contact/ImportContact.php
+  s_0bcb2fb56a79d6::t_b969d52d3d0fd1 12-21,26-27,31-33,38-39,41,64-71,74,80-85
+examples/sending/suppressions.php
+  s_0bcb2fb56a79d6::t_674077a9049299 39-45,78-79
+src/DTO/Request/Webhook/CreateWebhook.php
+  s_0bcb2fb56a79d6::t_40dce85553bb1d 17,19-20,40,44,48,61-68
+  s_0bcb2fb56a79d6::t_335ad0f1685721 69
+src/Api/General/SubscriptionTopic.php
+  s_0bcb2fb56a79d6::t_979b94db034504 1-67
+src/Api/Sending/Suppression.php
+  s_0bcb2fb56a79d6::t_3a000b2a9d99dd 63-64
+src/DTO/Request/Suppression/Suppression.php
+  s_0bcb2fb56a79d6::t_3a000b2a9d99dd 19-23
+src/DTO/Request/Webhook/Webhook.php
+  s_0bcb2fb56a79d6::t_40dce85553bb1d 15,32-36
+README.md
+  s_0bcb2fb56a79d6::t_a43bb71f4f8e66 275
+examples/webhooks/all.php
+  s_0bcb2fb56a79d6::t_674077a9049299 69-92
+  s_0bcb2fb56a79d6::t_f850b20fec7484 68
+examples/email-campaigns/all.php
+  s_0bcb2fb56a79d6::t_da37990d8b83d0 17,19-20,38-58,62,69,78,249
+src/MailtrapGeneralClient.php
+  s_0bcb2fb56a79d6::t_055c54434c8fce 37
+  s_0bcb2fb56a79d6::t_81039e5a166ea7 19
+  s_0bcb2fb56a79d6::t_fef85204638b76 8-18
+src/DTO/Request/EmailCampaign/UpdateEmailCampaign.php
+  s_0bcb2fb56a79d6::t_3c5c8dfe10f2bc 28-31,44,62
+examples/subscription-topics/all.php
+  s_0bcb2fb56a79d6::t_1b406fcc297df6 1-65
+src/Api/General/Contact.php
+  s_0bcb2fb56a79d6::t_1765670ef28630 19-24
+src/DTO/Request/Suppression/SuppressionsFilter.php
+  s_0bcb2fb56a79d6::t_3a000b2a9d99dd 19-22,29,53-55
+  s_0bcb2fb56a79d6::t_505997416ed988 56-57
+tests/Api/Sending/EmailLogsTest.php
+  s_0bcb2fb56a79d6::t_fe7155d07acb86 170-206
+examples/sending/email-logs.php
+  s_0bcb2fb56a79d6::t_674077a9049299 76-85
+src/DTO/Request/EmailCampaign/CreateEmailCampaign.php
+  s_0bcb2fb56a79d6::t_3c5c8dfe10f2bc 27-28,41,59
+src/DTO/Request/Suppression/CreateSuppression.php
+  s_0bcb2fb56a79d6::t_3a000b2a9d99dd 18-19
+src/DTO/Request/Contact/UpdateContact.php
+  s_0bcb2fb56a79d6::t_3be2cbf2968536 12-21,27-28,32-34,40-41,43,71-78,88-90
+src/Exception/HttpServerException.php
+  s_0bcb2fb56a79d6::t_77a55cc143ae69 7-9,15-53
+tests/Api/Sending/WebhookTest.php
+  s_0bcb2fb56a79d6::t_4a2570868dfc51 199-201,233-313
+  s_0bcb2fb56a79d6::t_4f16de395106d6 314
+src/DTO/Request/Contact/ContactSubscriptionTopic.php
+  s_0bcb2fb56a79d6::t_fe83bd8fe79f74 1-81
+src/Api/AbstractApi.php
+  s_0bcb2fb56a79d6::t_9162a7943060e9 98
+tests/Api/General/ContactTest.php
+  s_0bcb2fb56a79d6::t_fe7155d07acb86 359-372,377-378
+  s_0bcb2fb56a79d6::t_4a2570868dfc51 373-376
+  s_0bcb2fb56a79d6::t_39d018075d9dfa 10,14,27-29,213-262,308-358,379-445,526-611,789-796,816-839,1421-1432,1451-1457
+tests/Api/General/SubscriptionTopicTest.php
+  s_0bcb2fb56a79d6::t_38d482569ad7dc 1-208
+tests/Api/AbstractApiTest.php
+  s_0bcb2fb56a79d6::t_dd5bfd9ba331b5 62-63,68-74,96-99
+  s_0bcb2fb56a79d6::t_4a2570868dfc51 9,11,61,64-67,75-95,100-111
+  s_0bcb2fb56a79d6::t_4128daee1611f8 112
+src/Api/Sending/EmailLogs.php
+  s_0bcb2fb56a79d6::t_a709d40d830e67 64-65
+  s_0bcb2fb56a79d6::t_40dce85553bb1d 62-63
+examples/README.md
+  s_0bcb2fb56a79d6::t_a43bb71f4f8e66 64
+src/DTO/Request/Contact/CreateContact.php
+  s_0bcb2fb56a79d6::t_7063b31bc925cb 12-18,22-23,27-36,54-61,64,69-74
+examples/contacts/all.php
+  s_0bcb2fb56a79d6::t_b15dc7353df30f 4,11,18-42,46-47,75-82,130-160,194-201
+tests/Api/Sending/SuppressionTest.php
+  s_0bcb2fb56a79d6::t_fe7155d07acb86 122,134-135,142-172,265-285,287
+  s_0bcb2fb56a79d6::t_3a00e08a72ca04 286,288
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9fb0cb9f26cb6a95c297b4a3ba53e73b2d839c83",
+  "prompts": {},
+  "sessions": {
+    "s_0bcb2fb56a79d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "43c273a2-f2e9-4e1f-8939-5c7f76f2765c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
