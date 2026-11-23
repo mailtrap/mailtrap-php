@@ -1,0 +1,21 @@
+src/Exception/HttpServerException.php
+  s_0bcb2fb56a79d6::t_e0526ed16f1bca 48-56
+tests/Api/AbstractApiTest.php
+  s_0bcb2fb56a79d6::t_e07e49651b9c08 91-94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a220451645a88aeda05e6adba0fc1aa3e00ace48",
+  "prompts": {},
+  "sessions": {
+    "s_0bcb2fb56a79d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "43c273a2-f2e9-4e1f-8939-5c7f76f2765c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
