@@ -26,8 +26,6 @@ $contacts = $generalClient->contacts($accountId);
  * GET https://mailtrap.io/api/subscription_topics
  * GET https://mailtrap.io/api/accounts/{account_id}/domains
  */
-$subscriptionTopicId = null;
-$subscriptionTopicDomainId = null;
 $topicUnsubscription = null; // the contact unsubscribed from that topic on that domain
 try {
     $topic = ResponseHelper::toArray(
@@ -35,13 +33,11 @@ try {
     )['data'][0] ?? null;
 
     if ($topic !== null) {
-        $subscriptionTopicId = $topic['id'];
-        $subscriptionTopicDomainId = $topic['domain_id'] ?? ResponseHelper::toArray(
-            (new MailtrapSendingClient($config))->domains($accountId)->getDomains()
-        )['data'][0]['id'];
         $topicUnsubscription = ContactSubscriptionTopic::init(
-            $subscriptionTopicId,
-            $subscriptionTopicDomainId,
+            $topic['id'],
+            $topic['domain_id'] ?? ResponseHelper::toArray(
+                (new MailtrapSendingClient($config))->domains($accountId)->getDomains()
+            )['data'][0]['id'],
             ContactSubscriptionTopic::STATUS_UNSUBSCRIBED
         );
     }
@@ -137,15 +133,15 @@ try {
  * PATCH https://mailtrap.io/api/accounts/{account_id}/contacts/{id_or_email}
  */
 try {
-    if ($subscriptionTopicId !== null) {
+    if ($topicUnsubscription !== null) {
         $response = $contacts->updateContactByEmail(
             'john.smith@example.com',
             UpdateContact::init(
                 email: 'john.smith@example.com',
                 subscriptionTopics: [
                     ContactSubscriptionTopic::init(
-                        $subscriptionTopicId,
-                        $subscriptionTopicDomainId,
+                        $topicUnsubscription->getSubscriptionTopicId(),
+                        $topicUnsubscription->getDomainId(),
                         ContactSubscriptionTopic::STATUS_SUBSCRIBED // resubscribe
                     ),
                 ]

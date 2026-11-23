@@ -44,14 +44,20 @@ try {
  */
 $subscriptionTopicId = null;
 try {
-    $topics = ResponseHelper::toArray($generalClient->subscriptionTopics()->getSubscriptionTopics());
+    $subscriptionTopics = $generalClient->subscriptionTopics();
+    $token = null;
+    do {
+        $topics = ResponseHelper::toArray($subscriptionTopics->getSubscriptionTopics(perPage: 100, token: $token));
 
-    foreach ($topics['data'] as $topic) {
-        if ($topic['domain_id'] === null || $topic['domain_id'] === $domainId) {
-            $subscriptionTopicId = $topic['id'];
-            break;
+        foreach ($topics['data'] as $topic) {
+            if ($topic['domain_id'] === null || $topic['domain_id'] === $domainId) {
+                $subscriptionTopicId = $topic['id'];
+                break;
+            }
         }
-    }
+
+        $token = $topics['pagination']['next_token'] ?? null; // the next page, null after the last one
+    } while ($subscriptionTopicId === null && $token !== null);
 } catch (Exception $e) {
     echo 'No subscription topic for the campaign: ', $e->getMessage(), PHP_EOL;
 }
