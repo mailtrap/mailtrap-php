@@ -1,0 +1,21 @@
+examples/sub-accounts/all.php
+  s_c3821992a50602::t_38935bd65479a7 47-50
+src/Api/General/SubAccount.php
+  s_c3821992a50602::t_0c87b559747ca0 53-56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "17cbc5099e10e08662ab7c5a2b356546be162ab7",
+  "prompts": {},
+  "sessions": {
+    "s_c3821992a50602": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e4d7b7a-b51c-4888-8933-f0ba6e706670",
+        "model": "unknown"
+      },
+      "human_author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}

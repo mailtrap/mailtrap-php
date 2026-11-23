@@ -1,0 +1,14 @@
+examples/sub-accounts/all.php
+  h_68ae9308e52348 34-37,40-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "660398b172e21c844736e62f5632578bdafe53e4",
+  "prompts": {},
+  "humans": {
+    "h_68ae9308e52348": {
+      "author": "Alex Shchyhol <oleksandr.shchyhol@railsware.com>"
+    }
+  }
+}
