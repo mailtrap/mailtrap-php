@@ -73,7 +73,8 @@ class HttpClientException extends HttpException
                     $errorMsg .= $key . ' -> ';
                 }
 
-                $errorMsg .= self::getErrorMsg($value);
+                // a number, boolean or null is written out as JSON
+                $errorMsg .= self::getErrorMsg(is_array($value) || is_string($value) ? $value : json_encode($value));
             }
         } else {
             $errorMsg .= $errors . '. ';

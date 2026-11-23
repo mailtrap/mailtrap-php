@@ -50,22 +50,14 @@ final class CreateWebhook implements WebhookInterface
             ));
         }
 
-        if ($webhookType === Webhook::TYPE_EMAIL_SENDING) {
-            if ($eventTypes === []) {
-                throw new InvalidArgumentException('"eventTypes" is required for email_sending webhooks');
-            }
-            if ($sendingStream === null) {
-                throw new InvalidArgumentException('"sendingStream" is required for email_sending webhooks');
-            }
+        if ($eventTypes === [] && in_array($webhookType, [Webhook::TYPE_EMAIL_SENDING, Webhook::TYPE_CAMPAIGNS], true)) {
+            throw new InvalidArgumentException(sprintf('"eventTypes" is required for %s webhooks', $webhookType));
         }
-
-        if ($webhookType === Webhook::TYPE_CAMPAIGNS) {
-            if ($eventTypes === []) {
-                throw new InvalidArgumentException('"eventTypes" is required for campaigns webhooks');
-            }
-            if ($sendingStream !== null) {
-                throw new InvalidArgumentException('"sendingStream" is not allowed for campaigns webhooks');
-            }
+        if ($webhookType === Webhook::TYPE_EMAIL_SENDING && $sendingStream === null) {
+            throw new InvalidArgumentException('"sendingStream" is required for email_sending webhooks');
+        }
+        if ($webhookType === Webhook::TYPE_CAMPAIGNS && $sendingStream !== null) {
+            throw new InvalidArgumentException('"sendingStream" is not allowed for campaigns webhooks');
         }
     }
 

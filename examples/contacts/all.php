@@ -28,14 +28,22 @@ $contacts = $generalClient->contacts($accountId);
  */
 $subscriptionTopicId = null;
 $subscriptionTopicDomainId = null;
+$topicUnsubscription = null; // the contact unsubscribed from that topic on that domain
 try {
-    $topic = ResponseHelper::toArray($generalClient->subscriptionTopics()->getSubscriptionTopics())['data'][0] ?? null;
+    $topic = ResponseHelper::toArray(
+        $generalClient->subscriptionTopics()->getSubscriptionTopics(perPage: 1)
+    )['data'][0] ?? null;
 
     if ($topic !== null) {
         $subscriptionTopicId = $topic['id'];
         $subscriptionTopicDomainId = $topic['domain_id'] ?? ResponseHelper::toArray(
             (new MailtrapSendingClient($config))->domains($accountId)->getDomains()
         )['data'][0]['id'];
+        $topicUnsubscription = ContactSubscriptionTopic::init(
+            $subscriptionTopicId,
+            $subscriptionTopicDomainId,
+            ContactSubscriptionTopic::STATUS_UNSUBSCRIBED
+        );
     }
 } catch (Exception $e) {
     echo 'Subscription topics are left out: ',  $e->getMessage(), PHP_EOL;
@@ -73,13 +81,7 @@ try {
             'john.smith@example.com',
             ['first_name' => 'John', 'last_name' => 'Smith'], // Fields
             [1, 2], // List IDs to which the contact will be added
-            $subscriptionTopicId === null ? null : [ // Subscription topic statuses (null leaves them out)
-                ContactSubscriptionTopic::init(
-                    $subscriptionTopicId,
-                    $subscriptionTopicDomainId,
-                    ContactSubscriptionTopic::STATUS_UNSUBSCRIBED
-                ),
-            ]
+            $topicUnsubscription === null ? null : [$topicUnsubscription] // Subscription topic statuses (null leaves them out)
         )
     );
 
@@ -192,13 +194,7 @@ try {
             fields: ['first_name' => 'John', 'last_name' => 'Smith', 'zip_code' => 11111],
             listIdsIncluded: [1, 2],
             listIdsExcluded: [4, 5],
-            subscriptionTopics: $subscriptionTopicId === null ? null : [
-                ContactSubscriptionTopic::init(
-                    $subscriptionTopicId,
-                    $subscriptionTopicDomainId,
-                    ContactSubscriptionTopic::STATUS_UNSUBSCRIBED
-                ),
-            ]
+            subscriptionTopics: $topicUnsubscription === null ? null : [$topicUnsubscription]
         ),
         new ImportContact(
             email: 'customer2@example.com',

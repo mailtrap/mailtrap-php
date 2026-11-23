@@ -45,15 +45,6 @@ class HttpServerException extends HttpException
 
         $errors = is_array($body) ? $body['errors'] ?? null : null;
 
-        if (is_array($errors)) {
-            // getErrorMsg takes only strings and arrays, so a number, boolean or null inside would be a TypeError
-            array_walk_recursive($errors, static function (mixed &$value): void {
-                if (!is_string($value)) {
-                    $value = json_encode($value);
-                }
-            });
-        }
-
         return match (true) {
             is_string($errors) => trim($errors),
             is_array($errors) => trim(HttpClientException::getErrorMsg($errors)),
