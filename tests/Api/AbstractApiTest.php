@@ -88,6 +88,10 @@ class AbstractApiTest extends MailtrapTestCase
             new Response(500, $json, json_encode(['errors' => ['base' => ['something broke']]])),
             sprintf($genericMessage, 500) . ' Errors: base -> something broke.',
         ];
+        yield 'non-string values in errors' => [
+            new Response(500, $json, json_encode(['errors' => ['contact_id' => 123, 'base' => null, 'flags' => [true]]])),
+            sprintf($genericMessage, 500) . ' Errors: contact_id -> 123. base -> null. flags -> true.',
+        ];
         yield 'html body' => [
             new Response(502, ['Content-Type' => 'text/html'], '<html><body>Bad Gateway</body></html>'),
             sprintf($genericMessage, 502),
