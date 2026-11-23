@@ -35,12 +35,17 @@ final class ContactSubscriptionTopic implements RequestInterface
 
     /**
      * Serializes a contact's topic entries, so each DTO that carries them shares one check.
+     * Null stays null, for the DTOs to leave `subscription_topics` out of the request.
      *
-     * @param ContactSubscriptionTopic[] $subscriptionTopics
-     * @return array<int, array<string, int|string>>
+     * @param ContactSubscriptionTopic[]|null $subscriptionTopics
+     * @return array<int, array<string, int|string>>|null
      */
-    public static function listToArray(array $subscriptionTopics): array
+    public static function listToArray(?array $subscriptionTopics): ?array
     {
+        if ($subscriptionTopics === null) {
+            return null;
+        }
+
         return array_map(
             static function ($subscriptionTopic): array {
                 if (!$subscriptionTopic instanceof self) {

@@ -71,17 +71,15 @@ final class ImportContact implements ContactInterface
 
     public function toArray(): array
     {
-        $payload = [
-            'email'                => $this->getEmail(),
-            'fields'               => $this->getFields(),
-            'list_ids_included'    => $this->getListIdsIncluded(),
-            'list_ids_excluded'    => $this->getListIdsExcluded(),
-        ];
-
-        if ($this->getSubscriptionTopics() !== null) {
-            $payload['subscription_topics'] = ContactSubscriptionTopic::listToArray($this->getSubscriptionTopics());
-        }
-
-        return $payload;
+        return array_filter(
+            [
+                'email'                => $this->getEmail(),
+                'fields'               => $this->getFields(),
+                'list_ids_included'    => $this->getListIdsIncluded(),
+                'list_ids_excluded'    => $this->getListIdsExcluded(),
+                'subscription_topics'  => ContactSubscriptionTopic::listToArray($this->getSubscriptionTopics()),
+            ],
+            fn($value) => $value !== null
+        );
     }
 }

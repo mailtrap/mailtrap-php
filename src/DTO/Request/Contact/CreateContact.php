@@ -61,16 +61,14 @@ final class CreateContact implements ContactInterface
 
     public function toArray(): array
     {
-        $payload = [
-            'email' => $this->getEmail(),
-            'fields' => $this->getFields(),
-            'list_ids' => $this->getListIds(),
-        ];
-
-        if ($this->getSubscriptionTopics() !== null) {
-            $payload['subscription_topics'] = ContactSubscriptionTopic::listToArray($this->getSubscriptionTopics());
-        }
-
-        return $payload;
+        return array_filter(
+            [
+                'email' => $this->getEmail(),
+                'fields' => $this->getFields(),
+                'list_ids' => $this->getListIds(),
+                'subscription_topics' => ContactSubscriptionTopic::listToArray($this->getSubscriptionTopics()),
+            ],
+            fn($value) => $value !== null
+        );
     }
 }

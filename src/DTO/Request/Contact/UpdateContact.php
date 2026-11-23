@@ -85,9 +85,7 @@ final class UpdateContact implements ContactInterface
                 'list_ids_included'    => $this->getListIdsIncluded(),
                 'list_ids_excluded'    => $this->getListIdsExcluded(),
                 'unsubscribed'         => $this->getUnsubscribed(),
-                'subscription_topics'  => $this->getSubscriptionTopics() === null
-                    ? null
-                    : ContactSubscriptionTopic::listToArray($this->getSubscriptionTopics()),
+                'subscription_topics'  => ContactSubscriptionTopic::listToArray($this->getSubscriptionTopics()),
             ],
             fn($value) => $value !== null
         );

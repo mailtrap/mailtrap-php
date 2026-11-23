@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Mailtrap\Config;
-use Mailtrap\Exception\HttpClientException;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapGeneralClient;
 
@@ -31,15 +30,11 @@ try {
     if ($nextToken !== null) {
         var_dump(ResponseHelper::toArray($subscriptionTopics->getSubscriptionTopics(perPage: 50, token: $nextToken)));
     }
-} catch (HttpClientException $e) {
+} catch (Exception $e) {
     echo $e->getCode() === 403
         ? 'Subscription Topics are not available for this account.'
         : 'Caught exception: ' . $e->getMessage();
     echo PHP_EOL;
-
-    exit(1);
-} catch (Exception $e) {
-    echo 'Caught exception: ', $e->getMessage(), PHP_EOL;
 
     exit(1);
 }
