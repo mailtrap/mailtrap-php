@@ -78,7 +78,7 @@ class MailtrapSdkTransportTest extends MailtrapTestCase
 
     public function testSendConvertsTagAndMetadataHeaders(): void
     {
-        $email = $this->createEmail(new Email());
+        $email = self::createEmail(new Email());
         $email->getHeaders()
             ->add(new TagHeader('welcome'))
             ->add(new MetadataHeader('user_id', '42'))
@@ -114,11 +114,11 @@ class MailtrapSdkTransportTest extends MailtrapTestCase
         }
     }
 
-    public function testSendFailsOnMoreThanOneTag(): void
+    /**
+     * @dataProvider getEmailsWithTwoCategories
+     */
+    public function testSendFailsOnMoreThanOneCategory(Email $email): void
     {
-        $email = $this->createEmail(new Email());
-        $email->getHeaders()->add(new TagHeader('first'))->add(new TagHeader('second'));
-
         $emails = $this->getEmailsMock();
         $emails->expects($this->never())->method('httpPost');
 
@@ -128,21 +128,21 @@ class MailtrapSdkTransportTest extends MailtrapTestCase
         $this->getTransport($emails)->send($email);
     }
 
-    public function testSendFailsOnTagNextToCategory(): void
+    public static function getEmailsWithTwoCategories(): array
     {
-        $email = $this->createEmail((new MailtrapEmail())->category('mine'));
-        $email->getHeaders()->add(new TagHeader('welcome'));
+        $twoTags = self::createEmail(new Email());
+        $twoTags->getHeaders()->add(new TagHeader('first'))->add(new TagHeader('second'));
 
-        $emails = $this->getEmailsMock();
-        $emails->expects($this->never())->method('httpPost');
+        $tagNextToCategory = self::createEmail((new MailtrapEmail())->category('mine'));
+        $tagNextToCategory->getHeaders()->add(new TagHeader('welcome'));
 
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Mailtrap does not accept more than 1 category in the email.');
-
-        $this->getTransport($emails)->send($email);
+        return [
+            'two tags' => [$twoTags],
+            'a tag next to a category' => [$tagNextToCategory],
+        ];
     }
 
-    private function createEmail(Email $email): Email
+    private static function createEmail(Email $email): Email
     {
         return $email
             ->from('foo@example.com')
