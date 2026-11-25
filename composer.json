@@ -20,7 +20,7 @@
   "require-dev": {
     "symfony/http-client": "^6.0|^7.0|^8.0",
     "symfony/mailer": "^6.0|^7.0|^8.0",
-    "phpunit/phpunit": "^9",
+    "phpunit/phpunit": "^9 || ^13",
     "nyholm/psr7": "^1.5",
     "vimeo/psalm": "^5.0|^6.0"
   },
