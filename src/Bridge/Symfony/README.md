@@ -29,6 +29,11 @@ MAILER_DSN=mailtrap+sdk://YOUR_API_KEY_HERE@default
 # or
 MAILER_DSN=mailtrap+sdk://YOUR_API_KEY_HERE@send.api.mailtrap.io
 ```
+The template and batch examples below call the API client directly and read the API token from
+`MAILTRAP_API_KEY`. Add it to your `.env` file too if you use them:
+```bash
+MAILTRAP_API_KEY=YOUR_API_KEY_HERE
+```
 
 ### Bulk Sending
 Add or change MAILER_DSN variable inside your `.env` file. Also, you need to change the `YOUR_API_KEY_HERE` placeholder.
