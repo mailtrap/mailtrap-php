@@ -1,0 +1,25 @@
+examples/symfony/sandbox.php
+  s_3793b75de0dc24::t_007204fea241ba 3,11,17-22,30,32
+examples/symfony/transactional.php
+  s_3793b75de0dc24::t_007204fea241ba 3,11,17-22,30,32
+examples/symfony/bulk.php
+  s_3793b75de0dc24::t_007204fea241ba 3,11,17-22,24,27,30,32
+examples/symfony/template.php
+  s_3793b75de0dc24::t_5205d96a557acf 17
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "209f9b22623cfa930198e895a61d317b0e7bdab6",
+  "prompts": {},
+  "sessions": {
+    "s_3793b75de0dc24": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cb70c7ba-55c7-455b-b759-6e7bf14de482",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
