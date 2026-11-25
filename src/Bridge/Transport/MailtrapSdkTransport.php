@@ -97,12 +97,15 @@ class MailtrapSdkTransport extends AbstractTransport
 
         // iterate a snapshot: the loop removes and adds headers
         foreach (iterator_to_array($headers->all(), false) as $header) {
-            if ($header instanceof TagHeader) {
+            $converted = match (true) {
+                $header instanceof TagHeader => new CategoryHeader($header->getValue()),
+                $header instanceof MetadataHeader => new CustomVariableHeader($header->getKey(), $header->getValue()),
+                default => null,
+            };
+
+            if (null !== $converted) {
                 $headers->remove($header->getName());
-                $headers->add(new CategoryHeader($header->getValue()));
-            } elseif ($header instanceof MetadataHeader) {
-                $headers->remove($header->getName());
-                $headers->add(new CustomVariableHeader($header->getKey(), $header->getValue()));
+                $headers->add($converted);
             }
         }
     }
