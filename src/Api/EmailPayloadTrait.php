@@ -72,7 +72,8 @@ trait EmailPayloadTrait
                     $payload[TemplateVariableHeader::VAR_NAME][$header->getNameWithoutPrefix()] = $header->getValue();
                     break;
                 case $header instanceof CategoryHeader:
-                    if (!empty($payload[CategoryHeader::VAR_NAME])) {
+                    // isset, not empty: a category of '0' is still a category
+                    if (isset($payload[CategoryHeader::VAR_NAME])) {
                         throw new RuntimeException(
                             sprintf('Too many "%s" instances present in the email headers. Mailtrap does not accept more than 1 category in the email.', CategoryHeader::class)
                         );

@@ -136,9 +136,17 @@ class MailtrapSdkTransportTest extends MailtrapTestCase
         $tagNextToCategory = self::createEmail((new MailtrapEmail())->category('mine'));
         $tagNextToCategory->getHeaders()->add(new TagHeader('welcome'));
 
+        $twoTagsFirstZero = self::createEmail(new Email());
+        $twoTagsFirstZero->getHeaders()->add(new TagHeader('0'))->add(new TagHeader('welcome'));
+
+        $tagNextToZeroCategory = self::createEmail((new MailtrapEmail())->category('0'));
+        $tagNextToZeroCategory->getHeaders()->add(new TagHeader('welcome'));
+
         return [
             'two tags' => [$twoTags],
             'a tag next to a category' => [$tagNextToCategory],
+            'two tags, the first "0"' => [$twoTagsFirstZero],
+            'a tag next to a "0" category' => [$tagNextToZeroCategory],
         ];
     }
 
