@@ -44,7 +44,8 @@ class MailtrapSdkTransport extends AbstractTransport
     protected function doSend(SentMessage $message): void
     {
         try {
-            $email = MessageConverter::toEmail($message->getOriginalMessage());
+            // a copy: event listeners and the profiler hold the original message
+            $email = clone MessageConverter::toEmail($message->getOriginalMessage());
             $envelope = $message->getEnvelope();
             $this->convertTagAndMetadataHeaders($email);
 

@@ -107,9 +107,11 @@ class MailtrapSdkTransportTest extends MailtrapTestCase
         $sentMessage = $this->getTransport($emails)->send($email);
 
         $this->assertSame('0c7fd939-02cf-11ed-88c2-0a58a9feac02', $sentMessage->getMessageId());
-        // the caller's message is not changed
-        $this->assertTrue($email->getHeaders()->has('X-Tag'));
-        $this->assertFalse($email->getHeaders()->has('category'));
+        // neither the caller's message nor the one event listeners and the profiler hold is changed
+        foreach ([$email, $sentMessage->getOriginalMessage()] as $message) {
+            $this->assertTrue($message->getHeaders()->has('X-Tag'));
+            $this->assertFalse($message->getHeaders()->has('category'));
+        }
     }
 
     public function testSendFailsOnMoreThanOneTag(): void
