@@ -41,7 +41,7 @@ final class CreateWebhook implements WebhookInterface
         ];
         if (!in_array($webhookType, $allowedTypes, true)) {
             throw new InvalidArgumentException(sprintf(
-                '"webhookType" must be one of "%s", "%s" given',
+                '"webhookType" must be one of "%s"; "%s" given',
                 implode('", "', $allowedTypes),
                 $webhookType
             ));

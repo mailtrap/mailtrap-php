@@ -127,8 +127,8 @@ try {
 
 /**
  * Update only a contact's subscription topic statuses: the topic and domain pairs left out keep
- * their status. A 503 means the contact was saved but its topic statuses were not; the exception
- * message names the contact to send them again to.
+ * their status. A 503 whose exception message names the contact means the contact was saved but
+ * its topic statuses were not: send them again to that contact. A 503 without it saved nothing.
  *
  * PATCH https://mailtrap.io/api/accounts/{account_id}/contacts/{id_or_email}
  */

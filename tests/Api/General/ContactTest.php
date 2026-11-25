@@ -428,8 +428,9 @@ class ContactTest extends MailtrapTestCase
 
         $this->expectException(HttpServerException::class);
         $this->expectExceptionCode(503);
-        $this->expectExceptionMessage('Internal Server Error. HTTP response code ("503") received from the API server. '
-            . 'Retry later or contact support. Errors: ' . $message);
+        $this->expectExceptionMessage(
+            'Server error. HTTP response code ("503") received from the API server. Errors: ' . $message
+        );
 
         $this->contact->createContact(new CreateContact(
             email: 'test@example.com',

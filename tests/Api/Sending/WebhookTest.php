@@ -197,7 +197,7 @@ class WebhookTest extends MailtrapTestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            '"webhookType" must be one of "email_sending", "audit_log", "inbound_receiving", "campaigns", "spam" given'
+            '"webhookType" must be one of "email_sending", "audit_log", "inbound_receiving", "campaigns"; "spam" given'
         );
 
         new CreateWebhook(

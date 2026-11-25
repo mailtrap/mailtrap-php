@@ -13,21 +13,18 @@ use Psr\Http\Message\ResponseInterface;
 class HttpServerException extends HttpException
 {
     /**
-     * Appends the `errors` of a JSON body, such as the contact named by a contact create or update
-     * that saved the contact but not its subscription topics, to the generic server error message.
+     * Says the `errors` of a JSON body, such as the contact named by a contact create or update that
+     * saved the contact but not its subscription topics. Only a body without them gets the generic
+     * "retry later" message: a retry is the wrong advice when the server says what to do instead.
      */
     public static function createFromResponse(ResponseInterface $response): HttpServerException
     {
         $statusCode = $response->getStatusCode();
-        $errorMsg = sprintf(
-            'Internal Server Error. HTTP response code ("%d") received from the API server. Retry later or contact support.',
-            $statusCode
-        );
-
         $errors = self::getResponseErrors($response);
-        if ($errors !== '') {
-            $errorMsg .= ' Errors: ' . $errors;
-        }
+        $received = sprintf('HTTP response code ("%d") received from the API server.', $statusCode);
+        $errorMsg = $errors !== ''
+            ? sprintf('Server error. %s Errors: %s', $received, $errors)
+            : sprintf('Internal Server Error. %s Retry later or contact support.', $received);
 
         return new self($errorMsg, $statusCode);
     }
