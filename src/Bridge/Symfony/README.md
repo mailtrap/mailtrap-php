@@ -29,6 +29,11 @@ MAILER_DSN=mailtrap+sdk://YOUR_API_KEY_HERE@default
 # or
 MAILER_DSN=mailtrap+sdk://YOUR_API_KEY_HERE@send.api.mailtrap.io
 ```
+The template and batch examples below call the API client directly and read the API token from
+`MAILTRAP_API_KEY`. Add it to your `.env` file too if you use them:
+```bash
+MAILTRAP_API_KEY=YOUR_API_KEY_HERE
+```
 
 ### Bulk Sending
 Add or change MAILER_DSN variable inside your `.env` file. Also, you need to change the `YOUR_API_KEY_HERE` placeholder.
@@ -47,7 +52,7 @@ MAILER_DSN=mailtrap+sdk://YOUR_API_KEY_HERE@sandbox.api.mailtrap.io?sandboxId=10
 ```
 The deprecated `inboxId` option still works.
 
-### Send you first email
+### Send your first email
 
 #### CLI command (the mailer:test command was introduced only in Symfony 6.2)
 ```bash
@@ -67,7 +72,7 @@ use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 
 final class SomeController extends AbstractController
@@ -79,16 +84,12 @@ final class SomeController extends AbstractController
         $this->transport = $transport;
     }
 
-    /**
-     * @Route(name="send-email", path="/send-email", methods={"GET"})
-     *
-     * @return JsonResponse
-     */
+    #[Route('/send-email', name: 'send-email', methods: ['GET'])]
     public function sendEmail(): JsonResponse
     {
         $message = (new MailtrapEmail())
-            ->from('from@xample.com')
-            ->to('to@xample.com')
+            ->from('from@example.com')
+            ->to('to@example.com')
             ->cc('cc@example.com')
             ->bcc('bcc@example.com')
             ->replyTo('fabien@example.com')
@@ -104,17 +105,14 @@ final class SomeController extends AbstractController
 
         $response = $this->transport->send($message);
 
-        return JsonResponse::create(['messageId' => $response->getMessageId()]);
+        return new JsonResponse(['messageId' => $response->getMessageId()]);
     }
     
     /**
      * WARNING! To send using Mailtrap Email Template, you should use the native library and its methods,
      * as mail transport validation does not allow you to send emails without ‘html’ or ‘text’
-     *
-     * @Route(name="send-template-email", path="/send-template-email", methods={"GET"})
-     *
-     * @return JsonResponse
      */
+    #[Route('/send-template-email', name: 'send-template-email', methods: ['GET'])]
     public function sendTemplateEmail(): JsonResponse
     {
         $email = (new MailtrapEmail())
@@ -149,30 +147,27 @@ final class SomeController extends AbstractController
         ;
 
         $response = MailtrapClient::initSendingEmails(
-            apiKey: env('MAILTRAP_API_KEY') // your API token from here https://mailtrap.io/api-tokens
+            apiKey: $_ENV['MAILTRAP_API_KEY'] // your API token from here https://mailtrap.io/api-tokens
         )->send($email);
 
-        return JsonResponse::create(ResponseHelper::toArray($response));
+        return new JsonResponse(ResponseHelper::toArray($response));
     }
     
     /**
      * WARNING! To send Batch Email, you should use the native library and its methods
-     *
-     * @Route(name="send-batch-email", path="/send-batch-email", methods={"GET"})
-     *
-     * @return JsonResponse
      */
+    #[Route('/send-batch-email', name: 'send-batch-email', methods: ['GET'])]
     public function sendBatchEmail(): JsonResponse
     {
         // Choose either Transactional API or Bulk API
         // For Transactional API
         $mailtrap = MailtrapClient::initSendingEmails(
-            apiKey: getenv('MAILTRAP_API_KEY'), // Your API token from https://mailtrap.io/api-tokens
+            apiKey: $_ENV['MAILTRAP_API_KEY'], // Your API token from https://mailtrap.io/api-tokens
         );
     
         // OR for Bulk API (uncomment the line below and comment out the transactional initialization)
         // $mailtrap = MailtrapClient::initSendingEmails(
-        //    apiKey: getenv('MAILTRAP_API_KEY'), // Your API token from https://mailtrap.io/api-tokens
+        //    apiKey: $_ENV['MAILTRAP_API_KEY'], // Your API token from https://mailtrap.io/api-tokens
         //    isBulk: true // Enable bulk sending
         //);
     
@@ -189,10 +184,37 @@ final class SomeController extends AbstractController
     
         $response = $mailtrap->batchSend($recipientEmails, $baseEmail);
 
-        return JsonResponse::create(ResponseHelper::toArray($response));
+        return new JsonResponse(ResponseHelper::toArray($response));
     }
 }
 ```
+
+### Category and custom variables
+
+Set them with the `MailtrapEmail` methods shown above, or with Symfony's standard headers
+(since version 3.19.0):
+
+```php
+use Symfony\Component\Mailer\Header\MetadataHeader;
+use Symfony\Component\Mailer\Header\TagHeader;
+use Symfony\Component\Mime\Email;
+
+$email = (new Email())
+    ->from('from@example.com')
+    ->to('to@example.com')
+    ->subject('Test email')
+    ->text('text')
+;
+$email->getHeaders()
+    ->add(new TagHeader('category'))               // the Mailtrap category
+    ->add(new MetadataHeader('var1', 'value1'))    // a Mailtrap custom variable
+;
+
+$this->transport->send($email);
+```
+
+An email can have one category: a second `TagHeader`, or a `TagHeader` together with
+`category()`, fails the send.
 
 ## Examples
 See the consolidated [examples Index](../../../examples/README.md) for all scripts. Symfony-focused runnable scripts:
@@ -206,6 +228,8 @@ See the consolidated [examples Index](../../../examples/README.md) for all scrip
 * [Symfony mailer documentation](https://symfony.com/doc/current/mailer.html)
 
 ### Notes
-> If you are looking for a quicker setup and don’t need advanced features like templates or custom variables, 
-> you can also use the [MailtrapMailer Symfony package](https://symfony.com/packages/MailtrapMailer), which provides a simple bridge for sending emails 
-> through Mailtrap using standard Symfony Mailer configuration.
+> If you only send emails through Symfony Mailer, you can also use Symfony's own
+> [Mailtrap bridge](https://symfony.com/packages/MailtrapMailer) (`symfony/mailtrap-mailer`).
+> It supports the category and custom variables through `TagHeader` and `MetadataHeader` too.
+> Choose this SDK when you also need the Mailtrap API client, for example for batch sending,
+> templates, contacts or domains.
