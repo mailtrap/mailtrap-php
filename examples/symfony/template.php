@@ -14,7 +14,7 @@ use Symfony\Component\Mime\Address;
 #[AsCommand(name: 'app:send-template-mail')]
 final class SendTemplateMailCommand
 {
-    public function __invoke(): int { // Available since Symfony 7.0. For earlier versions, use the execute() method instead.
+    public function __invoke(): int { // Invokable commands are available since Symfony 7.3. For earlier versions, extend Command and use the execute() method instead.
         $email = (new MailtrapEmail())
             ->from(new Address('example@YOUR-DOMAIN-HERE.com', 'Mailtrap Template')) // <--- you should use your domain here that you installed in the mailtrap.io admin area (otherwise you will get 401)
             ->replyTo(new Address('reply@YOUR-DOMAIN-HERE.com'))

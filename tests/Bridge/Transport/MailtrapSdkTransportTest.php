@@ -5,14 +5,21 @@ declare(strict_types=1);
 namespace Mailtrap\Tests\Bridge\Transport;
 
 use Mailtrap\Api\AbstractApi;
+use Mailtrap\Api\Sending\Emails;
 use Mailtrap\Bridge\Transport\MailtrapSdkTransport;
 use Mailtrap\Config;
 use Mailtrap\MailtrapBulkSendingClient;
 use Mailtrap\MailtrapSandboxClient;
 use Mailtrap\MailtrapSendingClient;
+use Mailtrap\Mime\MailtrapEmail;
 use Mailtrap\Tests\MailtrapTestCase;
+use Nyholm\Psr7\Response;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Mailer\Envelope;
+use Symfony\Component\Mailer\Exception\RuntimeException;
+use Symfony\Component\Mailer\Header\MetadataHeader;
+use Symfony\Component\Mailer\Header\TagHeader;
+use Symfony\Component\Mime\Email;
 
 /**
  * @covers MailtrapSdkTransport
@@ -69,5 +76,109 @@ class MailtrapSdkTransportTest extends MailtrapTestCase
                 sprintf('mailtrap+sdk://%s', AbstractApi::SENDMAIL_BULK_HOST),
             ],
         ];
+    }
+
+    public function testSendConvertsTagAndMetadataHeaders(): void
+    {
+        $email = self::createEmail(new Email());
+        $email->getHeaders()
+            ->add(new TagHeader('welcome'))
+            ->add(new MetadataHeader('user_id', '42'))
+            ->add(new MetadataHeader('plan', 'pro'))
+            ->addTextHeader('X-Message-Source', 'dev.mydomain.com');
+
+        $emails = $this->getEmailsMock();
+        $emails
+            ->expects($this->once())
+            ->method('httpPost')
+            ->with(AbstractApi::SENDMAIL_TRANSACTIONAL_HOST . '/api/send', [], [
+                'from' => ['email' => 'foo@example.com'],
+                'to' => [['email' => 'bar@example.com']],
+                'subject' => 'Welcome',
+                'text' => 'Some text',
+                // no X-Tag and no X-Metadata-* here
+                'headers' => ['X-Message-Source' => 'dev.mydomain.com'],
+                'category' => 'welcome',
+                'custom_variables' => ['user_id' => '42', 'plan' => 'pro'],
+            ])
+            ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode([
+                'success' => true,
+                'message_ids' => ['0c7fd939-02cf-11ed-88c2-0a58a9feac02'],
+            ])));
+
+        $sentMessage = $this->getTransport($emails)->send($email);
+
+        $this->assertSame('0c7fd939-02cf-11ed-88c2-0a58a9feac02', $sentMessage->getMessageId());
+        // neither the caller's message nor the one event listeners and the profiler hold is changed
+        foreach ([$email, $sentMessage->getOriginalMessage()] as $message) {
+            $this->assertTrue($message->getHeaders()->has('X-Tag'));
+            $this->assertFalse($message->getHeaders()->has('category'));
+        }
+    }
+
+    /**
+     * @dataProvider getEmailsWithTwoCategories
+     */
+    #[DataProvider('getEmailsWithTwoCategories')]
+    public function testSendFailsOnMoreThanOneCategory(Email $email): void
+    {
+        $emails = $this->getEmailsMock();
+        $emails->expects($this->never())->method('httpPost');
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Mailtrap does not accept more than 1 category in the email.');
+
+        $this->getTransport($emails)->send($email);
+    }
+
+    public static function getEmailsWithTwoCategories(): array
+    {
+        $twoTags = self::createEmail(new Email());
+        $twoTags->getHeaders()->add(new TagHeader('first'))->add(new TagHeader('second'));
+
+        $tagNextToCategory = self::createEmail((new MailtrapEmail())->category('mine'));
+        $tagNextToCategory->getHeaders()->add(new TagHeader('welcome'));
+
+        $twoTagsFirstZero = self::createEmail(new Email());
+        $twoTagsFirstZero->getHeaders()->add(new TagHeader('0'))->add(new TagHeader('welcome'));
+
+        $tagNextToZeroCategory = self::createEmail((new MailtrapEmail())->category('0'));
+        $tagNextToZeroCategory->getHeaders()->add(new TagHeader('welcome'));
+
+        return [
+            'two tags' => [$twoTags],
+            'a tag next to a category' => [$tagNextToCategory],
+            'two tags, the first "0"' => [$twoTagsFirstZero],
+            'a tag next to a "0" category' => [$tagNextToZeroCategory],
+        ];
+    }
+
+    private static function createEmail(Email $email): Email
+    {
+        return $email
+            ->from('foo@example.com')
+            ->to('bar@example.com')
+            ->subject('Welcome')
+            ->text('Some text')
+        ;
+    }
+
+    private function getEmailsMock(): Emails
+    {
+        return $this->getMockBuilder(Emails::class)
+            ->onlyMethods(['httpPost'])
+            ->setConstructorArgs([$this->getSendConfig()])
+            ->getMock()
+        ;
+    }
+
+    private function getTransport(Emails $emails): MailtrapSdkTransport
+    {
+        return new MailtrapSdkTransport($emails, $this->getSendConfig());
+    }
+
+    private function getSendConfig(): Config
+    {
+        return (new Config(self::DEFAULT_API_KEY))->setHost(AbstractApi::SENDMAIL_TRANSACTIONAL_HOST);
     }
 }
