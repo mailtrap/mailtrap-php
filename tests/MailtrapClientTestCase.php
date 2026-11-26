@@ -7,6 +7,7 @@ namespace Mailtrap\Tests;
 use Mailtrap\ConfigInterface;
 use Mailtrap\Exception\BadMethodCallException;
 use Mailtrap\MailtrapClientInterface;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class MailtrapClientTestCase
@@ -19,7 +20,7 @@ abstract class MailtrapClientTestCase extends MailtrapTestCase
 
     abstract public function getLayerInterfaceClassName(): string;
 
-    abstract public function mapInstancesProvider(): iterable;
+    abstract public static function mapInstancesProvider(): iterable;
 
     protected function setUp(): void
     {
@@ -39,6 +40,7 @@ abstract class MailtrapClientTestCase extends MailtrapTestCase
     /**
      * @dataProvider invalidApiClassNameProvider
      */
+    #[DataProvider('invalidApiClassNameProvider')]
     public function testInvalidApiClassName($name): void
     {
         $this->expectExceptionObject(
@@ -53,12 +55,13 @@ abstract class MailtrapClientTestCase extends MailtrapTestCase
     /**
      * @dataProvider mapInstancesProvider
      */
-    public function testMapInstance($instance): void
+    #[DataProvider('mapInstancesProvider')]
+    public function testMapInstance(string $className, array $arguments = []): void
     {
-        $this->assertInstanceOf($this->getLayerInterfaceClassName(), $instance);
+        $this->assertInstanceOf($this->getLayerInterfaceClassName(), new $className($this->getConfigMock(), ...$arguments));
     }
 
-    public function invalidApiClassNameProvider(): array
+    public static function invalidApiClassNameProvider(): array
     {
         return [['fakeclass1'], ['fakeclass2']];
     }

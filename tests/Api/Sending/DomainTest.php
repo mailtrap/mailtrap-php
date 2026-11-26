@@ -13,6 +13,7 @@ use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\Tests\AssertsDeprecationsTrait;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @covers Domain
@@ -359,6 +360,7 @@ class DomainTest extends MailtrapTestCase
     /**
      * @dataProvider deprecatedMethodsProvider
      */
+    #[DataProvider('deprecatedMethodsProvider')]
     public function testDeprecatedMethods(string $method, array $arguments, string $httpMethod, string $newMethod): void
     {
         $this->domain->expects($this->once())
@@ -377,7 +379,7 @@ class DomainTest extends MailtrapTestCase
         $this->assertSame(200, $response->getStatusCode());
     }
 
-    public function deprecatedMethodsProvider(): iterable
+    public static function deprecatedMethodsProvider(): iterable
     {
         yield ['getSendingDomains', [], 'httpGet', 'getDomains'];
         yield ['createSendingDomain', ['example.com'], 'httpPost', 'createDomain'];

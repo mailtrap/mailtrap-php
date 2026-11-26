@@ -18,13 +18,14 @@ use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\Mime\MailtrapEmail;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
 /**
- * Class AbstractEmailsTest
+ * Class AbstractEmailsTestCase
  */
-abstract class AbstractEmailsTest extends MailtrapTestCase
+abstract class AbstractEmailsTestCase extends MailtrapTestCase
 {
     /**
      * @var Emails|BulkEmails
@@ -329,6 +330,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
     /**
      * @dataProvider validHeadersDataProvider
      */
+    #[DataProvider('validHeadersDataProvider')]
     public function testHeaders($name, $value): void
     {
         $email = (new Email())->from(new Address('foo@example.com', 'Ms. Foo Bar'));
@@ -346,6 +348,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
     /**
      * @dataProvider validCustomVariablesDataProvider
      */
+    #[DataProvider('validCustomVariablesDataProvider')]
     public function testCustomVariables($name, $value): void
     {
         $email = (new Email())->from(new Address('foo@example.com', 'Ms. Foo Bar'));
@@ -364,6 +367,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
     /**
      * @dataProvider validCustomVariablesDataProvider
      */
+    #[DataProvider('validCustomVariablesDataProvider')]
     public function testCustomVariablesNewEmailWrapper($name, $value): void
     {
         $email = (new MailtrapEmail())
@@ -383,6 +387,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
     /**
      * @dataProvider validEmailCategoryDataProvider
      */
+    #[DataProvider('validEmailCategoryDataProvider')]
     public function testEmailCategory($value): void
     {
         $email = (new Email())->from(new Address('foo@example.com', 'Ms. Foo Bar'));
@@ -400,6 +405,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
     /**
      * @dataProvider validEmailCategoryDataProvider
      */
+    #[DataProvider('validEmailCategoryDataProvider')]
     public function testEmailCategoryNewEmailWrapper($value): void
     {
         $email = (new MailtrapEmail())
@@ -453,6 +459,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
     /**
      * @dataProvider validTemplateUuidDataProvider
      */
+    #[DataProvider('validTemplateUuidDataProvider')]
     public function testTemplateUuid($value): void
     {
         $email = (new Email())->from(new Address('foo@example.com', 'Ms. Foo Bar'));
@@ -470,6 +477,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
     /**
      * @dataProvider validTemplateUuidDataProvider
      */
+    #[DataProvider('validTemplateUuidDataProvider')]
     public function testTemplateUuidNewEmailWrapper($value): void
     {
         $email = (new MailtrapEmail())
@@ -523,6 +531,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
     /**
      * @dataProvider validTemplateVariablesDataProvider
      */
+    #[DataProvider('validTemplateVariablesDataProvider')]
     public function testTemplateVariables($name, $value): void
     {
         $email = (new Email())->from(new Address('foo@example.com', 'Ms. Foo Bar'));
@@ -541,6 +550,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
     /**
      * @dataProvider validTemplateVariablesDataProvider
      */
+    #[DataProvider('validTemplateVariablesDataProvider')]
     public function testTemplateVariablesNewEmailWrapper($name, $value): void
     {
         $email = (new MailtrapEmail())
@@ -989,7 +999,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
 
     //<editor-fold desc="Data Providers">
 
-    public function validHeadersDataProvider(): array
+    public static function validHeadersDataProvider(): array
     {
         return [
             ['X-Message-Source', 'dev.mydomain.com'],
@@ -997,7 +1007,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
         ];
     }
 
-    public function validCustomVariablesDataProvider(): array
+    public static function validCustomVariablesDataProvider(): array
     {
         return [
             ['user_id', '45982'],
@@ -1016,7 +1026,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
         ];
     }
 
-    public function validEmailCategoryDataProvider(): array
+    public static function validEmailCategoryDataProvider(): array
     {
         return [
             ['Integration Test'],
@@ -1024,7 +1034,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
         ];
     }
 
-    public function validTemplateUuidDataProvider(): array
+    public static function validTemplateUuidDataProvider(): array
     {
         return [
             ['11111111-0000-0000-0000-8493da283a69'],
@@ -1032,7 +1042,7 @@ abstract class AbstractEmailsTest extends MailtrapTestCase
         ];
     }
 
-    public function validTemplateVariablesDataProvider(): array
+    public static function validTemplateVariablesDataProvider(): array
     {
         return [
             ['user_name', 'Jon Bush'],

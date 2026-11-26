@@ -11,6 +11,7 @@ use Mailtrap\MailtrapBulkSendingClient;
 use Mailtrap\MailtrapSandboxClient;
 use Mailtrap\MailtrapSendingClient;
 use Mailtrap\Tests\MailtrapTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Mailer\Envelope;
 
 /**
@@ -32,6 +33,7 @@ class MailtrapSdkTransportTest extends MailtrapTestCase
     /**
      * @dataProvider getTransportData
      */
+    #[DataProvider('getTransportData')]
     public function testToString(MailtrapSdkTransport $transport, string $expected): void
     {
         $this->assertSame($expected, (string) $transport);
