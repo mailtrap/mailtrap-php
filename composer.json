@@ -22,7 +22,7 @@
     "symfony/mailer": "^6.0|^7.0|^8.0",
     "phpunit/phpunit": "^9",
     "nyholm/psr7": "^1.5",
-    "vimeo/psalm": "^5.0|^6.0"
+    "vimeo/psalm": "^5.0|^6.0|^7.0"
   },
   "suggest": {
     "nyholm/psr7": "PSR-7 message implementation",
@@ -49,6 +49,7 @@
     }
   },
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "config": {
     "allow-plugins": {
       "php-http/discovery": true
