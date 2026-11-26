@@ -12,6 +12,7 @@ use Mailtrap\DTO\Request\Sandbox as SandboxRequest;
 use Mailtrap\Tests\AssertsDeprecationsTrait;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Backward compatibility of the deprecated Inbox API and request, replaced by Sandbox.
@@ -111,6 +112,7 @@ class InboxTest extends MailtrapTestCase
     /**
      * @dataProvider inboxIdMethodsProvider
      */
+    #[DataProvider('inboxIdMethodsProvider')]
     public function testMethodsKeepOldInboxIdNamedArgument(string $method, string $httpMethod, string $pathSuffix): void
     {
         $this->inbox->expects($this->once())
@@ -123,7 +125,7 @@ class InboxTest extends MailtrapTestCase
         $this->assertSame(200, $response->getStatusCode());
     }
 
-    public function inboxIdMethodsProvider(): iterable
+    public static function inboxIdMethodsProvider(): iterable
     {
         yield ['delete', 'httpDelete', ''];
         yield ['clean', 'httpPatch', '/clean'];

@@ -6,14 +6,14 @@ namespace Mailtrap\Tests\Api\Sending;
 
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\Api\Sending\Emails;
-use Mailtrap\Tests\Api\AbstractEmailsTest;
+use Mailtrap\Tests\Api\AbstractEmailsTestCase;
 
 /**
  * @covers Emails
  *
  * Class EmailsTest
  */
-final class EmailsTest extends AbstractEmailsTest
+final class EmailsTest extends AbstractEmailsTestCase
 {
     protected function setUp(): void
     {

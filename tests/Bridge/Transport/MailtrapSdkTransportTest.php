@@ -14,6 +14,7 @@ use Mailtrap\MailtrapSendingClient;
 use Mailtrap\Mime\MailtrapEmail;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mailer\Exception\RuntimeException;
 use Symfony\Component\Mailer\Header\MetadataHeader;
@@ -39,6 +40,7 @@ class MailtrapSdkTransportTest extends MailtrapTestCase
     /**
      * @dataProvider getTransportData
      */
+    #[DataProvider('getTransportData')]
     public function testToString(MailtrapSdkTransport $transport, string $expected): void
     {
         $this->assertSame($expected, (string) $transport);
@@ -117,6 +119,7 @@ class MailtrapSdkTransportTest extends MailtrapTestCase
     /**
      * @dataProvider getEmailsWithTwoCategories
      */
+    #[DataProvider('getEmailsWithTwoCategories')]
     public function testSendFailsOnMoreThanOneCategory(Email $email): void
     {
         $emails = $this->getEmailsMock();

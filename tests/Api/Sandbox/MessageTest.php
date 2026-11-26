@@ -9,6 +9,7 @@ use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @covers Message
@@ -110,6 +111,7 @@ class MessageTest extends MailtrapTestCase
     /**
      * @dataProvider spamScoreProvider
      */
+    #[DataProvider('spamScoreProvider')]
     public function testGetSpamScore($expectedData): void
     {
         $this->message->expects($this->once())
@@ -129,6 +131,7 @@ class MessageTest extends MailtrapTestCase
     /**
      * @dataProvider htmlAnalysisProvider
      */
+    #[DataProvider('htmlAnalysisProvider')]
     public function testGetHtmlAnalysis($expectedData): void
     {
         $this->message->expects($this->once())
@@ -307,6 +310,7 @@ class MessageTest extends MailtrapTestCase
     /**
      * @dataProvider markAsReadProvider
      */
+    #[DataProvider('markAsReadProvider')]
     public function testMarkAsRead($expectedData, $isRead): void
     {
         $this->message->expects($this->once())
@@ -348,11 +352,11 @@ class MessageTest extends MailtrapTestCase
         $this->assertEquals(self::FAKE_SANDBOX_ID, $responseData['inbox_id']);
     }
 
-    public function spamScoreProvider(): array
+    public static function spamScoreProvider(): array
     {
         return [
             [
-                "report" => [
+                [
                     "ResponseCode" => 2,
                     "ResponseMessage" => "Not spam",
                     "ResponseVersion" => "1.2",
@@ -366,25 +370,25 @@ class MessageTest extends MailtrapTestCase
         ];
     }
 
-    public function markAsReadProvider(): array
+    public static function markAsReadProvider(): array
     {
         return [
             [
-                $this->getMessagesData()[0],
+                self::getMessagesData()[0],
                 true,
             ],
             [
-                $this->getMessagesData()[1],
+                self::getMessagesData()[1],
                 false,
             ],
         ];
     }
 
-    public function htmlAnalysisProvider(): array
+    public static function htmlAnalysisProvider(): array
     {
         return [
             [
-                "report" => [
+                [
                     "status" => "success",
                     "errors" => [
                         [
@@ -438,7 +442,7 @@ class MessageTest extends MailtrapTestCase
         ];
     }
 
-    private function getMessagesData(): array
+    private static function getMessagesData(): array
     {
         return [
             [

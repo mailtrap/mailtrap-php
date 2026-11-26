@@ -7,12 +7,12 @@ namespace Mailtrap\Tests\Bridge\Transport;
 use Mailtrap\Api\AbstractApi;
 use Mailtrap\Exception\Transport\UnsupportedHostException;
 use Mailtrap\Tests\MailtrapTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Exception\IncompleteDsnException;
 use Symfony\Component\Mailer\Exception\UnsupportedSchemeException;
 use Symfony\Component\Mailer\Transport\Dsn;
 use Symfony\Component\Mailer\Transport\TransportFactoryInterface;
-use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -28,21 +28,21 @@ abstract class TransportFactoryTestCase extends MailtrapTestCase
 
     abstract public function getFactory(): TransportFactoryInterface;
 
-    abstract public function supportsProvider(): iterable;
+    abstract public static function supportsProvider(): iterable;
 
-    abstract public function createProvider(): iterable;
+    abstract public static function createProvider(): iterable;
 
-    public function unsupportedSchemeProvider(): iterable
+    public static function unsupportedSchemeProvider(): iterable
     {
         return [];
     }
 
-    public function incompleteDsnProvider(): iterable
+    public static function incompleteDsnProvider(): iterable
     {
         return [];
     }
 
-    public function unsupportedHostsProvider(): iterable
+    public static function unsupportedHostsProvider(): iterable
     {
         return [];
     }
@@ -50,6 +50,7 @@ abstract class TransportFactoryTestCase extends MailtrapTestCase
     /**
      * @dataProvider supportsProvider
      */
+    #[DataProvider('supportsProvider')]
     public function testSupports(Dsn $dsn, bool $supports): void
     {
         $factory = $this->getFactory();
@@ -60,9 +61,11 @@ abstract class TransportFactoryTestCase extends MailtrapTestCase
     /**
      * @dataProvider createProvider
      */
-    public function testCreate(Dsn $dsn, TransportInterface $transport): void
+    #[DataProvider('createProvider')]
+    public function testCreate(Dsn $dsn, \Closure $expectedTransport): void
     {
         $factory = $this->getFactory();
+        $transport = $expectedTransport($this);
 
         $this->assertEquals($transport, $factory->create($dsn));
 
@@ -76,6 +79,7 @@ abstract class TransportFactoryTestCase extends MailtrapTestCase
     /**
      * @dataProvider unsupportedSchemeProvider
      */
+    #[DataProvider('unsupportedSchemeProvider')]
     public function testUnsupportedSchemeException(Dsn $dsn, string $message = null): void
     {
         $factory = $this->getFactory();
@@ -91,6 +95,7 @@ abstract class TransportFactoryTestCase extends MailtrapTestCase
     /**
      * @dataProvider unsupportedHostsProvider
      */
+    #[DataProvider('unsupportedHostsProvider')]
     public function testUnsupportedHostsException(Dsn $dsn): void
     {
         $factory = $this->getFactory();
@@ -103,6 +108,7 @@ abstract class TransportFactoryTestCase extends MailtrapTestCase
     /**
      * @dataProvider incompleteDsnProvider
      */
+    #[DataProvider('incompleteDsnProvider')]
     public function testIncompleteDsnException(Dsn $dsn): void
     {
         $factory = $this->getFactory();

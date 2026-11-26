@@ -24,12 +24,12 @@ class MailtrapInboundClientTest extends MailtrapClientTestCase
         return InboundInterface::class;
     }
 
-    public function mapInstancesProvider(): iterable
+    public static function mapInstancesProvider(): iterable
     {
         foreach (MailtrapInboundClient::API_MAPPING as $key => $item) {
             yield match ($key) {
-                'inboxes', 'messages', 'threads', 'forwardRules' => [new $item($this->getConfigMock(), 1)],
-                default => [new $item($this->getConfigMock())],
+                'inboxes', 'messages', 'threads', 'forwardRules' => [$item, [1]],
+                default => [$item],
             };
         }
     }

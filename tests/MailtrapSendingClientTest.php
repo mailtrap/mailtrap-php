@@ -28,13 +28,13 @@ class MailtrapSendingClientTest extends MailtrapClientTestCase
         return SendingInterface::class;
     }
 
-    public function mapInstancesProvider(): iterable
+    public static function mapInstancesProvider(): iterable
     {
         foreach (MailtrapSendingClient::API_MAPPING as $key => $item) {
             yield match ($key) {
-                'suppressions', 'domains', 'stats', 'emailLogs', 'webhooks' => [new $item($this->getConfigMock(), self::FAKE_ACCOUNT_ID)],
-                'companyInfo' => [new $item($this->getConfigMock(), self::DOMAIN_ID)],
-                default => [new $item($this->getConfigMock())],
+                'suppressions', 'domains', 'stats', 'emailLogs', 'webhooks' => [$item, [self::FAKE_ACCOUNT_ID]],
+                'companyInfo' => [$item, [self::DOMAIN_ID]],
+                default => [$item],
             };
         }
     }

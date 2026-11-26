@@ -13,6 +13,7 @@ use Mailtrap\Exception\RuntimeException;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\Tests\MailtrapTestCase;
 use Nyholm\Psr7\Response;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @covers Permission
@@ -92,11 +93,12 @@ class PermissionTest extends MailtrapTestCase
     /**
      * @dataProvider validUpdateDataProvider
      */
-    public function testValidUpdate($permissions): void
+    #[DataProvider('validUpdateDataProvider')]
+    public function testValidUpdate($permissions, array $expectedPayload): void
     {
         $this->permission->expects($this->once())
             ->method('httpPut')
-            ->with(AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/account_accesses/' . self::FAKE_ACCOUNT_ACCESS_ID . '/permissions/bulk')
+            ->with(AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/account_accesses/' . self::FAKE_ACCOUNT_ACCESS_ID . '/permissions/bulk', [], ['permissions' => $expectedPayload])
             ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode(['message' => 'Permissions have been updated!'])));
 
         $response = $this->permission->update(self::FAKE_ACCOUNT_ACCESS_ID, $permissions);
@@ -119,12 +121,13 @@ class PermissionTest extends MailtrapTestCase
     /**
      * @dataProvider validUpdateDataProvider
      */
+    #[DataProvider('validUpdateDataProvider')]
     public function testValidGetPayload($permissions, $expectedResult): void
     {
         $this->assertEquals($expectedResult, $permissions->toPayload());
     }
 
-    public function validUpdateDataProvider(): iterable
+    public static function validUpdateDataProvider(): iterable
     {
         // create/update
         yield [

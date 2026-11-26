@@ -27,10 +27,10 @@ class MailtrapBulkSendingClientTest extends MailtrapClientTestCase
         return BulkSendingInterface::class;
     }
 
-    public function mapInstancesProvider(): iterable
+    public static function mapInstancesProvider(): iterable
     {
         foreach (MailtrapBulkSendingClient::API_MAPPING as $item) {
-            yield [new $item($this->getConfigMock())];
+            yield [$item];
         }
     }
 

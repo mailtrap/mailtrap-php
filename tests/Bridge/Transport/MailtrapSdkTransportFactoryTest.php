@@ -12,6 +12,7 @@ use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\Exception\RuntimeException;
 use Mailtrap\MailtrapClient;
 use Mailtrap\Tests\AssertsDeprecationsTrait;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpClient\Psr18Client;
 use Symfony\Component\Mailer\Transport\Dsn;
 use Symfony\Component\Mailer\Transport\TransportFactoryInterface;
@@ -41,7 +42,7 @@ class MailtrapSdkTransportFactoryTest extends TransportFactoryTestCase
         return new MailtrapSdkTransportFactory($this->getDispatcher(), $this->getClient(), $this->getLogger());
     }
 
-    public function supportsProvider(): iterable
+    public static function supportsProvider(): iterable
     {
         yield [
             new Dsn('mailtrap+sdk', 'default'),
@@ -49,63 +50,57 @@ class MailtrapSdkTransportFactoryTest extends TransportFactoryTestCase
         ];
     }
 
-    public function createProvider(): iterable
+    public static function createProvider(): iterable
     {
-        $dispatcher = $this->getDispatcher();
-        $logger = $this->getLogger();
-        $psrClient = new Psr18Client($this->getClient());
-        $sendConfig = (new Config(self::USER))
-            ->setHttpClient($psrClient)
-            ->setHost(AbstractApi::SENDMAIL_TRANSACTIONAL_HOST);
-        $sandboxConfig = (new Config(self::USER))
-            ->setHttpClient($psrClient)
-            ->setHost(AbstractApi::SENDMAIL_SANDBOX_HOST);
-        $bulkConfig = (new Config(self::USER))
-            ->setHttpClient($psrClient)
-            ->setHost(AbstractApi::SENDMAIL_BULK_HOST);
         $sandboxId = 1234;
 
         yield [
             new Dsn('mailtrap+sdk', 'default', self::USER),
-            new MailtrapSdkTransport(
-                (new MailtrapClient($sendConfig))->sending()->emails(),
-                $sendConfig,
-                $dispatcher,
-                $logger
+            static fn (self $test) => $test->createTransport(
+                AbstractApi::SENDMAIL_TRANSACTIONAL_HOST,
+                static fn (MailtrapClient $client) => $client->sending()->emails()
             ),
         ];
 
         yield [
             new Dsn('mailtrap+sdk', AbstractApi::SENDMAIL_TRANSACTIONAL_HOST, self::USER),
-            new MailtrapSdkTransport(
-                (new MailtrapClient($sendConfig))->sending()->emails(),
-                $sendConfig,
-                $dispatcher,
-                $logger
+            static fn (self $test) => $test->createTransport(
+                AbstractApi::SENDMAIL_TRANSACTIONAL_HOST,
+                static fn (MailtrapClient $client) => $client->sending()->emails()
             ),
         ];
 
         // sandbox
         yield [
-            new Dsn('mailtrap+sdk', AbstractApi::SENDMAIL_SANDBOX_HOST, self::USER, null, null, ['sandboxId' => 1234]),
-            new MailtrapSdkTransport(
-                (new MailtrapClient($sandboxConfig))->sandbox()->emails($sandboxId),
-                $sandboxConfig,
-                $dispatcher,
-                $logger
+            new Dsn('mailtrap+sdk', AbstractApi::SENDMAIL_SANDBOX_HOST, self::USER, null, null, ['sandboxId' => $sandboxId]),
+            static fn (self $test) => $test->createTransport(
+                AbstractApi::SENDMAIL_SANDBOX_HOST,
+                static fn (MailtrapClient $client) => $client->sandbox()->emails($sandboxId)
             ),
         ];
 
         // bulk sending
         yield [
             new Dsn('mailtrap+sdk', AbstractApi::SENDMAIL_BULK_HOST, self::USER),
-            new MailtrapSdkTransport(
-                (new MailtrapClient($bulkConfig))->bulkSending()->emails(),
-                $bulkConfig,
-                $dispatcher,
-                $logger
+            static fn (self $test) => $test->createTransport(
+                AbstractApi::SENDMAIL_BULK_HOST,
+                static fn (MailtrapClient $client) => $client->bulkSending()->emails()
             ),
         ];
+    }
+
+    private function createTransport(string $host, \Closure $emailsApi): MailtrapSdkTransport
+    {
+        $config = (new Config(self::USER))
+            ->setHttpClient(new Psr18Client($this->getClient()))
+            ->setHost($host);
+
+        return new MailtrapSdkTransport(
+            $emailsApi(new MailtrapClient($config)),
+            $config,
+            $this->getDispatcher(),
+            $this->getLogger()
+        );
     }
 
     public function testSandboxIdOptionTriggersNoDeprecation(): void
@@ -122,6 +117,7 @@ class MailtrapSdkTransportFactoryTest extends TransportFactoryTestCase
     /**
      * @dataProvider deprecatedInboxIdOptionsProvider
      */
+    #[DataProvider('deprecatedInboxIdOptionsProvider')]
     public function testInboxIdOptionIsDeprecated(array $options): void
     {
         $transport = $this->assertDeprecationTriggered(
@@ -134,7 +130,7 @@ class MailtrapSdkTransportFactoryTest extends TransportFactoryTestCase
         $this->assertSame(sprintf('mailtrap+sdk://%s?sandboxId=1234', AbstractApi::SENDMAIL_SANDBOX_HOST), (string) $transport);
     }
 
-    public function deprecatedInboxIdOptionsProvider(): iterable
+    public static function deprecatedInboxIdOptionsProvider(): iterable
     {
         // MAILER_DSN=mailtrap+sdk://APIKEY@sandbox.api.mailtrap.io?inboxId=1234
         yield 'Symfony DSN query' => [['inboxId' => '1234']];
@@ -155,6 +151,7 @@ class MailtrapSdkTransportFactoryTest extends TransportFactoryTestCase
     /**
      * @dataProvider differentSandboxIdAndInboxIdOptionsProvider
      */
+    #[DataProvider('differentSandboxIdAndInboxIdOptionsProvider')]
     public function testDifferentSandboxIdAndInboxIdOptions(array $options): void
     {
         $this->expectExceptionObject(new InvalidArgumentException(
@@ -166,7 +163,7 @@ class MailtrapSdkTransportFactoryTest extends TransportFactoryTestCase
         );
     }
 
-    public function differentSandboxIdAndInboxIdOptionsProvider(): iterable
+    public static function differentSandboxIdAndInboxIdOptionsProvider(): iterable
     {
         yield 'two IDs' => [['sandboxId' => '1234', 'inboxId' => '5678']];
         yield 'zero sandboxId' => [['sandboxId' => '0', 'inboxId' => '1234']];
@@ -176,6 +173,7 @@ class MailtrapSdkTransportFactoryTest extends TransportFactoryTestCase
     /**
      * @dataProvider withoutSandboxIdOptionsProvider
      */
+    #[DataProvider('withoutSandboxIdOptionsProvider')]
     public function testSandboxWithoutSandboxIdOption(array $options): void
     {
         $this->expectExceptionObject(new RuntimeException(
@@ -185,26 +183,26 @@ class MailtrapSdkTransportFactoryTest extends TransportFactoryTestCase
         $this->getFactory()->create(new Dsn('mailtrap+sdk', AbstractApi::SENDMAIL_SANDBOX_HOST, self::USER, null, null, $options));
     }
 
-    public function withoutSandboxIdOptionsProvider(): iterable
+    public static function withoutSandboxIdOptionsProvider(): iterable
     {
         yield 'no options' => [[]];
         yield 'zero sandboxId' => [['sandboxId' => '0']];
         yield 'zero inboxId' => [['inboxId' => '0']];
     }
 
-    public function unsupportedSchemeProvider(): iterable
+    public static function unsupportedSchemeProvider(): iterable
     {
         yield [
             new Dsn('mailtrap+foo', 'mailtrap', self::USER)
         ];
     }
 
-    public function incompleteDsnProvider(): iterable
+    public static function incompleteDsnProvider(): iterable
     {
         yield [new Dsn('mailtrap+sdk', 'default')];
     }
 
-    public function unsupportedHostsProvider(): iterable
+    public static function unsupportedHostsProvider(): iterable
     {
         yield [new Dsn('mailtrap+sdk', 'invalid_url.api.mailtrap.io', self::USER)];
         yield [new Dsn('mailtrap+sdk', 'mailtrap.io', self::USER)];

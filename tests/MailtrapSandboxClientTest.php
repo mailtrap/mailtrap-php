@@ -11,6 +11,7 @@ use Mailtrap\Api\Sandbox\SandboxInterface;
 use Mailtrap\Exception\InvalidArgumentException;
 use Mailtrap\MailtrapClient;
 use Mailtrap\MailtrapSandboxClient;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * @covers MailtrapSandboxClient
@@ -31,14 +32,14 @@ class MailtrapSandboxClientTest extends MailtrapClientTestCase
         return SandboxInterface::class;
     }
 
-    public function mapInstancesProvider(): iterable
+    public static function mapInstancesProvider(): iterable
     {
         foreach (MailtrapSandboxClient::API_MAPPING as $key => $item) {
             yield match ($key) {
-                'emails' => [new $item($this->getConfigMock(), self::FAKE_SANDBOX_ID)],
-                'projects', 'sandboxes', 'inboxes' => [new $item($this->getConfigMock(), self::FAKE_ACCOUNT_ID)],
-                'messages', 'attachments' => [new $item($this->getConfigMock(), self::FAKE_ACCOUNT_ID, self::FAKE_SANDBOX_ID)],
-                default => [new $item($this->getConfigMock())],
+                'emails' => [$item, [self::FAKE_SANDBOX_ID]],
+                'projects', 'sandboxes', 'inboxes' => [$item, [self::FAKE_ACCOUNT_ID]],
+                'messages', 'attachments' => [$item, [self::FAKE_ACCOUNT_ID, self::FAKE_SANDBOX_ID]],
+                default => [$item],
             };
         }
     }
@@ -67,18 +68,21 @@ class MailtrapSandboxClientTest extends MailtrapClientTestCase
     /**
      * @dataProvider sandboxIdApisProvider
      */
-    public function testSandboxIdArgument(string $method, array $arguments): void
+    #[DataProvider('sandboxIdApisProvider')]
+    public function testSandboxIdArgument(string $method, array $arguments, string $className): void
     {
         $api = $this->assertNoDeprecationTriggered(
             fn () => $this->mailtrapClientLayer->{$method}(...$arguments, ...['sandboxId' => self::FAKE_SANDBOX_ID])
         );
 
+        $this->assertInstanceOf($className, $api);
         $this->assertSame(self::FAKE_SANDBOX_ID, $api->getSandboxId());
     }
 
     /**
      * @dataProvider sandboxIdApisProvider
      */
+    #[DataProvider('sandboxIdApisProvider')]
     public function testInboxIdArgumentIsDeprecated(string $method, array $arguments, string $className): void
     {
         $api = $this->assertDeprecationTriggered(
@@ -92,6 +96,7 @@ class MailtrapSandboxClientTest extends MailtrapClientTestCase
     /**
      * @dataProvider sandboxIdApisProvider
      */
+    #[DataProvider('sandboxIdApisProvider')]
     public function testGetInboxIdIsDeprecated(string $method, array $arguments, string $className): void
     {
         $api = $this->mailtrapClientLayer->{$method}(...$arguments, ...[self::FAKE_SANDBOX_ID]);
@@ -107,6 +112,7 @@ class MailtrapSandboxClientTest extends MailtrapClientTestCase
     /**
      * @dataProvider sandboxIdApisProvider
      */
+    #[DataProvider('sandboxIdApisProvider')]
     public function testSandboxIdIsRequired(string $method, array $arguments, string $className): void
     {
         $this->expectExceptionObject(
@@ -119,6 +125,7 @@ class MailtrapSandboxClientTest extends MailtrapClientTestCase
     /**
      * @dataProvider sandboxIdApisProvider
      */
+    #[DataProvider('sandboxIdApisProvider')]
     public function testDifferentSandboxIdAndInboxIdAreRejected(string $method, array $arguments, string $className): void
     {
         $this->expectExceptionObject(new InvalidArgumentException(sprintf(
@@ -129,7 +136,7 @@ class MailtrapSandboxClientTest extends MailtrapClientTestCase
         $this->mailtrapClientLayer->{$method}(...$arguments, ...['sandboxId' => self::FAKE_SANDBOX_ID, 'inboxId' => self::FAKE_SANDBOX_ID + 1]);
     }
 
-    public function sandboxIdApisProvider(): iterable
+    public static function sandboxIdApisProvider(): iterable
     {
         yield ['emails', [], SandboxSendingEmails::class];
         yield ['messages', [self::FAKE_ACCOUNT_ID], MailtrapSandboxClient::API_MAPPING['messages']];
