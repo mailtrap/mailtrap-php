@@ -1,0 +1,25 @@
+src/DTO/Request/Webhook/CreateWebhook.php
+  s_0bcb2fb56a79d6::t_2f6b1b85abc4d4 53-54,56-60
+src/Exception/HttpClientException.php
+  s_0bcb2fb56a79d6::t_8353e923d87407 76-77
+tests/Exception/HttpServerExceptionTest.php
+  s_0bcb2fb56a79d6::t_e07c73cd86d7cc 1-60
+examples/contacts/all.php
+  s_0bcb2fb56a79d6::t_2f6b1b85abc4d4 31,33-35,42-46,84,197
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f02004b4e8be1e115f12fae66f9c389e66eae5df",
+  "prompts": {},
+  "sessions": {
+    "s_0bcb2fb56a79d6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "43c273a2-f2e9-4e1f-8939-5c7f76f2765c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

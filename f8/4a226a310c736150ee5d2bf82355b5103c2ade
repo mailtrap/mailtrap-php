@@ -1,0 +1,31 @@
+src/DTO/Request/Contact/ImportContact.php
+  s_ea82302c7a8d69::t_acf743c3ab6ac2 74-83
+src/DTO/Request/Contact/ContactSubscriptionTopic.php
+  s_ea82302c7a8d69::t_36947aaf887b1c 38,40-41,43,45-48
+tests/Api/Sending/WebhookTest.php
+  s_ea82302c7a8d69::t_724621989a4c33 200
+src/DTO/Request/Webhook/CreateWebhook.php
+  s_ea82302c7a8d69::t_ed430203a71e41 44-45
+examples/subscription-topics/all.php
+  s_ea82302c7a8d69::t_807098a21e3a90 33
+src/DTO/Request/Contact/UpdateContact.php
+  s_ea82302c7a8d69::t_eea0d39db7fac6 88
+src/DTO/Request/Contact/CreateContact.php
+  s_ea82302c7a8d69::t_306099ed308031 64-72
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f84a226a310c736150ee5d2bf82355b5103c2ade",
+  "prompts": {},
+  "sessions": {
+    "s_ea82302c7a8d69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8204970b-51d0-4d09-b69b-4ac3075af30d",
+        "model": "unknown"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+src/Bridge/Transport/MailtrapSdkTransport.php
+  s_cb6ef4eb814c78::t_43f723ec655ac3 100-106,108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c691ffcbb560f43f024d3f6a58148f66a1e628b5",
+  "prompts": {},
+  "sessions": {
+    "s_cb6ef4eb814c78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e88dec20-c379-483b-98e1-f14ecdbbba8c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

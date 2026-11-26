@@ -1,0 +1,40 @@
+tests/Api/AbstractApiTest.php
+  s_8190192b22d4aa::t_8bdf3d46140293 48-73
+  s_8190192b22d4aa::t_ea96e86599164e 8,10-11
+src/DTO/Request/MarketingStats/MarketingStatsInterface.php
+  s_8190192b22d4aa::t_be111c84bd7834 14-18
+  s_8190192b22d4aa::t_9a248d57c8d24c 1-13,19
+tests/Api/General/MarketingStatsTest.php
+  s_8190192b22d4aa::t_36cbb7f5908dfb 95,98,100
+  s_8190192b22d4aa::t_3b025aadb73e33 1-94,96-97,99,101-163
+examples/marketing-stats/all.php
+  s_8190192b22d4aa::t_e458b47c02b8f5 1-58
+src/MailtrapGeneralClient.php
+  s_8190192b22d4aa::t_31a00082ad081a 8-18,35
+examples/README.md
+  s_8190192b22d4aa::t_c98c262ea7b65a 63
+src/Api/General/MarketingStats.php
+  s_8190192b22d4aa::t_a26bb0f438e9a0 1-39
+README.md
+  s_8190192b22d4aa::t_08b9d54496ebb4 274
+src/DTO/Request/MarketingStats/MarketingStatsFilter.php
+  s_8190192b22d4aa::t_7d9dbf70d3bcbd 33,35-36
+  s_8190192b22d4aa::t_fafd546b2ad527 1-20,22-32,34,37-64
+  s_8190192b22d4aa::t_e026d9ba0284e1 21
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8d035bdd3635f85b88ba8eecf9e008242f67841a",
+  "prompts": {},
+  "sessions": {
+    "s_8190192b22d4aa": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "604e431d-5fcb-4b36-96e4-c75c3cad089b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

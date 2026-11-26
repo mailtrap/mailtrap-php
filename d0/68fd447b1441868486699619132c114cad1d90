@@ -1,0 +1,21 @@
+src/Bridge/Laravel/README.md
+  s_c5d4769ecc58b7::t_edd978be5ddf10 72
+src/MailtrapSandboxClient.php
+  s_c5d4769ecc58b7::t_edd978be5ddf10 8,11-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d068fd447b1441868486699619132c114cad1d90",
+  "prompts": {},
+  "sessions": {
+    "s_c5d4769ecc58b7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "59d6effb-68e2-4ab1-b378-5f276cfdbc0d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

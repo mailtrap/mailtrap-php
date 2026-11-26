@@ -1,0 +1,23 @@
+src/DTO/Request/MarketingStats/MarketingStatsFilter.php
+  s_f3914c06ea1a26::t_b61907e534dbcb 37
+src/Api/General/MarketingStats.php
+  s_f3914c06ea1a26::t_1b7e1b0e4c104e 31
+examples/marketing-stats/all.php
+  s_f3914c06ea1a26::t_b71dc3cde38359 16,18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ed306741e88f14d02e9fbe79ace4f0c8dfdcd4ab",
+  "prompts": {},
+  "sessions": {
+    "s_f3914c06ea1a26": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "f7354a2b-2435-4cbe-8e9a-7c40dc6f376b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

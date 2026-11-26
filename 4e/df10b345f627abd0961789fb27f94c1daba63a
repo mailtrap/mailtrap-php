@@ -1,0 +1,23 @@
+examples/email-campaigns/all.php
+  s_ea82302c7a8d69::t_bb39cd4e7adbee 47,50,55,60
+  s_ea82302c7a8d69::t_a263609a5912ee 48-49,52-54,56,58-59
+examples/contacts/all.php
+  s_ea82302c7a8d69::t_7a6d8bb32229e3 37-40
+  s_ea82302c7a8d69::t_3ca16c40e0c500 136,143-144
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4edf10b345f627abd0961789fb27f94c1daba63a",
+  "prompts": {},
+  "sessions": {
+    "s_ea82302c7a8d69": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8204970b-51d0-4d09-b69b-4ac3075af30d",
+        "model": "unknown"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

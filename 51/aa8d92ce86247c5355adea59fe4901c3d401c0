@@ -1,0 +1,26 @@
+src/Bridge/Transport/MailtrapSdkTransportFactory.php
+  s_c7a5b170212021::t_84fc0a2f9f2844 10
+  s_c7a5b170212021::t_32f287645785f7 62-63,73-76,79-81
+  s_c7a5b170212021::t_7d223381c1d4da 67-70,78,84
+tests/Bridge/Transport/MailtrapSdkTransportFactoryTest.php
+  s_c7a5b170212021::t_e204ae9ce2c037 153,155-156
+  s_c7a5b170212021::t_7c9e21d7c3a8ec 159-161
+  s_c7a5b170212021::t_550388fbbaa216 149-150
+  s_c7a5b170212021::t_e970dddb2cd1f6 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "51aa8d92ce86247c5355adea59fe4901c3d401c0",
+  "prompts": {},
+  "sessions": {
+    "s_c7a5b170212021": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "047eb97a-6e7e-46e8-b239-debfcc0117a9",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+src/Bridge/Symfony/README.md
+  s_cb6ef4eb814c78::t_cf99096b9466d0 32-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "62cb7141da82df98f32cb2157bbabd1eea7f0855",
+  "prompts": {},
+  "sessions": {
+    "s_cb6ef4eb814c78": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e88dec20-c379-483b-98e1-f14ecdbbba8c",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}

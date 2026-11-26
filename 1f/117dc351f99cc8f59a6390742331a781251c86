@@ -1,0 +1,167 @@
+tests/Api/Sandbox/SandboxTest.php
+  s_91e6ab0538505d::t_8bc131ce335bc9 1-416
+tests/Api/Sending/DomainTest.php
+  s_91e6ab0538505d::t_2d776a304f3be8 359-362,365-366,369-374,377,380,382-385
+  s_91e6ab0538505d::t_ecff750fdd178c 13,24-25,43,52,64,82,94,121,164,173,177,192,283,305,321,339,347,353,356-358,363-364,367-368,375-376,378-379,381
+tests/Api/Sandbox/InboxTest.php
+  s_91e6ab0538505d::t_d732e651a82a43 50
+  s_91e6ab0538505d::t_90148e377313ef 3-4,9,11-12,17-18,25-27,34,47,49,51-52,54-55,62-63,65-68,70,73,80,82,84,86,89,91-93,95,100,102,104,106,108,111-114,117-119,121,123,126,128-133
+src/Bridge/Laravel/config/mailtrap-sdk.php
+  s_91e6ab0538505d::t_67e4bd881157d0 7-8
+tests/Bridge/Transport/MailtrapSdkTransportTest.php
+  s_91e6ab0538505d::t_c65713bc76c2b3 45,57,60
+examples/sandbox/messages.php
+  s_91e6ab0538505d::t_48dbddc97a4197 1-236
+examples/sandbox/sandboxes.php
+  s_91e6ab0538505d::t_48dbddc97a4197 1-186
+src/Api/Sandbox/Message.php
+  s_91e6ab0538505d::t_6f0989037fb326 17-21,25-26,29,33,66,81,98,116,134,152,170,188,206,224,240,251,260,279
+examples/batch/sandbox_template.php
+  s_91e6ab0538505d::t_48dbddc97a4197 22
+src/Api/Sending/CompanyInfo.php
+  s_91e6ab0538505d::t_6602b6697976c4 24,36,55
+tests/Api/Sandbox/AttachmentTest.php
+  s_91e6ab0538505d::t_2c096ce063e6ba 30,52,80
+tests/MailtrapClientTestCase.php
+  s_91e6ab0538505d::t_d732e651a82a43 16
+examples/sandbox/send-mail.php
+  s_91e6ab0538505d::t_48dbddc97a4197 1-14,16-37
+  s_91e6ab0538505d::t_9ae2ad57bd6274 15
+src/DTO/Request/Domain/UpdateDomain.php
+  s_91e6ab0538505d::t_ecff750fdd178c 12,61
+src/DTO/Request/EmailCampaign/CreateEmailCampaign.php
+  s_91e6ab0538505d::t_6602b6697976c4 18
+src/Bridge/Symfony/README.md
+  s_91e6ab0538505d::t_542fe037690fa3 48
+  s_91e6ab0538505d::t_8069e854bbb3de 42,46
+src/Helper/Deprecation.php
+  s_91e6ab0538505d::t_8898e2597e355c 1-68
+examples/sandbox/template.php
+  s_91e6ab0538505d::t_48dbddc97a4197 1-42
+src/Api/Sandbox/Inbox.php
+  s_91e6ab0538505d::t_612af3e1193211 8-9,14-15,17,20,22,29,33,37-39,44,49,52,54,59,64,69,74,79
+  s_91e6ab0538505d::t_01102e44e8d42f 24-27
+  s_91e6ab0538505d::t_a6fe92a033667e 13,16
+src/Bridge/Transport/MailtrapSdkTransport.php
+  s_91e6ab0538505d::t_3857456913aef0 68,70,73
+src/AbstractMailtrapClient.php
+  s_91e6ab0538505d::t_0ca447cc382e0b 20-21,24-26
+src/MailtrapClient.php
+  s_91e6ab0538505d::t_d0993ec64be83f 38-41,46,49-55,63
+  s_91e6ab0538505d::t_a58a056874067e 9
+tests/Api/Sandbox/MessageTest.php
+  s_91e6ab0538505d::t_2c096ce063e6ba 31,48,69,89,97,107,118,137,161,179,198,228,245,262,279,296,315,338,348,446
+examples/sandbox/projects.php
+  s_91e6ab0538505d::t_48dbddc97a4197 1-98
+src/Api/Sending/EmailLogs.php
+  s_91e6ab0538505d::t_6602b6697976c4 29,61
+examples/marketing-stats/all.php
+  s_91e6ab0538505d::t_ccacf9d1a348b9 41
+tests/Bridge/Transport/MailtrapSdkTransportFactoryTest.php
+  s_91e6ab0538505d::t_d732e651a82a43 127,141,145
+  s_91e6ab0538505d::t_c65713bc76c2b3 11,13,25-26,65,89,91,110-126,128-140,142-144,146-171
+  s_91e6ab0538505d::t_ca1495d5384402 172
+src/DTO/Request/TrackingOptOut/CreateTrackingOptOut.php
+  s_91e6ab0538505d::t_6602b6697976c4 10,16
+examples/sandbox/attachments.php
+  s_91e6ab0538505d::t_48dbddc97a4197 1-48
+src/Api/Sending/Domain.php
+  s_91e6ab0538505d::t_7c0887b3d7f2e1 10,24,28,36,41,56,71,77,90,95,105,123-161
+  s_91e6ab0538505d::t_5e9b3802ecdbec 162
+src/Bridge/Laravel/README.md
+  s_91e6ab0538505d::t_8069e854bbb3de 62,70,362
+  s_91e6ab0538505d::t_542fe037690fa3 72
+examples/domains/all.php
+  s_91e6ab0538505d::t_7a4306b2e67ce1 1-124
+tests/Helper/DeprecationTest.php
+  s_91e6ab0538505d::t_08fba61ae229eb 1-8,10-18,20-22,28-31,33-36,41-44,50-51,53-61,63-64
+  s_91e6ab0538505d::t_a9fd7edd815cab 9,19,23-27,32,37-40,45-49,52,62
+tests/MailtrapTestCase.php
+  s_91e6ab0538505d::t_8bc131ce335bc9 22
+src/MailtrapSandboxClient.php
+  s_91e6ab0538505d::t_35d51c76310a3a 8,10-13,22
+examples/README.md
+  s_91e6ab0538505d::t_dcaafb38c6be17 6-7,34,38-43,71-72,107
+src/DTO/Request/Domain/CreateCompanyInfo.php
+  s_91e6ab0538505d::t_6602b6697976c4 10
+examples/symfony/sandbox.php
+  s_91e6ab0538505d::t_48dbddc97a4197 28
+src/Api/Sandbox/Emails.php
+  s_91e6ab0538505d::t_6f0989037fb326 17-22,25,31,39
+src/DTO/Request/Sandbox.php
+  s_91e6ab0538505d::t_9fef734c5cafb4 8-10
+  s_5e2131f5ec2c23::t_f15ca582e9d4e7 1-7,11-46
+tests/MailtrapSandboxClientTest.php
+  s_91e6ab0538505d::t_2c096ce063e6ba 38,40
+  s_91e6ab0538505d::t_90ac542af9b2ba 8-9,11,22-23,39,46-47,49-57,60-72,74-85,87-96,98-115,117-128,130-138,141-142,144-157
+  s_91e6ab0538505d::t_d732e651a82a43 48,58-59,73,86,97,116,129
+README.md
+  s_91e6ab0538505d::t_dcaafb38c6be17 80,96,101,145,242-243,248-250,253-256,300-323
+  s_91e6ab0538505d::t_8c43c4586e2ad6 324
+examples/domains/company-info.php
+  s_91e6ab0538505d::t_7a4306b2e67ce1 1-76
+src/DTO/Request/Inbox.php
+  s_91e6ab0538505d::t_8b2ce9e736f06c 7-8,10-12,14,16,18,20
+examples/laravel/sandbox.php
+  s_91e6ab0538505d::t_48dbddc97a4197 22
+src/Bridge/Transport/MailtrapSdkTransportFactory.php
+  s_91e6ab0538505d::t_3857456913aef0 12,32,40,42,46,59,62-69,74-78
+  s_91e6ab0538505d::t_67e4bd881157d0 60-61,70-73
+  s_91e6ab0538505d::t_3b1ba73f124a31 79-80
+src/Api/Sandbox/Sandbox.php
+  s_91e6ab0538505d::t_6f98f523683efa 9-173
+  s_c6ccc5336939e2::t_1f1f5627395e8d 1-8,174-183
+src/Api/Sandbox/SandboxIdTrait.php
+  s_91e6ab0538505d::t_63f9b386861883 1-50
+tests/AssertsDeprecationsTrait.php
+  s_91e6ab0538505d::t_09769bc791cda1 1-40,47-64
+  s_91e6ab0538505d::t_d732e651a82a43 41-46
+src/DTO/Request/MarketingStats/MarketingStatsFilter.php
+  s_91e6ab0538505d::t_6602b6697976c4 20
+src/Api/Sending/TrackingOptOut.php
+  s_91e6ab0538505d::t_6602b6697976c4 36
+src/DTO/Request/EmailCampaign/UpdateEmailCampaign.php
+  s_91e6ab0538505d::t_6602b6697976c4 19
+examples/general/billing.php
+  s_91e6ab0538505d::t_ccacf9d1a348b9 15
+src/Api/Sandbox/Project.php
+  s_91e6ab0538505d::t_6f0989037fb326 22,34,64
+tests/Api/Sandbox/EmailsTest.php
+  s_91e6ab0538505d::t_2c096ce063e6ba 36,73,147,233,338
+examples/batch/sandbox.php
+  s_91e6ab0538505d::t_48dbddc97a4197 22
+src/Api/Sandbox/Attachment.php
+  s_91e6ab0538505d::t_6f0989037fb326 16-20,24-25,28,32,55,76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1f117dc351f99cc8f59a6390742331a781251c86",
+  "prompts": {},
+  "sessions": {
+    "s_5e2131f5ec2c23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "440c0019-3f52-47d7-85a2-46c81f9df7e1",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    },
+    "s_91e6ab0538505d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5fead99c-ec33-4ce9-aec8-15aeb0b196a8",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    },
+    "s_c6ccc5336939e2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "38250c4f-7827-4931-b761-12d7255fde25",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Maciej Walusiak <maciej.walusiak@railsware.com>"
+    }
+  }
+}
