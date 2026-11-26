@@ -66,6 +66,31 @@ try {
 }
 
 /**
+ * Create a campaigns webhook that also reports subscription topic preference changes.
+ * Campaigns webhooks require `event_types` and take no sending stream.
+ * `subscription_preferences_update` is available on campaigns webhooks and Bulk stream
+ * email_sending webhooks only.
+ *
+ * POST https://mailtrap.io/api/accounts/{account_id}/webhooks
+ */
+try {
+    $response = $webhooks->createWebhook(new CreateWebhook(
+        url: 'https://example.com/mailtrap/campaign-webhooks',
+        webhookType: Webhook::TYPE_CAMPAIGNS,
+        eventTypes: [
+            Webhook::EVENT_DELIVERY,
+            Webhook::EVENT_UNSUBSCRIBE,
+            Webhook::EVENT_SUBSCRIPTION_PREFERENCES_UPDATE,
+        ],
+        payloadFormat: Webhook::PAYLOAD_FORMAT_JSON,
+    ));
+
+    var_dump(ResponseHelper::toArray($response));
+} catch (Exception $e) {
+    echo 'Caught exception: ',  $e->getMessage(), "\n";
+}
+
+/**
  * Update an existing webhook.
  * Only `url`, `active`, `payload_format`, and `event_types` are mutable.
  *

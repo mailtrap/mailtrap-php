@@ -24,6 +24,8 @@ final class CreateEmailCampaign implements EmailCampaignInterface
      * @param array<string, mixed>|null $deliveryOptions Delivery throttling options (`emails_per_hour`), applies to `gradual` mode
      * @param int[]|null         $contactListIds     IDs of contact lists to send to (the full set — `[]` clears it)
      * @param int[]|null         $contactSegmentIds  IDs of contact segments to send to (the full set — `[]` clears it)
+     * @param int|null           $subscriptionTopicId ID of the subscription topic the campaign is sent for, as returned
+     *                                                by the Subscription Topics API. Accounts without topics ignore it
      */
     public function __construct(
         private string $name,
@@ -36,6 +38,7 @@ final class CreateEmailCampaign implements EmailCampaignInterface
         private ?array $deliveryOptions = null,
         private ?array $contactListIds = null,
         private ?array $contactSegmentIds = null,
+        private ?int $subscriptionTopicId = null,
     ) {
     }
 
@@ -53,6 +56,7 @@ final class CreateEmailCampaign implements EmailCampaignInterface
                 'delivery_options' => $this->deliveryOptions,
                 'contact_list_ids' => $this->contactListIds,
                 'contact_segment_ids' => $this->contactSegmentIds,
+                'subscription_topic_id' => $this->subscriptionTopicId,
             ],
             fn ($value) => $value !== null
         );

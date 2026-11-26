@@ -25,6 +25,10 @@ final class UpdateEmailCampaign implements EmailCampaignInterface
      * @param TemplateAttributes|null $templateAttributes Template attributes; edited in place, partial
      * @param int[]|null              $contactListIds     IDs of contact lists to send to (the full set — `[]` clears it)
      * @param int[]|null              $contactSegmentIds  IDs of contact segments to send to (the full set — `[]` clears it)
+     * @param int|null                $subscriptionTopicId ID of the subscription topic the campaign is sent for, as
+     *                                                     returned by the Subscription Topics API. A campaign can
+     *                                                     change its topic but not drop it. Accounts without topics
+     *                                                     ignore it
      */
     public function __construct(
         private ?string $name = null,
@@ -37,6 +41,7 @@ final class UpdateEmailCampaign implements EmailCampaignInterface
         private ?TemplateAttributes $templateAttributes = null,
         private ?array $contactListIds = null,
         private ?array $contactSegmentIds = null,
+        private ?int $subscriptionTopicId = null,
     ) {
     }
 
@@ -54,6 +59,7 @@ final class UpdateEmailCampaign implements EmailCampaignInterface
                 'template_attributes' => $this->templateAttributes?->toArray(),
                 'contact_list_ids' => $this->contactListIds,
                 'contact_segment_ids' => $this->contactSegmentIds,
+                'subscription_topic_id' => $this->subscriptionTopicId,
             ],
             fn ($value) => $value !== null
         );

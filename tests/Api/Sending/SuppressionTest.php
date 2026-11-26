@@ -119,6 +119,7 @@ class SuppressionTest extends MailtrapTestCase
                     'start_time' => '2025-01-01T00:00:00Z',
                     'end_time' => '2025-12-31T23:59:59Z',
                     'last_id' => '25594eef-87e0-49c7-a647-cc316f9fdb42',
+                    'include_topic_unsubscriptions' => 'true',
                 ]
             )
             ->willReturn(
@@ -130,11 +131,43 @@ class SuppressionTest extends MailtrapTestCase
                 email: 'john@example.com',
                 startTime: '2025-01-01T00:00:00Z',
                 endTime: '2025-12-31T23:59:59Z',
-                lastId: '25594eef-87e0-49c7-a647-cc316f9fdb42'
+                lastId: '25594eef-87e0-49c7-a647-cc316f9fdb42',
+                includeTopicUnsubscriptions: true
             )
         );
 
         $this->assertSame(200, $response->getStatusCode());
+    }
+
+    public function testGetSuppressionsWithTopicUnsubscriptions(): void
+    {
+        $filter = new SuppressionsFilter(includeTopicUnsubscriptions: true);
+
+        // the API opts in only on the literal string "true", not on 1
+        $this->assertSame('include_topic_unsubscriptions=true', http_build_query($filter->toArray()));
+
+        $this->suppression->expects($this->once())
+            ->method('httpGet')
+            ->with(
+                AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/suppressions',
+                ['include_topic_unsubscriptions' => 'true']
+            )
+            ->willReturn(
+                new Response(200, ['Content-Type' => 'application/json'], $this->getExpectedTopicUnsubscriptionResponse())
+            );
+
+        $responseData = ResponseHelper::toArray($this->suppression->getSuppressions($filter));
+
+        $this->assertSame(SuppressionDto::TYPE_TOPIC_UNSUBSCRIPTION, $responseData[1]['type']);
+        $this->assertSame(17, $responseData[1]['subscription_topic_id']);
+        $this->assertSame('example.com', $responseData[1]['domain_name']);
+        $this->assertNull($responseData[0]['subscription_topic_id']);
+    }
+
+    public function testGetSuppressionsWithoutTopicUnsubscriptionsSendsNothing(): void
+    {
+        $this->assertSame([], (new SuppressionsFilter())->toArray());
+        $this->assertSame([], (new SuppressionsFilter(includeTopicUnsubscriptions: false))->toArray());
     }
 
     public function testGetSuppressionsWithFilterOmitsUnsetFields(): void
@@ -226,6 +259,30 @@ class SuppressionTest extends MailtrapTestCase
                 'sending_stream' => 'transactional',
                 'domain_name' => 'example.com',
             ]
+        ]);
+    }
+
+    private function getExpectedTopicUnsubscriptionResponse(): string
+    {
+        return json_encode([
+            [
+                'id' => '25594eef-87e0-49c7-a647-cc316f9fdb42',
+                'type' => 'unsubscription',
+                'created_at' => '2025-05-25T10:07:49Z',
+                'email' => 'john@example.com',
+                'sending_stream' => 'bulk',
+                'domain_name' => 'example.com',
+                'subscription_topic_id' => null,
+            ],
+            [
+                'id' => '7a1b4f0e-2c3d-4e5f-8a9b-0c1d2e3f4a5b',
+                'type' => 'topic unsubscription',
+                'created_at' => '2026-06-01T12:00:00Z',
+                'email' => 'jane@example.com',
+                'sending_stream' => 'bulk',
+                'domain_name' => 'example.com',
+                'subscription_topic_id' => 17,
+            ],
         ]);
     }
 

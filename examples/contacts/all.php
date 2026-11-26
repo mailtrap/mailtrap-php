@@ -1,22 +1,54 @@
 <?php
 
 use Mailtrap\Config;
+use Mailtrap\DTO\Request\Contact\ContactSubscriptionTopic;
 use Mailtrap\DTO\Request\Contact\CreateContact;
 use Mailtrap\DTO\Request\Contact\CreateContactEvent;
 use Mailtrap\DTO\Request\Contact\ImportContact;
 use Mailtrap\DTO\Request\Contact\UpdateContact;
 use Mailtrap\Helper\ResponseHelper;
 use Mailtrap\MailtrapGeneralClient;
+use Mailtrap\MailtrapSendingClient;
 use Mailtrap\DTO\Request\Contact\ContactExportFilter;
 
 require __DIR__ . '/../../vendor/autoload.php';
 
 $accountId = $_ENV['MAILTRAP_ACCOUNT_ID'];
 $config = new Config($_ENV['MAILTRAP_API_KEY']); #your API token from here https://mailtrap.io/api-tokens
-$contacts = (new MailtrapGeneralClient($config))->contacts($accountId);
+$generalClient = new MailtrapGeneralClient($config);
+$contacts = $generalClient->contacts($accountId);
+
+/**
+ * A contact's subscription topic status is set per topic and domain: take the account's first
+ * topic, and the domain it covers (the first domain when the topic covers all of them).
+ * Accounts without Subscription Topics get 403 here, and the examples below leave topics out.
+ *
+ * GET https://mailtrap.io/api/subscription_topics
+ * GET https://mailtrap.io/api/accounts/{account_id}/domains
+ */
+$topicUnsubscription = null; // the contact unsubscribed from that topic on that domain
+try {
+    $topic = ResponseHelper::toArray(
+        $generalClient->subscriptionTopics()->getSubscriptionTopics(perPage: 1)
+    )['data'][0] ?? null;
+
+    if ($topic !== null) {
+        $topicUnsubscription = ContactSubscriptionTopic::init(
+            $topic['id'],
+            $topic['domain_id'] ?? ResponseHelper::toArray(
+                (new MailtrapSendingClient($config))->domains($accountId)->getDomains()
+            )['data'][0]['id'],
+            ContactSubscriptionTopic::STATUS_UNSUBSCRIBED
+        );
+    }
+} catch (Exception $e) {
+    echo 'Subscription topics are left out: ',  $e->getMessage(), PHP_EOL;
+}
 
 /**
  * Get contact
+ * With Subscription Topics, `data.subscription_topics` lists the contact's status per topic and
+ * domain; it is null when the statuses can't be read right now, and absent without topics.
  *
  * GET https://mailtrap.io/api/accounts/{account_id}/contacts/{id_or_email}
  */
@@ -44,7 +76,8 @@ try {
         CreateContact::init(
             'john.smith@example.com',
             ['first_name' => 'John', 'last_name' => 'Smith'], // Fields
-            [1, 2] // List IDs to which the contact will be added
+            [1, 2], // List IDs to which the contact will be added
+            $topicUnsubscription === null ? null : [$topicUnsubscription] // Subscription topic statuses (null leaves them out)
         )
     );
 
@@ -93,6 +126,37 @@ try {
 
 
 /**
+ * Update only a contact's subscription topic statuses: the topic and domain pairs left out keep
+ * their status. A 503 whose exception message names the contact means the contact was saved but
+ * its topic statuses were not: send them again to that contact. A 503 without it saved nothing.
+ *
+ * PATCH https://mailtrap.io/api/accounts/{account_id}/contacts/{id_or_email}
+ */
+try {
+    if ($topicUnsubscription !== null) {
+        $response = $contacts->updateContactByEmail(
+            'john.smith@example.com',
+            UpdateContact::init(
+                email: 'john.smith@example.com',
+                subscriptionTopics: [
+                    ContactSubscriptionTopic::init(
+                        $topicUnsubscription->getSubscriptionTopicId(),
+                        $topicUnsubscription->getDomainId(),
+                        ContactSubscriptionTopic::STATUS_SUBSCRIBED // resubscribe
+                    ),
+                ]
+            )
+        );
+
+        // print the response body (array)
+        var_dump(ResponseHelper::toArray($response));
+    }
+} catch (Exception $e) {
+    echo 'Caught exception: ',  $e->getMessage(), PHP_EOL;
+}
+
+
+/**
  * Delete contact
  *
  * Delete https://mailtrap.io/api/accounts/{account_id}/contacts/{id_or_email}
@@ -125,7 +189,8 @@ try {
             email: 'customer1@example.com',
             fields: ['first_name' => 'John', 'last_name' => 'Smith', 'zip_code' => 11111],
             listIdsIncluded: [1, 2],
-            listIdsExcluded: [4, 5]
+            listIdsExcluded: [4, 5],
+            subscriptionTopics: $topicUnsubscription === null ? null : [$topicUnsubscription]
         ),
         new ImportContact(
             email: 'customer2@example.com',

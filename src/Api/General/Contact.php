@@ -16,6 +16,13 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class Contact
+ *
+ * With Subscription Topics, a contact's get, create and update responses carry
+ * `data.subscription_topics`: its status per topic and domain, null when the statuses can't be
+ * read (retry later), and absent for an account without topics. A create or update with
+ * subscription topics that fails with a `503` whose HttpServerException message names the contact
+ * saved the contact but not its topic statuses: send them again to that contact, in an update. A
+ * `503` without that message (from a proxy or during a deploy, say) saved nothing.
  */
 class Contact extends AbstractApi implements GeneralInterface
 {

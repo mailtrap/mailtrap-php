@@ -59,7 +59,10 @@ class EmailLogs extends AbstractApi implements SendingInterface
      * Get a single email log message by ID.
      *
      * Returns message details including events. Message must belong to the account and a domain
-     * the token can access.
+     * the token can access. Each event is `{ event_type, created_at, details }`, and `details`
+     * depends on `event_type`: the subscription topic events `topic_unsubscribe` and
+     * `topic_resubscribe` carry `{ web_ip_address, subscription_topic_id }`. The API may add event
+     * types, so don't fail on one you don't know.
      *
      * @param string $sendingMessageId Message UUID (sending_message_id).
      * @return ResponseInterface 200 with SendingMessage body (message_id, status, subject, from, to, sent_at, events, etc.)

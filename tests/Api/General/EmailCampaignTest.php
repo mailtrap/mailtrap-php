@@ -26,6 +26,7 @@ class EmailCampaignTest extends MailtrapTestCase
 {
     private const BASE_PATH = AbstractApi::DEFAULT_HOST . '/api/email_campaigns';
     private const FAKE_DOMAIN_ID = 4321;
+    private const FAKE_SUBSCRIPTION_TOPIC_ID = 17;
 
     private ?EmailCampaign $emailCampaign;
 
@@ -129,6 +130,30 @@ class EmailCampaignTest extends MailtrapTestCase
         $this->assertEquals(self::FAKE_DOMAIN_ID, $responseData['data']['domain_id']);
         $this->assertEquals([55, 56], $responseData['data']['contact_list_ids']);
         $this->assertEquals([12], $responseData['data']['contact_segment_ids']);
+        $this->assertEquals(self::FAKE_SUBSCRIPTION_TOPIC_ID, $responseData['data']['subscription_topic_id']);
+    }
+
+    public function testGetEmailCampaignWithoutSubscriptionTopic(): void
+    {
+        $emailCampaignId = 4567;
+
+        $this->emailCampaign->expects($this->once())
+            ->method('httpGet')
+            ->with(self::BASE_PATH . '/' . $emailCampaignId)
+            ->willReturn(
+                new Response(
+                    200,
+                    ['Content-Type' => 'application/json'],
+                    json_encode(['data' => $this->getExpectedEmailCampaignResponse(subscriptionTopicId: null)])
+                )
+            );
+
+        $response = $this->emailCampaign->getEmailCampaign($emailCampaignId);
+        $responseData = ResponseHelper::toArray($response);
+
+        // campaigns without a topic, and every campaign of an account without topics, return null
+        $this->assertArrayHasKey('subscription_topic_id', $responseData['data']);
+        $this->assertNull($responseData['data']['subscription_topic_id']);
     }
 
     public function testGetEmailCampaignFailsWithNotFoundError(): void
@@ -201,6 +226,20 @@ class EmailCampaignTest extends MailtrapTestCase
         $this->assertEquals(['emails_per_hour' => 1000], $payload['delivery_options']);
         $this->assertEquals([55, 56], $payload['contact_list_ids']);
         $this->assertEquals([12], $payload['contact_segment_ids']);
+        $this->assertEquals(self::FAKE_SUBSCRIPTION_TOPIC_ID, $payload['subscription_topic_id']);
+    }
+
+    public function testCreateEmailCampaignOmitsUnsetSubscriptionTopic(): void
+    {
+        // the API rejects a null topic, so an unset one is left out of the body
+        $payload = (new CreateEmailCampaign(
+            name: 'Spring Sale',
+            domainId: self::FAKE_DOMAIN_ID,
+            fromLocalPart: 'news',
+            templateAttributes: new TemplateAttributes(subject: 'Spring is here'),
+        ))->toArray();
+
+        $this->assertArrayNotHasKey('subscription_topic_id', $payload);
     }
 
     public function testCreateEmailCampaignFailsWithValidationErrors(): void
@@ -272,9 +311,17 @@ class EmailCampaignTest extends MailtrapTestCase
                 'delivery_options' => ['emails_per_hour' => 1000],
                 'template_attributes' => ['subject' => 'New subject'],
                 'contact_list_ids' => [55],
+                'subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID,
             ],
             $payload
         );
+    }
+
+    public function testUpdateEmailCampaignWithSubscriptionTopicOnly(): void
+    {
+        $payload = (new UpdateEmailCampaign(subscriptionTopicId: self::FAKE_SUBSCRIPTION_TOPIC_ID))->toArray();
+
+        $this->assertEquals(['subscription_topic_id' => self::FAKE_SUBSCRIPTION_TOPIC_ID], $payload);
     }
 
     public function testUpdateEmailCampaignKeepsEmptyAudienceArrays(): void
@@ -543,6 +590,7 @@ class EmailCampaignTest extends MailtrapTestCase
             deliveryOptions: ['emails_per_hour' => 1000],
             contactListIds: [55, 56],
             contactSegmentIds: [12],
+            subscriptionTopicId: self::FAKE_SUBSCRIPTION_TOPIC_ID,
         );
     }
 
@@ -554,11 +602,13 @@ class EmailCampaignTest extends MailtrapTestCase
             deliveryOptions: ['emails_per_hour' => 1000],
             templateAttributes: new TemplateAttributes(subject: 'New subject'),
             contactListIds: [55],
+            subscriptionTopicId: self::FAKE_SUBSCRIPTION_TOPIC_ID,
         );
     }
 
     private function getExpectedEmailCampaignResponse(
-        string $currentState = EmailCampaignInterface::STATE_DRAFT
+        string $currentState = EmailCampaignInterface::STATE_DRAFT,
+        ?int $subscriptionTopicId = self::FAKE_SUBSCRIPTION_TOPIC_ID
     ): array {
         return [
             'id' => 4567,
@@ -580,6 +630,7 @@ class EmailCampaignTest extends MailtrapTestCase
             'contact_segment_ids' => [12],
             'delivery_mode' => 'rapid',
             'delivery_options' => ['emails_per_hour' => null],
+            'subscription_topic_id' => $subscriptionTopicId,
             'template' => [
                 'id' => 789,
                 'subject' => 'Spring is here — 30% off',

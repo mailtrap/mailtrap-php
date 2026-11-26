@@ -167,6 +167,43 @@ class EmailLogsTest extends MailtrapTestCase
         $this->assertArrayHasKey('events', $data);
     }
 
+    public function testGetMessageWithSubscriptionTopicAndUnknownEvents(): void
+    {
+        $messageId = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
+        $body = $this->getMessageResponseBody();
+        $body['events'] = [
+            [
+                'event_type' => 'topic_unsubscribe',
+                'created_at' => '2025-01-15T10:40:00Z',
+                'details' => ['web_ip_address' => '198.51.100.50', 'subscription_topic_id' => 17],
+            ],
+            [
+                'event_type' => 'topic_resubscribe',
+                'created_at' => '2025-01-15T10:45:00Z',
+                'details' => ['web_ip_address' => null, 'subscription_topic_id' => 17],
+            ],
+            // an event type the SDK doesn't know yet comes back as is
+            [
+                'event_type' => 'future_event',
+                'created_at' => '2025-01-15T10:50:00Z',
+                'details' => ['anything' => ['nested' => true]],
+            ],
+        ];
+
+        $this->emailLogs->expects($this->once())
+            ->method('httpGet')
+            ->with(AbstractApi::DEFAULT_HOST . '/api/accounts/' . self::FAKE_ACCOUNT_ID . '/email_logs/' . $messageId, [])
+            ->willReturn(new Response(200, ['Content-Type' => 'application/json'], json_encode($body)));
+
+        $events = ResponseHelper::toArray($this->emailLogs->getMessage($messageId))['events'];
+
+        $this->assertSame('topic_unsubscribe', $events[0]['event_type']);
+        $this->assertSame(['web_ip_address' => '198.51.100.50', 'subscription_topic_id' => 17], $events[0]['details']);
+        $this->assertSame('topic_resubscribe', $events[1]['event_type']);
+        $this->assertSame(17, $events[1]['details']['subscription_topic_id']);
+        $this->assertSame(['anything' => ['nested' => true]], $events[2]['details']);
+    }
+
     public function testGetMessageThrowsWhenSendingMessageIdIsEmpty(): void
     {
         $emailLogs = new EmailLogs($this->getConfigMock(), self::FAKE_ACCOUNT_ID);

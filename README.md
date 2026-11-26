@@ -272,6 +272,7 @@ Contact management:
 Email marketing:
 - Email campaigns CRUD, listing, lifecycle & stats – [`email-campaigns/all.php`](examples/email-campaigns/all.php)
 - Email marketing stats (campaigns & automations) – [`marketing-stats/all.php`](examples/marketing-stats/all.php)
+- Subscription topics (list & get) – [`subscription-topics/all.php`](examples/subscription-topics/all.php)
 
 General API:
 - Templates CRUD, paginated (experimental) – [`templates/templates.php`](examples/templates/templates.php)
